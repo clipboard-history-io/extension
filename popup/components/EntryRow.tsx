@@ -81,11 +81,11 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
         // Optimistically update local state with arbitrary updatedAt.
         setClipboardSnapshot({ content: entry.content, updatedAt: 0 });
         await updateClipboardSnapshot(entry.content);
+        navigator.clipboard.writeText(entry.content);
         await createEntry(
           entry.content,
           entry.id.length === 36 ? StorageLocation.Enum.Cloud : StorageLocation.Enum.Local,
         );
-        await navigator.clipboard.writeText(entry.content);
       }}
     >
       <Group align="center" spacing={0} noWrap px="sm" h={32}>

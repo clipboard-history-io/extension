@@ -4,7 +4,7 @@ import { z } from "zod";
 export const ClipboardHistoryIOExport = z.array(
   z.object({
     createdAt: z.number(),
-    copiedAt: z.number().optional(),
+    copiedAt: z.number().nullable().optional(),
     content: z.string(),
     tags: z.array(z.string()).optional(),
     isFavorite: z.boolean().optional(),

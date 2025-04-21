@@ -104,7 +104,7 @@ export const createEntry = async (content: string, storageLocation: StorageLocat
 
         await db.transact(
           db.tx.entries[lookup("emailContentHash", emailContentHash)]!.update({
-            ...(entriesQuery.data.entries ? {} : { createdAt: now }),
+            ...(entriesQuery.data.entries.length ? {} : { createdAt: now }),
             copiedAt: now,
             content: content,
           }).link({ $user: lookup("email", user.email) }),

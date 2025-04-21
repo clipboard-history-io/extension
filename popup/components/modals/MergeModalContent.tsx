@@ -125,8 +125,8 @@ export const MergeModalContent = ({ initialEntries }: Props) => {
 
           // Same as clicking on a row.
           await updateClipboardSnapshot(content);
+          navigator.clipboard.writeText(content);
           await createEntry(content, settings.storageLocation);
-          await navigator.clipboard.writeText(content);
 
           if (deleteSourceItems) {
             await handleMutation(() =>
