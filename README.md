@@ -131,14 +131,21 @@ The easiest way to deploy your Plasmo extension is to use the built-in [bpp](htt
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/rishilahoti">
+                    <img src="https://avatars.githubusercontent.com/u/96910554?v=4" width="100;" alt="rishilahoti"/>
+                    <br />
+                    <sub><b>Rishi Lahoti</b></sub>
+                </a>
+            </td>
+		</tr>
+		<tr>
+            <td align="center">
                 <a href="https://github.com/uussaammaahh">
                     <img src="https://avatars.githubusercontent.com/u/10544770?v=4" width="100;" alt="uussaammaahh"/>
                     <br />
                     <sub><b>Usamah Ulde</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/riyan04">
                     <img src="https://avatars.githubusercontent.com/u/119859849?v=4" width="100;" alt="riyan04"/>
