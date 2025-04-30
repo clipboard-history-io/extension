@@ -103,7 +103,11 @@ export const TagSelect = ({ entryId }: Props) => {
           <IconTags size="1rem" />
         </CommonActionIcon>
       </Popover.Target>
-      <Popover.Dropdown p={0} onClick={(e) => e.stopPropagation()} sx={{ cursor: "default" }}>
+      <Popover.Dropdown
+        p={0}
+        onClick={(e) => e.stopPropagation()}
+        sx={{ cursor: "default", minWidth: "fit-content" }}
+      >
         <TextInput
           value={tagSearch}
           onChange={(e) => setTagSearch(e.target.value)}

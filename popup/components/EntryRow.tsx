@@ -1,4 +1,14 @@
-import { Badge, Checkbox, Divider, Group, rem, Stack, Text, useMantineTheme } from "@mantine/core";
+import {
+  Badge,
+  Checkbox,
+  Divider,
+  Group,
+  Popover,
+  rem,
+  Stack,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconEdit, IconKeyboard } from "@tabler/icons-react";
 import { useAtom, useAtomValue } from "jotai";
@@ -70,7 +80,6 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
       onClick={async () => {
         // Optimistically update local state with arbitrary updatedAt.
         setClipboardSnapshot({ content: entry.content, updatedAt: 0 });
-
         await updateClipboardSnapshot(entry.content);
         navigator.clipboard.writeText(entry.content);
         await createEntry(
@@ -95,6 +104,7 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
           }
           onClick={(e) => e.stopPropagation()}
         />
+
         <Badge
           color={
             entry.content === clipboardSnapshot?.content
@@ -111,6 +121,7 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
             ? "Copied"
             : badgeDateFormatter(now, new Date(getEntryTimestamp(entry, settings)))}
         </Badge>
+
         <Text
           fz="xs"
           sx={{
@@ -124,16 +135,96 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
           {/* Don't fully render large content. */}
           {entry.content.slice(0, 1000)}
         </Text>
-        <Group align="center" spacing={rem(4)} noWrap>
+        <Group
+          align="center"
+          spacing={rem(4)}
+          noWrap
+          sx={{
+            flexShrink: 0,
+            maxWidth: 300,
+            paddingLeft: rem(8),
+          }}
+        >
           {entryIdToTags[entry.id]
             ?.slice()
             .sort()
-            .map((tag) => <TagBadge key={tag} tag={tag} />)}
+            .slice(0, 3)
+            .map((tag) => {
+              const MAX_TAG_LENGTH = 7;
+              const shouldTruncate = tag.length > MAX_TAG_LENGTH;
+
+              return (
+                <Popover key={tag} position="bottom" withArrow withinPortal>
+                  <Popover.Target>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <TagBadge
+                        tag={shouldTruncate ? `${tag.slice(0, MAX_TAG_LENGTH)}...` : tag}
+                        sx={{
+                          maxWidth: shouldTruncate ? rem(80) : "auto",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      />
+                    </div>
+                  </Popover.Target>
+
+                  {shouldTruncate && (
+                    <Popover.Dropdown p={4}>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <TagBadge sx={{ wordBreak: "break-all" }} tag={tag} />
+                      </div>
+                    </Popover.Dropdown>
+                  )}
+                </Popover>
+              );
+            })}
+
+          {(entryIdToTags[entry.id]?.length || 0) > 3 && (
+            <Popover position="bottom" withArrow withinPortal>
+              <Popover.Target>
+                <Badge
+                  size="xs"
+                  sx={{
+                    cursor: "pointer",
+                    userSelect: "none",
+                    flexShrink: 0,
+                  }}
+                >
+                  +{(entryIdToTags[entry.id]?.length || 0) - 3}
+                </Badge>
+              </Popover.Target>
+
+              <Popover.Dropdown
+                p={4}
+                sx={{ maxHeight: 200, overflowY: "auto", minWidth: "fit-content" }}
+              >
+                <Stack spacing={3} align="start">
+                  {entryIdToTags[entry.id]
+                    ?.slice()
+                    .sort()
+                    .slice(3)
+                    .map((tag) => <TagBadge key={tag} tag={tag} />)}
+                </Stack>
+              </Popover.Dropdown>
+            </Popover>
+          )}
+
           {shortcut !== undefined && <ShortcutBadge shortcut={shortcut || "Not set"} />}
+
+          <Text
+            ff="monospace"
+            color="dimmed"
+            fz={10}
+            sx={{
+              userSelect: "none",
+              marginLeft: "auto",
+              paddingLeft: rem(8),
+            }}
+          >
+            {entry.content.length}
+          </Text>
         </Group>
-        <Text ff="monospace" color="dimmed" fz={10} ml="xs" sx={{ userSelect: "none" }}>
-          {entry.content.length}
-        </Text>
+
         <Group align="center" spacing={0} noWrap ml={rem(4)}>
           <TagSelect entryId={entry.id} />
           <CommonActionIcon
