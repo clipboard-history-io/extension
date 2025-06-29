@@ -1,19 +1,23 @@
 {
   "extends": "plasmo/templates/tsconfig.base",
   "exclude": ["node_modules"],
-  "include": [".plasmo/index.d.ts", "./**/*.ts", "./**/*.tsx"],
+  "include": [".plasmo/index.d.ts", "./**/*.ts", "./**/*.tsx", "package.json"],
   "compilerOptions": {
-    "paths": {
-      "~*": ["./*"],
-    },
     "baseUrl": ".",
+    "paths": {
+      "~*": ["./*"]
+    },
     "strict": true,
     "noUncheckedIndexedAccess": true,
+    
+    
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "module": "commonjs"
   },
   "ts-node": {
     "compilerOptions": {
-      "module": "commonjs",
-      "verbatimModuleSyntax": false,
-    },
-  },
+      "verbatimModuleSyntax": false
+    }
+  }
 }
