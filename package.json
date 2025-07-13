@@ -1,7 +1,7 @@
 {
   "name": "clipboard-history",
   "displayName": "Clipboard History IO: Secure, fast, and elegant clipboard manager",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "The most secure way to effortlessly access, track, and manage your clipboard history.",
   "author": "Andy Young <andyluyoung@gmail.com>",
   "scripts": {
