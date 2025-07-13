@@ -1,9 +1,8 @@
-import { Badge, Box, rem, type Sx } from "@mantine/core";
+import { Badge, Box, rem } from "@mantine/core";
 import { generateColor } from "@marko19907/string-to-color";
 
 interface Props {
   tag: string;
-  sx?: Sx;
 }
 
 export const TagBadge = ({ tag }: Props) => {
@@ -14,11 +13,10 @@ export const TagBadge = ({ tag }: Props) => {
       sx={{
         userSelect: "none",
         "::before": { content: "none" },
-        maxWidth: "none",
-        whiteSpace: "nowrap",
-        overflow: "visible",
-        flexShrink: 0,
       }}
+      maw={146}
+      // Workaround because the default dot gets messed up when max width is
+      // hit.
       leftSection={
         <Box
           sx={{

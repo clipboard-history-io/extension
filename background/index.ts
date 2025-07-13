@@ -107,6 +107,10 @@ const setupAction = async () => {
   ]);
 };
 
+chrome.runtime.onStartup.addListener(async () => {
+  await Promise.all([setupOffscreenDocument(), setupAction(), handleUpdateContextMenusRequest()]);
+});
+
 chrome.tabs.onActivated.addListener(async () => {
   await Promise.all([setupOffscreenDocument(), setupAction(), handleUpdateContextMenusRequest()]);
 });
