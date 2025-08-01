@@ -76,17 +76,9 @@ export const watchCloudEntries = async (
       if (refreshToken !== null) {
         watching = true;
 
-        const user = await db.getAuth();
-
         db.subscribeQuery(
           {
-            entries: {
-              $: {
-                where: {
-                  "$user.id": user?.id || "",
-                },
-              },
-            },
+            entries: {},
           },
           async (cloudEntriesQuery) => {
             // TODO: Potentially just call the callback with an empty array?

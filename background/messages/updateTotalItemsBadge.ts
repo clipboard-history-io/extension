@@ -32,13 +32,7 @@ export const handleUpdateTotalItemsBadgeRequest = async (totalLocalEntries: numb
 
   try {
     const cloudEntriesQuery = await db.queryOnce({
-      entries: {
-        $: {
-          where: {
-            "$user.id": user.id,
-          },
-        },
-      },
+      entries: {},
     });
 
     totalEntries += cloudEntriesQuery.data.entries.length;

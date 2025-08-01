@@ -5,7 +5,6 @@ import db from "~utils/db/react";
 
 export const useCloudFavoritedEntriesQuery = () => {
   const refreshToken = useAtomValue(refreshTokenAtom);
-  const { user } = db.useAuth();
 
   return db.useQuery(
     refreshToken
@@ -13,7 +12,6 @@ export const useCloudFavoritedEntriesQuery = () => {
           entries: {
             $: {
               where: {
-                "$user.id": user?.id || "",
                 isFavorited: true,
               },
             },

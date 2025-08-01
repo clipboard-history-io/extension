@@ -5,18 +5,11 @@ import db from "~utils/db/react";
 
 export const useCloudEntriesQuery = () => {
   const refreshToken = useAtomValue(refreshTokenAtom);
-  const { user } = db.useAuth();
 
   return db.useQuery(
     refreshToken
       ? {
-          entries: {
-            $: {
-              where: {
-                "$user.id": user?.id || "",
-              },
-            },
-          },
+          entries: {},
         }
       : null,
   );
