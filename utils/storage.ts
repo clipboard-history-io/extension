@@ -177,18 +177,18 @@ export const updateEntryContent = async (
   content: string,
 ): Promise<Result<undefined, "content must be unique">> => {
   if (entryId.length === 36) {
-    const [user, entriesQuery] = await Promise.all([
-      db.getAuth(),
-      db.queryOnce({
-        entries: {
-          $: {
-            where: {
-              content,
-            },
+    const user = await db.getAuth();
+
+    const entriesQuery = await db.queryOnce({
+      entries: {
+        $: {
+          where: {
+            "$user.id": user?.id || "",
+            content,
           },
         },
-      }),
-    ]);
+      },
+    });
 
     if (user === null) {
       return Ok(undefined);

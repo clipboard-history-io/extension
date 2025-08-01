@@ -5,6 +5,7 @@ import db from "~utils/db/react";
 
 export const useCloudTaggedEntriesQuery = () => {
   const refreshToken = useAtomValue(refreshTokenAtom);
+  const { user } = db.useAuth();
 
   return db.useQuery(
     refreshToken
@@ -12,6 +13,7 @@ export const useCloudTaggedEntriesQuery = () => {
           entries: {
             $: {
               where: {
+                "$user.id": user?.id || "",
                 tags: {
                   $isNull: false,
                 },
