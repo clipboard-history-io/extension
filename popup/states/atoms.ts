@@ -5,6 +5,7 @@ import { Entry } from "~types/entry";
 import type { EntryCommand } from "~types/entryCommand";
 import { EntryIdToTags } from "~types/entryIdToTags";
 import { defaultSettings, Settings } from "~types/settings";
+import type { StorageUsage } from "~types/storageUsage";
 import { Tab } from "~types/tab";
 
 export const searchAtom = atom<string>("");
@@ -31,3 +32,5 @@ export const entryCommandsAtom = atom<EntryCommand[]>([]);
 export const commandsAtom = atom<{ name: string; shortcut?: string }[]>([]);
 
 export const refreshTokenAtom = atom<string | null>();
+
+export const storageUsageAtom = atom<StorageUsage>();
