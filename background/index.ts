@@ -9,6 +9,7 @@ import {
 import { getEntryCommands } from "~storage/entryCommands";
 import { getRefreshToken } from "~storage/refreshToken";
 import { getSettings } from "~storage/settings";
+import { DisplayMode } from "~types/displayMode";
 import { setActionIconAndBadgeBackgroundColor } from "~utils/actionBadge";
 import { watchClipboard, watchCloudEntries } from "~utils/background";
 import db from "~utils/db/core";
@@ -16,6 +17,7 @@ import { simplePathBasename } from "~utils/simplePath";
 import { getEntries } from "~utils/storage";
 
 import { handleUpdateContextMenusRequest } from "./messages/updateContextMenus";
+import { handleUpdateDisplayModeRequest } from "./messages/updateDisplayMode";
 import { handleUpdateTotalItemsBadgeRequest } from "./messages/updateTotalItemsBadge";
 
 // Firefox MV2 creates a persistent background page that we can use to watch the clipboard.
@@ -98,14 +100,34 @@ const setupAction = async () => {
   const [entries, clipboardMonitorIsEnabled] = await Promise.all([
     getEntries(),
     getClipboardMonitorIsEnabled(),
-    getSettings(),
   ]);
+
+  // Configure display mode (popup, sidepanel, etc.)
+  await handleUpdateDisplayModeRequest();
 
   await Promise.all([
     handleUpdateTotalItemsBadgeRequest(entries.length),
     setActionIconAndBadgeBackgroundColor(clipboardMonitorIsEnabled),
   ]);
 };
+
+// Handle extension icon click - only fires when no popup is set (i.e., in SidePanel mode)
+chrome.action.onClicked.addListener(async (tab) => {
+  const settings = await getSettings();
+
+  if (settings.displayMode === DisplayMode.Enum.SidePanel && chrome.sidePanel) {
+    // Open as sidebar panel for Chrome
+    if (tab?.id) {
+      await chrome.sidePanel.open({ tabId: tab.id });
+    } else {
+      await chrome.sidePanel.open({ windowId: chrome.windows.WINDOW_ID_CURRENT });
+    }
+  } else {
+    // Defensive: This shouldn't be reached since onClicked only fires when no popup is set,
+    // but attempt to open popup if we somehow get here
+    chrome.action.openPopup();
+  }
+});
 
 chrome.runtime.onStartup.addListener(async () => {
   await Promise.all([setupOffscreenDocument(), setupAction(), handleUpdateContextMenusRequest()]);

@@ -72,8 +72,12 @@
       "unlimitedStorage",
       "contextMenus",
       "scripting",
-      "activeTab"
+      "activeTab",
+      "sidePanel"
     ],
+    "side_panel": {
+      "default_path": "popup.html?ref=sidepanel"
+    },
     "commands": {
       "paste-item-1": {
         "suggested_key": {
