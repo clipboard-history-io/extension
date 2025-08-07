@@ -310,8 +310,8 @@ export const SettingsModalContent = () => {
                       }
                     }}
                     data={[
-                      { value: DisplayMode.Enum.Popup, label: DisplayMode.Enum.Popup },
-                      { value: DisplayMode.Enum.SidePanel, label: DisplayMode.Enum.SidePanel },
+                      { value: DisplayMode.Enum.Popup, label: "Popup" },
+                      { value: DisplayMode.Enum.SidePanel, label: "Side Panel" },
                     ]}
                     size="xs"
                     withinPortal
