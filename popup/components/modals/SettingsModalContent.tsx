@@ -292,12 +292,15 @@ export const SettingsModalContent = () => {
                 <Group align="flex-start" spacing="md" position="apart" noWrap>
                   <Stack spacing={0}>
                     <Title order={6}>Display Mode</Title>
-                    <Text fz="xs">Select how the extension opens when clicking the icon.</Text>
+                    <Text fz="xs">
+                      Select how the extension opens when clicking the icon. Changing this will
+                      close the extension.
+                    </Text>
                   </Stack>
                   <Select
                     value={settings.displayMode}
                     onChange={async (newDisplayMode) => {
-                      if (newDisplayMode) {
+                      if (newDisplayMode && newDisplayMode !== settings.displayMode) {
                         await setSettings({
                           ...settings,
                           displayMode: DisplayMode.parse(newDisplayMode),
@@ -307,6 +310,9 @@ export const SettingsModalContent = () => {
                         await sendToBackground({
                           name: "updateDisplayMode",
                         });
+
+                        // Close the extension to apply the new display mode
+                        window.close();
                       }
                     }}
                     data={[
