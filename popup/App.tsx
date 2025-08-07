@@ -65,9 +65,9 @@ export const App = () => {
 
   const theme = useMantineTheme();
 
-  const [isFloatingPopup] = useState(
-    new URLSearchParams(window.location.search).get("ref") === "popup",
-  );
+  const urlParams = new URLSearchParams(window.location.search);
+  const [isFloatingPopup] = useState(urlParams.get("ref") === "popup");
+  const [isSidePanel] = useState(urlParams.get("ref") === "sidepanel");
 
   const [search, setSearch] = useAtom(searchAtom);
   const [tab, setTab] = useAtom(tabAtom);
@@ -102,12 +102,17 @@ export const App = () => {
   }
 
   return (
-    <Card h={isFloatingPopup ? "100%" : 600} w={isFloatingPopup ? "100%" : 700} miw={500} p="sm">
+    <Card
+      h={isFloatingPopup || isSidePanel ? "100%" : 600}
+      w={isFloatingPopup || isSidePanel ? "100%" : 700}
+      miw={isSidePanel ? 300 : 500}
+      p="sm"
+    >
       <Stack h="100%" spacing="sm">
         <Group align="center" position="apart">
           <Group align="center" spacing="xs">
             <Image src={iconSrc} maw={28} />
-            <Title order={6}>Clipboard History IO</Title>
+            {!isSidePanel && <Title order={6}>Clipboard History IO</Title>}
             <ProBadge />
           </Group>
           <Group align="center" spacing="xs" grow={false}>
@@ -134,7 +139,7 @@ export const App = () => {
                       url: "https://github.com/ayoung19/clipboard-history/releases",
                     });
 
-                    if (!isFloatingPopup) {
+                    if (!isFloatingPopup && !isSidePanel) {
                       window.close();
                     }
                   }}
@@ -182,7 +187,7 @@ export const App = () => {
             <Divider orientation="vertical" h={16} sx={{ alignSelf: "inherit" }} />
             <Tooltip
               label={<Text fz="xs">{chrome.i18n.getMessage("commonFloatingMode")}</Text>}
-              disabled={isFloatingPopup}
+              disabled={isFloatingPopup || isSidePanel}
             >
               <ActionIcon
                 variant="light"
@@ -197,7 +202,7 @@ export const App = () => {
 
                   window.close();
                 }}
-                disabled={isFloatingPopup}
+                disabled={isFloatingPopup || isSidePanel}
               >
                 <IconPictureInPicture size="1.125rem" />
               </ActionIcon>

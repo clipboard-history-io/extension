@@ -50,6 +50,7 @@ import type {
 } from "~background/messages/updateTotalItemsBadge";
 import { settingsAtom } from "~popup/states/atoms";
 import { setSettings } from "~storage/settings";
+import { DisplayMode } from "~types/displayMode";
 import { ItemSortOption } from "~types/itemSortOption";
 import { StorageLocation } from "~types/storageLocation";
 import { Tab } from "~types/tab";
@@ -285,6 +286,39 @@ export const SettingsModalContent = () => {
                 withinPortal
               />
             </Group>
+            {process.env.PLASMO_TARGET !== "firefox-mv2" && (
+              <>
+                <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
+                <Group align="flex-start" spacing="md" position="apart" noWrap>
+                  <Stack spacing={0}>
+                    <Title order={6}>Display Mode</Title>
+                    <Text fz="xs">Select how the extension opens when clicking the icon.</Text>
+                  </Stack>
+                  <Select
+                    value={settings.displayMode}
+                    onChange={async (newDisplayMode) => {
+                      if (newDisplayMode) {
+                        await setSettings({
+                          ...settings,
+                          displayMode: DisplayMode.parse(newDisplayMode),
+                        });
+
+                        // Notify background script to update display mode configuration
+                        await sendToBackground({
+                          name: "updateDisplayMode",
+                        });
+                      }
+                    }}
+                    data={[
+                      { value: DisplayMode.Enum.Popup, label: DisplayMode.Enum.Popup },
+                      { value: DisplayMode.Enum.SidePanel, label: DisplayMode.Enum.SidePanel },
+                    ]}
+                    size="xs"
+                    withinPortal
+                  />
+                </Group>
+              </>
+            )}
             <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
             <Group align="flex-start" spacing="md" position="apart" noWrap>
               <Stack spacing={0}>
