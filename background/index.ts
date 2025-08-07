@@ -111,7 +111,7 @@ const setupAction = async () => {
   ]);
 };
 
-// Handle extension icon click - open as sidepanel if enabled
+// Handle extension icon click - only fires when no popup is set (i.e., in SidePanel mode)
 chrome.action.onClicked.addListener(async (tab) => {
   const settings = await getSettings();
 
@@ -123,7 +123,8 @@ chrome.action.onClicked.addListener(async (tab) => {
       await chrome.sidePanel.open({ windowId: chrome.windows.WINDOW_ID_CURRENT });
     }
   } else {
-    // Fall back to popup (this won't be called if popup is set in manifest)
+    // Defensive: This shouldn't be reached since onClicked only fires when no popup is set,
+    // but attempt to open popup if we somehow get here
     chrome.action.openPopup();
   }
 });
