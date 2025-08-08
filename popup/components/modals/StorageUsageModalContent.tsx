@@ -210,7 +210,7 @@ export const StorageUsageModalContent = () => {
             )}
           </Group>
           <Progress
-            value={Math.min(getPerformanceScore(usage), 100)}
+            value={Math.min(getPerformanceScore(usage) * 100, 100)}
             size="lg"
             radius="md"
             color={usage && getPerformanceColor(usage)}
