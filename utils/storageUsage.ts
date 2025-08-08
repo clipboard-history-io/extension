@@ -40,7 +40,7 @@ export const entriesToStorageUsage = async (entries: Entry[]): Promise<StorageUs
       const startTime = performance.now();
       const size = new Blob([entry.content]).size;
       const elapsed = performance.now() - startTime;
-      
+
       usage.largestSize = Math.max(usage.largestSize, size);
 
       // Entries with 36-char IDs are cloud entries (UUIDs)
