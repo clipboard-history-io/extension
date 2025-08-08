@@ -17,6 +17,7 @@ import {
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import {
+  IconChartBar,
   IconClipboardList,
   IconCloud,
   IconExternalLink,
@@ -43,6 +44,7 @@ import { VERSION } from "~utils/version";
 import { ProBadge } from "./components/cloud/ProBadge";
 import { UserActionIcon } from "./components/cloud/UserActionIcon";
 import { SettingsModalContent } from "./components/modals/SettingsModalContent";
+import { StorageUsageModalContent } from "./components/modals/StorageUsageModalContent";
 import { useApp } from "./hooks/useApp";
 import { useCloudEntriesQuery } from "./hooks/useCloudEntriesQuery";
 import { useCloudFavoritedEntriesQuery } from "./hooks/useCloudFavoritedEntriesQuery";
@@ -205,6 +207,22 @@ export const App = () => {
                 disabled={isFloatingPopup || isSidePanel}
               >
                 <IconPictureInPicture size="1.125rem" />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label={<Text fz="xs">Storage Usage</Text>}>
+              <ActionIcon
+                variant="light"
+                color="indigo.5"
+                onClick={() =>
+                  modals.open({
+                    padding: 0,
+                    size: "xl",
+                    withCloseButton: false,
+                    children: <StorageUsageModalContent />,
+                  })
+                }
+              >
+                <IconChartBar size="1.125rem" />
               </ActionIcon>
             </Tooltip>
             <Tooltip label={<Text fz="xs">{chrome.i18n.getMessage("commonSettings")}</Text>}>
