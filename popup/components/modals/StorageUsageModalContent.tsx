@@ -80,11 +80,11 @@ export const StorageUsageModalContent = () => {
                 thickness={6}
                 sections={[
                   {
-                    value: (usage.localSize / usage.totalSize) * 100,
+                    value: usage.totalSize && (usage.localSize / usage.totalSize) * 100,
                     color: lightOrDark(theme, "indigo.5", "indigo.7"),
                   },
                   {
-                    value: (usage.cloudSize / usage.totalSize) * 100,
+                    value: usage.totalSize && (usage.cloudSize / usage.totalSize) * 100,
                     color: lightOrDark(theme, "cyan.5", "cyan.7"),
                   },
                 ]}
