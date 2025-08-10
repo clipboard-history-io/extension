@@ -85,6 +85,12 @@ export const App = () => {
   const refreshToken = useAtomValue(refreshTokenAtom);
   const commands = useAtomValue(commandsAtom);
 
+  const extensionActivationShortcut = commands.find(
+    (command) =>
+      command.name ===
+      (process.env.PLASMO_TARGET === "firefox-mv2" ? "_execute_browser_action" : "_execute_action"),
+  )?.shortcut;
+
   // Preload queries.
   const auth = db.useAuth();
   const connectionStatus = db.useConnectionStatus();
@@ -108,8 +114,6 @@ export const App = () => {
       return null;
     }
   }
-
-  const shortcut = commands.find((cmd) => cmd.name === "_execute_action")?.shortcut;
 
   return (
     <Card
@@ -267,7 +271,7 @@ export const App = () => {
             size="xs"
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
-            w={240}
+            w={250}
             sx={{
               ".mantine-Input-input": {
                 borderColor: defaultBorderColor(theme),
@@ -280,13 +284,13 @@ export const App = () => {
               },
             }}
             rightSection={
-              shortcut && (
+              search.length === 0 &&
+              extensionActivationShortcut && (
                 <Box pr="xs">
-                  <ShortcutBadge shortcut={shortcut} />
+                  <ShortcutBadge shortcut={extensionActivationShortcut} />
                 </Box>
               )
             }
-            rightSectionWidth={shortcut && 30 + shortcut.length * 10}
             rightSectionProps={{ onClick: () => inputRef.current?.focus() }}
             autoFocus
           />
