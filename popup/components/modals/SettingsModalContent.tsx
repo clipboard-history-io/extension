@@ -138,7 +138,13 @@ export const SettingsModalContent = () => {
                   <Text fz="xs">Press</Text>
                   <ShortcutBadge
                     shortcut={
-                      commands.find((cmd) => cmd.name === "_execute_action")?.shortcut || "Not set"
+                      commands.find(
+                        (command) =>
+                          command.name ===
+                          (process.env.PLASMO_TARGET === "firefox-mv2"
+                            ? "_execute_browser_action"
+                            : "_execute_action"),
+                      )?.shortcut || "Not set"
                     }
                   />
                   <Text fz="xs">to quickly open the extension.</Text>
@@ -149,7 +155,10 @@ export const SettingsModalContent = () => {
                 rightIcon={<IconExternalLink size="0.8rem" />}
                 onClick={async () => {
                   await chrome.tabs.create({
-                    url: "chrome://extensions/shortcuts",
+                    url:
+                      process.env.PLASMO_TARGET === "firefox-mv2"
+                        ? "https://support.mozilla.org/en-US/kb/manage-extension-shortcuts-firefox"
+                        : "chrome://extensions/shortcuts",
                   });
 
                   // TODO: Move isSidePanel and isFloatingPopup to jotai and use it here.
