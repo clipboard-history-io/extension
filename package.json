@@ -96,6 +96,11 @@
           "default": "Alt+Shift+3"
         },
         "description": "Paste Item 3"
+      },
+      "_execute_action": {
+        "suggested_key": {
+          "default": "Alt+Shift+V"
+        }
       }
     }
   }

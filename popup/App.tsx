@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Box,
   Card,
   Divider,
   Group,
@@ -31,7 +32,7 @@ import {
 } from "@tabler/icons-react";
 import iconSrc from "data-base64:~assets/icon.png";
 import { useAtom, useAtomValue } from "jotai";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { match } from "ts-pattern";
 
 import { updateChangelogViewedAt } from "~storage/changelogViewedAt";
@@ -45,6 +46,7 @@ import { ProBadge } from "./components/cloud/ProBadge";
 import { UserActionIcon } from "./components/cloud/UserActionIcon";
 import { SettingsModalContent } from "./components/modals/SettingsModalContent";
 import { StorageUsageModalContent } from "./components/modals/StorageUsageModalContent";
+import { ShortcutBadge } from "./components/ShortcutBadge";
 import { useApp } from "./hooks/useApp";
 import { useCloudEntriesQuery } from "./hooks/useCloudEntriesQuery";
 import { useCloudFavoritedEntriesQuery } from "./hooks/useCloudFavoritedEntriesQuery";
@@ -56,6 +58,7 @@ import { FavoritesPage } from "./pages/FavoritesPage";
 import {
   changelogViewedAtAtom,
   clipboardMonitorIsEnabledAtom,
+  commandsAtom,
   refreshTokenAtom,
   searchAtom,
   settingsAtom,
@@ -66,6 +69,8 @@ export const App = () => {
   useApp();
 
   const theme = useMantineTheme();
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const urlParams = new URLSearchParams(window.location.search);
   const [isFloatingPopup] = useState(urlParams.get("ref") === "popup");
@@ -78,6 +83,7 @@ export const App = () => {
   const settings = useAtomValue(settingsAtom);
   const changelogViewedAt = useAtomValue(changelogViewedAtAtom);
   const refreshToken = useAtomValue(refreshTokenAtom);
+  const commands = useAtomValue(commandsAtom);
 
   // Preload queries.
   const auth = db.useAuth();
@@ -102,6 +108,8 @@ export const App = () => {
       return null;
     }
   }
+
+  const shortcut = commands.find((cmd) => cmd.name === "_execute_action")?.shortcut;
 
   return (
     <Card
@@ -253,6 +261,7 @@ export const App = () => {
         </Group>
         <Group align="center" position="apart">
           <TextInput
+            ref={inputRef}
             placeholder="Search items or tags"
             icon={<IconSearch size="1rem" />}
             size="xs"
@@ -266,7 +275,19 @@ export const App = () => {
                   borderColor: theme.fn.primaryColor(),
                 },
               },
+              ".mantine-Input-rightSection": {
+                justifyContent: "end",
+              },
             }}
+            rightSection={
+              shortcut && (
+                <Box pr="xs">
+                  <ShortcutBadge shortcut={shortcut} />
+                </Box>
+              )
+            }
+            rightSectionWidth={shortcut && 30 + shortcut.length * 10}
+            rightSectionProps={{ onClick: () => inputRef.current?.focus() }}
             autoFocus
           />
           <SegmentedControl
