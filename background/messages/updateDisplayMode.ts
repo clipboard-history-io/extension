@@ -9,6 +9,10 @@ export type UpdateDisplayModeRequestBody = undefined;
 export type UpdateDisplayModeResponseBody = Record<PropertyKey, never>;
 
 export const handleUpdateDisplayModeRequest = async () => {
+  if (process.env.PLASMO_TARGET === "firefox-mv2") {
+    return;
+  }
+
   const settings = await getSettings();
 
   // Configure popup or sidepanel based on settings

@@ -102,32 +102,32 @@ const setupAction = async () => {
     getClipboardMonitorIsEnabled(),
   ]);
 
-  // Configure display mode (popup, sidepanel, etc.)
-  await handleUpdateDisplayModeRequest();
-
   await Promise.all([
+    handleUpdateDisplayModeRequest(),
     handleUpdateTotalItemsBadgeRequest(entries.length),
     setActionIconAndBadgeBackgroundColor(clipboardMonitorIsEnabled),
   ]);
 };
 
-// Handle extension icon click - only fires when no popup is set (i.e., in SidePanel mode)
-chrome.action.onClicked.addListener(async (tab) => {
-  const settings = await getSettings();
+if (process.env.PLASMO_TARGET !== "firefox-mv2") {
+  // Handle extension icon click - only fires when no popup is set (i.e., in SidePanel mode)
+  chrome.action.onClicked.addListener(async (tab) => {
+    const settings = await getSettings();
 
-  if (settings.displayMode === DisplayMode.Enum.SidePanel && chrome.sidePanel) {
-    // Open as sidebar panel for Chrome
-    if (tab?.id) {
-      await chrome.sidePanel.open({ tabId: tab.id });
+    if (settings.displayMode === DisplayMode.Enum.SidePanel && chrome.sidePanel) {
+      // Open as sidebar panel for Chrome
+      if (tab?.id) {
+        await chrome.sidePanel.open({ tabId: tab.id });
+      } else {
+        await chrome.sidePanel.open({ windowId: chrome.windows.WINDOW_ID_CURRENT });
+      }
     } else {
-      await chrome.sidePanel.open({ windowId: chrome.windows.WINDOW_ID_CURRENT });
+      // Defensive: This shouldn't be reached since onClicked only fires when no popup is set,
+      // but attempt to open popup if we somehow get here
+      chrome.action.openPopup();
     }
-  } else {
-    // Defensive: This shouldn't be reached since onClicked only fires when no popup is set,
-    // but attempt to open popup if we somehow get here
-    chrome.action.openPopup();
-  }
-});
+  });
+}
 
 chrome.runtime.onStartup.addListener(async () => {
   await Promise.all([setupOffscreenDocument(), setupAction(), handleUpdateContextMenusRequest()]);
