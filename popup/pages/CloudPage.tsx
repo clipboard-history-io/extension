@@ -114,8 +114,8 @@ export const CloudPage = () => {
                 <Group align="center" spacing={rem(8)} noWrap>
                   <IconCheck size="1rem" color={theme.fn.primaryColor()} />
                   <Text fz="sm">Mobile app</Text>
-                  <Badge size="xs" variant="outline" mt={rem(2)}>
-                    Soon
+                  <Badge size="xs" variant="outline" mt={rem(2)} color="teal">
+                    New!
                   </Badge>
                 </Group>
                 <Group align="center" spacing={rem(8)} noWrap>

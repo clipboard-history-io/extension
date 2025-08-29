@@ -57,8 +57,13 @@ export const UserActionIcon = () => {
         >
           <Text fz="xs">Open Web App</Text>
         </Menu.Item>
-        <Menu.Item icon={<IconDeviceMobile size="0.8rem" />} disabled>
-          <Text fz="xs">Get Mobile App (Coming Soon)</Text>
+        <Menu.Item
+          icon={<IconDeviceMobile size="0.8rem" />}
+          component="a"
+          href="https://www.clipboardhistory.io/"
+          target="_blank"
+        >
+          <Text fz="xs">Get Mobile App (Now Available!)</Text>
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
