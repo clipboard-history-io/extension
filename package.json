@@ -1,7 +1,7 @@
 {
   "name": "clipboard-history",
   "displayName": "Clipboard History Manager - Secure, Fast, and Open Source",
-  "version": "1.4.11",
+  "version": "1.4.12",
   "description": "Save unlimited clipboard history in Chrome. Search & paste instantly, organize with tags, access with shortcuts. The only fully open source clipboard manager - secure, private & lightning fast.",
   "author": "Andy Young <andyluyoung@gmail.com>",
   "scripts": {
