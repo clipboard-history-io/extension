@@ -45,12 +45,19 @@ export const handleUpdateContextMenusRequest = debounce(async () => {
       const [cloudEntriesQuery, cloudFavoritedEntriesQuery, cloudTaggedEntriesQuery] =
         await Promise.all([
           db.queryOnce({
-            entries: {},
+            entries: {
+              $: {
+                where: {
+                  "$user.id": user.id,
+                },
+              },
+            },
           }),
           db.queryOnce({
             entries: {
               $: {
                 where: {
+                  "$user.id": user.id,
                   isFavorited: true,
                 },
               },
@@ -60,6 +67,7 @@ export const handleUpdateContextMenusRequest = debounce(async () => {
             entries: {
               $: {
                 where: {
+                  "$user.id": user.id,
                   tags: {
                     $isNull: false,
                   },
