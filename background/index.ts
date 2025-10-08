@@ -14,11 +14,13 @@ import { setActionIconAndBadgeBackgroundColor } from "~utils/actionBadge";
 import { watchClipboard, watchCloudEntries } from "~utils/background";
 import db from "~utils/db/core";
 import { simplePathBasename } from "~utils/simplePath";
-import { getEntries } from "~utils/storage";
+import { getEntries, runEntryStorageMigration } from "~utils/storage";
 
 import { handleUpdateContextMenusRequest } from "./messages/updateContextMenus";
 import { handleUpdateDisplayModeRequest } from "./messages/updateDisplayMode";
 import { handleUpdateTotalItemsBadgeRequest } from "./messages/updateTotalItemsBadge";
+
+void runEntryStorageMigration();
 
 // Firefox MV2 creates a persistent background page that we can use to watch the clipboard.
 if (process.env.PLASMO_TARGET === "firefox-mv2") {
