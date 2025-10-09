@@ -52,7 +52,7 @@ export const ErrorModalContent = ({ err }: Props) => {
             size="xs"
             leftIcon={<IconBug size="1rem" />}
             component="a"
-            href={`https://app.youform.com/forms/6aoyp3xl?${new URLSearchParams({
+            href={`https://form.finalform.so/forms/hvtSZgF6?${new URLSearchParams({
               error:
                 err instanceof AggregateError
                   ? err.errors.map((e) => serializeError(e)).toString()

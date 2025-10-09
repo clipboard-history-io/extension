@@ -80,7 +80,7 @@ export const CloudPage = () => {
                 Clipboard History IO Pro!
               </Text>
               <Text size="sm" mb="md">
-                Get started now with a limited-time <b>3-month</b> free trial, cancellable anytime!
+                Get started now with a limited-time <b>1-month</b> free trial, cancellable anytime!
               </Text>
               <Button
                 size="xs"
