@@ -5,11 +5,6 @@
   "description": "Powerful clipboard history manager. Save, search & organize everything you copy. Tags, shortcuts & unlimited storage.",
   "author": "Andy Young <andyluyoung@gmail.com>",
   "packageManager": "pnpm@10.0.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "sharp"
-    ]
-  },
   "scripts": {
     "dev": "plasmo dev",
     "dev:firefox": "plasmo dev --target=firefox-mv2",
