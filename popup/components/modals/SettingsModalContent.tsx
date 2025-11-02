@@ -37,7 +37,7 @@ import {
 import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import * as z from 'zod';
+import * as z from "zod";
 
 import { sendToBackground } from "@plasmohq/messaging";
 
@@ -54,6 +54,7 @@ import { commandsAtom, settingsAtom } from "~popup/states/atoms";
 import { setSettings } from "~storage/settings";
 import { DisplayMode } from "~types/displayMode";
 import { ItemSortOption } from "~types/itemSortOption";
+import { LocalTtlConfig, LocalTtlTypeEnum } from "~types/localTtlConfig";
 import { StorageLocation } from "~types/storageLocation";
 import { Tab } from "~types/tab";
 import db from "~utils/db/react";
@@ -64,6 +65,7 @@ import { defaultBorderColor, lightOrDark } from "~utils/sx";
 const schema = z.object({
   localItemLimit: z.number().min(1).nullable(),
   localItemCharacterLimit: z.number().min(1).nullable(),
+  localTtlConfig: LocalTtlConfig.nullable(),
 });
 type FormValues = z.infer<typeof schema>;
 
@@ -88,6 +90,7 @@ export const SettingsModalContent = () => {
     defaultValues: {
       localItemLimit: settings.localItemLimit,
       localItemCharacterLimit: settings.localItemCharacterLimit,
+      localTtlConfig: settings.localTtlConfig,
     },
     mode: "all",
     resolver: zodResolver(schema),
@@ -391,15 +394,29 @@ export const SettingsModalContent = () => {
 
         <Tabs.Panel value="storage">
           <form
-            onSubmit={handleSubmit(async ({ localItemLimit, localItemCharacterLimit }) => {
-              await setSettings({ ...settings, localItemLimit, localItemCharacterLimit });
-              notifications.show({
-                color: "green",
-                title: "Success",
-                message: "Changes were successfully saved.",
-              });
-              reset({ localItemLimit, localItemCharacterLimit });
-            })}
+            onSubmit={handleSubmit(
+              async ({ localItemLimit, localItemCharacterLimit, localTtlConfig }) => {
+                await setSettings({
+                  ...settings,
+                  localItemLimit,
+                  localItemCharacterLimit,
+                  localTtlConfig,
+                });
+                notifications.show({
+                  color: "green",
+                  title: "Success",
+                  message: "Changes were successfully saved.",
+                });
+
+                if (localTtlConfig !== null) {
+                  await sendToBackground({ name: "createTtlAlarm", body: { localTtlConfig } });
+                } else {
+                  await sendToBackground({ name: "deleteTtlAlarm" });
+                }
+
+                reset({ localItemLimit, localItemCharacterLimit, localTtlConfig });
+              },
+            )}
           >
             <Stack p="md">
               <Stack spacing="xs">
@@ -478,6 +495,85 @@ export const SettingsModalContent = () => {
                     />
                   )}
                 />
+              </Stack>
+              <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
+              <Stack spacing="xs">
+                <Group>
+                  <Group align="flex-start" position="apart" noWrap>
+                    <Stack spacing={0}>
+                      <Title order={6}>Item Time Limit</Title>
+                      <Text fz="xs">
+                        Set the maximum time a non-favorited item must be saved in the clipboard.
+                      </Text>
+                    </Stack>
+                    <Switch
+                      checked={watch("localTtlConfig") !== null}
+                      onChange={(e) => {
+                        setValue(
+                          "localTtlConfig",
+                          e.target.checked
+                            ? settings.localTtlConfig || { amount: 1, type: "Weeks" }
+                            : null,
+                          {
+                            shouldDirty: true,
+                          },
+                        );
+                        trigger();
+                      }}
+                    />
+                  </Group>
+                  <Controller
+                    name="localTtlConfig"
+                    control={control}
+                    render={({ field }) => {
+                      const localTtlConfig = field.value;
+                      return (
+                        <Group>
+                          <NumberInput
+                            {...field}
+                            value={localTtlConfig === null ? "" : localTtlConfig?.amount}
+                            onChange={(amount) => field.onChange({ ...localTtlConfig, amount })}
+                            size="xs"
+                            error={errors.localTtlConfig?.message}
+                            min={1}
+                            disabled={localTtlConfig === null}
+                          />
+                          <Select
+                            {...field}
+                            value={localTtlConfig === null ? "" : localTtlConfig?.type}
+                            onChange={(type) => field.onChange({ ...localTtlConfig, type })}
+                            data={[
+                              {
+                                value: LocalTtlTypeEnum.Enum.Minutes,
+                                label: LocalTtlTypeEnum.Enum.Minutes,
+                              },
+                              {
+                                value: LocalTtlTypeEnum.Enum.Hours,
+                                label: LocalTtlTypeEnum.Enum.Hours,
+                              },
+                              {
+                                value: LocalTtlTypeEnum.Enum.Days,
+                                label: LocalTtlTypeEnum.Enum.Days,
+                              },
+                              {
+                                value: LocalTtlTypeEnum.Enum.Weeks,
+                                label: LocalTtlTypeEnum.Enum.Weeks,
+                              },
+                              {
+                                value: LocalTtlTypeEnum.Enum.Months,
+                                label: LocalTtlTypeEnum.Enum.Months,
+                              },
+                            ]}
+                            error={errors.localTtlConfig?.message}
+                            size="xs"
+                            disabled={localTtlConfig === null}
+                            withinPortal
+                          />
+                        </Group>
+                      );
+                    }}
+                  />
+                </Group>
               </Stack>
               <Group align="center" position="apart">
                 <Text

@@ -1,7 +1,8 @@
-import * as z from 'zod';
+import * as z from "zod";
 
 import { DisplayMode } from "./displayMode";
 import { ItemSortOption } from "./itemSortOption";
+import { LocalTtlConfig } from "./localTtlConfig";
 import { StorageLocation } from "./storageLocation";
 import { Tab } from "./tab";
 
@@ -18,6 +19,7 @@ export const defaultSettings = {
   themeV2: "system",
   localItemLimit: null,
   localItemCharacterLimit: null,
+  localTtlConfig: null,
   displayMode: DisplayMode.Enum.Popup,
 };
 
@@ -34,6 +36,7 @@ export const Settings = z
     themeV2: z.string().default(defaultSettings.themeV2),
     localItemLimit: z.number().nullable().default(defaultSettings.localItemLimit),
     localItemCharacterLimit: z.number().nullable().default(defaultSettings.localItemCharacterLimit),
+    localTtlConfig: LocalTtlConfig.default(defaultSettings.localTtlConfig),
     displayMode: DisplayMode.default(defaultSettings.displayMode),
   })
   .default(defaultSettings);

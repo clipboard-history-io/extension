@@ -1,7 +1,7 @@
 import { createHash } from "crypto";
 import { lookup } from "@instantdb/core";
 import { Err, Ok, Result } from "ts-results";
-import * as z from 'zod';
+import * as z from "zod";
 
 import { Storage } from "@plasmohq/storage";
 
