@@ -2,7 +2,7 @@
   "packageManager": "pnpm@8.15.9",
   "name": "clipboard-history",
   "displayName": "Clipboard History Manager - Secure, Fast, and Open Source",
-  "version": "1.4.15",
+  "version": "1.4.16",
   "description": "Powerful clipboard history manager. Save, search & organize everything you copy. Tags, shortcuts & unlimited storage.",
   "author": "Andy Young <andyluyoung@gmail.com>",
   "scripts": {
