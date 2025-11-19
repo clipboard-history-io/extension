@@ -31,7 +31,7 @@ import { forwardRef, useMemo, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { Controller, useForm } from "react-hook-form";
 import { FixedSizeList } from "react-window";
-import { z } from "zod";
+import * as z from 'zod';
 
 import { useFavoriteEntryIds } from "~popup/contexts/FavoriteEntryIdsContext";
 import { settingsAtom } from "~popup/states/atoms";
