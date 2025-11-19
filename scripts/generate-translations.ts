@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import path from "path";
 import pool from "@ricokahler/pool";
 import { Translator, type TargetLanguageCode } from "deepl-node";
-import { z } from "zod";
+import * as z from 'zod';
 
 import enMessagesJson from "../locales/en/messages.json";
 

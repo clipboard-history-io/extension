@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from 'zod';
 
 // JSON export from this extension.
 export const ClipboardHistoryIOExport = z.array(

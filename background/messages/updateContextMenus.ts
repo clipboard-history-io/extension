@@ -1,5 +1,5 @@
 import { debounce } from "ts-debounce";
-import { z } from "zod";
+import * as z from 'zod';
 
 import type { PlasmoMessaging } from "@plasmohq/messaging";
 
