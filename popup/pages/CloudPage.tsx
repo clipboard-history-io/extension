@@ -23,16 +23,10 @@ import { useAtomValue } from "jotai";
 import { CommonActionIcon } from "~popup/components/CommonActionIcon";
 import { EntryList } from "~popup/components/EntryList";
 import { NoEntriesOverlay } from "~popup/components/NoEntriesOverlay";
-import { TagFilter } from "~popup/components/TagFilter";
 import { useEntries } from "~popup/contexts/EntriesContext";
 import { useEntryIdToTags } from "~popup/contexts/EntryIdToTagsContext";
 import { useSubscriptionsQuery } from "~popup/hooks/useSubscriptionsQuery";
-import {
-  searchAtom,
-  selectedTagsAtom,
-  settingsAtom,
-  tagFilterModeAtom,
-} from "~popup/states/atoms";
+import { searchAtom, settingsAtom } from "~popup/states/atoms";
 import db from "~utils/db/react";
 import { sortEntriesByOption } from "~utils/entries";
 import { lightOrDark } from "~utils/sx";
@@ -42,8 +36,6 @@ export const CloudPage = () => {
 
   const search = useAtomValue(searchAtom);
   const settings = useAtomValue(settingsAtom);
-  const selectedTags = useAtomValue(selectedTagsAtom);
-  const filterMode = useAtomValue(tagFilterModeAtom);
 
   const auth = db.useAuth();
   const connectionStatus = db.useConnectionStatus();
@@ -143,59 +135,36 @@ export const CloudPage = () => {
     );
   }
 
-  // Φιλτράρισμα cloud entries, search και tags
-  const filteredEntries = entries.filter((entry) => {
-    // Cloud entries only
-    if (entry.id.length !== 36) return false;
-
-    // Search filter
-    const matchesSearch =
-      search.length === 0 ||
-      entry.content.toLowerCase().includes(search.toLowerCase()) ||
-      entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase()));
-
-    if (!matchesSearch) return false;
-
-    // Tag filter
-    if (selectedTags.length === 0) return true;
-
-    const entryTags = entryIdToTags[entry.id] || [];
-
-    if (filterMode === "all") {
-      return selectedTags.every((selectedTag) => entryTags.includes(selectedTag));
-    } else {
-      return selectedTags.some((selectedTag) => entryTags.includes(selectedTag));
-    }
-  });
-
   return (
-    <Stack spacing="sm" h="100%">
-      <TagFilter />
-      <EntryList
-        noEntriesOverlay={
-          search.length === 0 && selectedTags.length === 0 ? (
-            <NoEntriesOverlay
-              title="You have no items stored in the cloud"
-              subtitle={
-                <Group align="center" spacing={0}>
-                  <Text>Store an item in the cloud by clicking on</Text>
-                  <CommonActionIcon>
-                    <IconCloud size="1rem" />
-                  </CommonActionIcon>
-                </Group>
-              }
-              description="Items stored in the cloud can be accessed from other devices"
-            />
-          ) : (
-            <NoEntriesOverlay
-              title={`No items found${search.length > 0 ? ` for "${search}"` : ""}${
-                selectedTags.length > 0 ? ` with tags: ${selectedTags.join(", ")}` : ""
-              }`}
-            />
-          )
-        }
-        entries={sortEntriesByOption(filteredEntries, settings.sortItemsBy)}
-      />
-    </Stack>
+    <EntryList
+      noEntriesOverlay={
+        search.length === 0 ? (
+          <NoEntriesOverlay
+            title="You have no items stored in the cloud"
+            subtitle={
+              <Group align="center" spacing={0}>
+                <Text>Store an item in the cloud by clicking on</Text>
+                <CommonActionIcon>
+                  <IconCloud size="1rem" />
+                </CommonActionIcon>
+              </Group>
+            }
+            description="Items stored in the cloud can be accessed from other devices"
+          />
+        ) : (
+          <NoEntriesOverlay title={`No items found for "${search}"`} />
+        )
+      }
+      entries={sortEntriesByOption(
+        entries.filter(
+          (entry) =>
+            entry.id.length === 36 &&
+            (search.length === 0 ||
+              entry.content.toLowerCase().includes(search.toLowerCase()) ||
+              entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase()))),
+        ),
+        settings.sortItemsBy,
+      )}
+    />
   );
 };
