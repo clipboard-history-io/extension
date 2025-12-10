@@ -34,3 +34,6 @@ export const commandsAtom = atom<{ name: string; shortcut?: string }[]>([]);
 export const refreshTokenAtom = atom<string | null>();
 
 export const storageUsageAtom = atom<StorageUsage>();
+
+export const selectedTagsAtom = atom<string[]>([]);
+export const tagFilterModeAtom = atom<'all' | 'any'>('all');

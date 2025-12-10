@@ -203,6 +203,7 @@ export const SettingsModalContent = () => {
                 data={[
                   { value: ItemSortOption.Enum.DateCreated, label: "Date Created" },
                   { value: ItemSortOption.Enum.DateLastCopied, label: "Date Last Copied" },
+                  { value: ItemSortOption.Enum.Alphabetically, label: "Alphabetically" },
                 ]}
                 size="xs"
                 withinPortal

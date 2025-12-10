@@ -3,7 +3,7 @@ import { match } from "ts-pattern";
 import type { Entry } from "~types/entry";
 import { ItemSortOption } from "~types/itemSortOption";
 import type { Settings } from "~types/settings";
-
+import type { EntryIdToTags } from "~types/entryIdToTags";
 export const handleEntryIds = async ({
   entryIds,
   handleLocalEntryIds,
@@ -34,8 +34,23 @@ export const getEntryTimestamp = (entry: Entry, settings: Settings) =>
   match(settings.sortItemsBy)
     .with(ItemSortOption.Enum.DateCreated, () => entry.createdAt)
     .with(ItemSortOption.Enum.DateLastCopied, () => getEntryCopiedAt(entry))
+    .with(ItemSortOption.Enum.Alphabetically, () => entry.createdAt)
     .exhaustive();
 
+export const sortEntriesByOption = (
+  entries: Entry[],
+  sortBy: ItemSortOption,
+): Entry[] => {
+  const sorted = [...entries];
+
+  if (sortBy === ItemSortOption.Enum.Alphabetically) {
+    return sorted.sort((a, b) => a.content.localeCompare(b.content));
+  }
+
+  
+
+  return sorted;
+};
 export const applyLocalItemLimit = (
   entries: Entry[],
   settings: Settings,

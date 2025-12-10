@@ -3,12 +3,15 @@
   "exclude": ["node_modules"],
   "include": [".plasmo/index.d.ts", "./**/*.ts", "./**/*.tsx"],
   "compilerOptions": {
+    "jsx": "react",
     "paths": {
       "~*": ["./*"],
     },
     "baseUrl": ".",
     "strict": true,
     "noUncheckedIndexedAccess": true,
+    "ignoreDeprecations": "6.0"
+
   },
   "ts-node": {
     "compilerOptions": {
