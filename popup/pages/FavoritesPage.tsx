@@ -1,6 +1,7 @@
 import { Group, Text } from "@mantine/core";
 import { IconStar } from "@tabler/icons-react";
 import { useAtomValue } from "jotai";
+import React from "~node_modules/@types/react";
 
 import { CommonActionIcon } from "~popup/components/CommonActionIcon";
 import { EntryList } from "~popup/components/EntryList";
@@ -8,14 +9,12 @@ import { NoEntriesOverlay } from "~popup/components/NoEntriesOverlay";
 import { useEntries } from "~popup/contexts/EntriesContext";
 import { useEntryIdToTags } from "~popup/contexts/EntryIdToTagsContext";
 import { useFavoriteEntryIds } from "~popup/contexts/FavoriteEntryIdsContext";
-import { searchAtom, settingsAtom } from "~popup/states/atoms";
-import { sortEntriesByOption } from "~utils/entries";
+import { searchAtom } from "~popup/states/atoms";
 
 export const FavoritesPage = () => {
   const reversedEntries = useEntries();
   const favoriteEntryIdsSet = useFavoriteEntryIds();
   const search = useAtomValue(searchAtom);
-  const settings = useAtomValue(settingsAtom);
   const entryIdToTags = useEntryIdToTags();
 
   return (
@@ -38,15 +37,12 @@ export const FavoritesPage = () => {
           <NoEntriesOverlay title={`No items found for "${search}"`} />
         )
       }
-      entries={sortEntriesByOption(
-        reversedEntries.filter(
-          (entry) =>
-            favoriteEntryIdsSet.has(entry.id) &&
-            (search.length === 0 ||
-              entry.content.toLowerCase().includes(search.toLowerCase()) ||
-              entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase()))),
-        ),
-        settings.sortItemsBy,
+      entries={reversedEntries.filter(
+        (entry) =>
+          favoriteEntryIdsSet.has(entry.id) &&
+          (search.length === 0 ||
+            entry.content.toLowerCase().includes(search.toLowerCase()) ||
+            entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase()))),
       )}
     />
   );

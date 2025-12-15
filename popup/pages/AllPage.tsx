@@ -1,16 +1,15 @@
 import { useAtomValue } from "jotai";
+import React from "~node_modules/@types/react";
 
 import { EntryList } from "~popup/components/EntryList";
 import { NoEntriesOverlay } from "~popup/components/NoEntriesOverlay";
 import { useEntries } from "~popup/contexts/EntriesContext";
 import { useEntryIdToTags } from "~popup/contexts/EntryIdToTagsContext";
-import { searchAtom, settingsAtom } from "~popup/states/atoms";
-import { sortEntriesByOption } from "~utils/entries";
+import { searchAtom } from "~popup/states/atoms";
 
 export const AllPage = () => {
-  const reversedEntries = useEntries();
+  const reversedEntries = useEntries(); 
   const search = useAtomValue(searchAtom);
-  const settings = useAtomValue(settingsAtom);
   const entryIdToTags = useEntryIdToTags();
 
   return (
@@ -25,14 +24,11 @@ export const AllPage = () => {
           <NoEntriesOverlay title={`No items found for "${search}"`} />
         )
       }
-      entries={sortEntriesByOption(
-        reversedEntries.filter(
-          (entry) =>
-            search.length === 0 ||
-            entry.content.toLowerCase().includes(search.toLowerCase()) ||
-            entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase())),
-        ),
-        settings.sortItemsBy,
+      entries={reversedEntries.filter(
+        (entry) =>
+          search.length === 0 ||
+          entry.content.toLowerCase().includes(search.toLowerCase()) ||
+          entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase())),
       )}
     />
   );

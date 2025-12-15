@@ -19,6 +19,7 @@ import {
   IconWifiOff,
 } from "@tabler/icons-react";
 import { useAtomValue } from "jotai";
+import React from "~node_modules/@types/react";
 
 import { CommonActionIcon } from "~popup/components/CommonActionIcon";
 import { EntryList } from "~popup/components/EntryList";
@@ -26,16 +27,14 @@ import { NoEntriesOverlay } from "~popup/components/NoEntriesOverlay";
 import { useEntries } from "~popup/contexts/EntriesContext";
 import { useEntryIdToTags } from "~popup/contexts/EntryIdToTagsContext";
 import { useSubscriptionsQuery } from "~popup/hooks/useSubscriptionsQuery";
-import { searchAtom, settingsAtom } from "~popup/states/atoms";
+import { searchAtom } from "~popup/states/atoms";
 import db from "~utils/db/react";
-import { sortEntriesByOption } from "~utils/entries";
 import { lightOrDark } from "~utils/sx";
 
 export const CloudPage = () => {
   const theme = useMantineTheme();
 
   const search = useAtomValue(searchAtom);
-  const settings = useAtomValue(settingsAtom);
 
   const auth = db.useAuth();
   const connectionStatus = db.useConnectionStatus();
@@ -155,15 +154,12 @@ export const CloudPage = () => {
           <NoEntriesOverlay title={`No items found for "${search}"`} />
         )
       }
-      entries={sortEntriesByOption(
-        entries.filter(
-          (entry) =>
-            entry.id.length === 36 &&
-            (search.length === 0 ||
-              entry.content.toLowerCase().includes(search.toLowerCase()) ||
-              entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase()))),
-        ),
-        settings.sortItemsBy,
+      entries={entries.filter(
+        (entry) =>
+          entry.id.length === 36 &&
+          (search.length === 0 ||
+            entry.content.toLowerCase().includes(search.toLowerCase()) ||
+            entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase()))),
       )}
     />
   );
