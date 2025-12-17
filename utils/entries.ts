@@ -39,7 +39,7 @@ export const getEntryTimestamp = (entry: Entry, settings: Settings) =>
 
 export const sortEntriesByOption = (entries: Entry[], sortBy: ItemSortOption): Entry[] => {
   if (sortBy === ItemSortOption.Enum.Content) {
-    return entries.slice().sort((a, b) => a.content.localeCompare(b.content));
+    return entries.slice().sort((a, b) => a.content.trim().localeCompare(b.content.trim()));
   }
 
   return entries;
