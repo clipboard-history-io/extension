@@ -34,7 +34,16 @@ export const getEntryTimestamp = (entry: Entry, settings: Settings) =>
   match(settings.sortItemsBy)
     .with(ItemSortOption.Enum.DateCreated, () => entry.createdAt)
     .with(ItemSortOption.Enum.DateLastCopied, () => getEntryCopiedAt(entry))
+    .with(ItemSortOption.Enum.Content, () => entry.createdAt)
     .exhaustive();
+
+export const sortEntriesByOption = (entries: Entry[], sortBy: ItemSortOption): Entry[] => {
+  if (sortBy === ItemSortOption.Enum.Content) {
+    return entries.slice().sort((a, b) => a.content.localeCompare(b.content));
+  }
+
+  return entries;
+};
 
 export const applyLocalItemLimit = (
   entries: Entry[],
