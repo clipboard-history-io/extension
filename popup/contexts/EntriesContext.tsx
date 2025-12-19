@@ -69,4 +69,3 @@ export const EntriesProvider = ({ children }: PropsWithChildren) => {
 export const useEntries = () => {
   return useContext(EntriesContext);
 };
- 
