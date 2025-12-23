@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { createContext, useContext, type PropsWithChildren } from "react";
-import { z } from "zod";
+import * as z from 'zod';
 
 import { useCloudTaggedEntriesQuery } from "~popup/hooks/useCloudTaggedEntriesQuery";
 import { entryIdToTagsAtom } from "~popup/states/atoms";
