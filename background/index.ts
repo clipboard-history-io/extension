@@ -9,6 +9,7 @@ import {
 import { getEntryCommands } from "~storage/entryCommands";
 import { getRefreshToken } from "~storage/refreshToken";
 import { getSettings } from "~storage/settings";
+import { Alarm } from "~types/alarm";
 import { DisplayMode } from "~types/displayMode";
 import { setActionIconAndBadgeBackgroundColor } from "~utils/actionBadge";
 import { watchClipboard, watchCloudEntries } from "~utils/background";
@@ -16,6 +17,7 @@ import db from "~utils/db/core";
 import { simplePathBasename } from "~utils/simplePath";
 import { getEntries } from "~utils/storage";
 
+import { checkTtlAlarmState, removeEntriesNonFavorite } from "./messages/createTtlAlarm";
 import { handleUpdateContextMenusRequest } from "./messages/updateContextMenus";
 import { handleUpdateDisplayModeRequest } from "./messages/updateDisplayMode";
 import { handleUpdateTotalItemsBadgeRequest } from "./messages/updateTotalItemsBadge";
@@ -130,11 +132,21 @@ if (process.env.PLASMO_TARGET !== "firefox-mv2") {
 }
 
 chrome.runtime.onStartup.addListener(async () => {
-  await Promise.all([setupOffscreenDocument(), setupAction(), handleUpdateContextMenusRequest()]);
+  await Promise.all([
+    setupOffscreenDocument(),
+    setupAction(),
+    handleUpdateContextMenusRequest(),
+    checkTtlAlarmState(),
+  ]);
 });
 
 chrome.tabs.onActivated.addListener(async () => {
-  await Promise.all([setupOffscreenDocument(), setupAction(), handleUpdateContextMenusRequest()]);
+  await Promise.all([
+    setupOffscreenDocument(),
+    setupAction(),
+    handleUpdateContextMenusRequest(),
+    checkTtlAlarmState(),
+  ]);
 });
 
 chrome.runtime.onSuspend.addListener(async () => {
@@ -238,5 +250,12 @@ chrome.commands.onCommand.addListener(async (command, tab) => {
         args: [entry.content],
       });
     }
+  }
+});
+
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  const name = alarm.name;
+  if (name === Alarm.Enum.CleanupTtl) {
+    await removeEntriesNonFavorite();
   }
 });

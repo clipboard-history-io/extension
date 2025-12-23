@@ -24,7 +24,7 @@ import "./sign-in.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { User } from "@instantdb/core";
 import { IconPencilMinus } from "@tabler/icons-react";
-import { z } from "zod";
+import * as z from 'zod';
 
 import { useTheme } from "~popup/hooks/useTheme";
 import env from "~utils/env";
