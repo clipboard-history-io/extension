@@ -37,4 +37,7 @@ keys.json
 
 # temporary package.json
 .package.json
+
+# dev
 /.idea/
+/.letta/
