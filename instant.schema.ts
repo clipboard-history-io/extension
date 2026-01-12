@@ -16,15 +16,22 @@ const _schema = i.schema({
       isFavorited: i.boolean().optional(),
       tags: i.string().optional(),
     }),
+    settings: i.entity({
+      cloudItemLimit: i.number().optional(),
+    }),
   },
   links: {
     subscriptionUser: {
-      forward: { on: "subscriptions", has: "one", label: "$user" },
+      forward: { on: "subscriptions", has: "one", label: "$user", onDelete: "cascade" },
       reverse: { on: "$users", has: "one", label: "subscription" },
     },
     entriesUser: {
-      forward: { on: "entries", has: "one", label: "$user" },
+      forward: { on: "entries", has: "one", label: "$user", onDelete: "cascade" },
       reverse: { on: "$users", has: "many", label: "entries" },
+    },
+    settingsUser: {
+      forward: { on: "settings", has: "one", label: "$user", onDelete: "cascade" },
+      reverse: { on: "$users", has: "one", label: "settings" },
     },
   },
 });

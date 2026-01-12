@@ -51,6 +51,7 @@ import { useApp } from "./hooks/useApp";
 import { useCloudEntriesQuery } from "./hooks/useCloudEntriesQuery";
 import { useCloudFavoritedEntriesQuery } from "./hooks/useCloudFavoritedEntriesQuery";
 import { useCloudTaggedEntriesQuery } from "./hooks/useCloudTaggedEntriesQuery";
+import { useSettingsQuery } from "./hooks/useSettingsQuery";
 import { useSubscriptionsQuery } from "./hooks/useSubscriptionsQuery";
 import { AllPage } from "./pages/AllPage";
 import { CloudPage } from "./pages/CloudPage";
@@ -98,6 +99,7 @@ export const App = () => {
   const cloudFavoritedEntriesQuery = useCloudFavoritedEntriesQuery();
   const cloudTaggedEntriesQuery = useCloudTaggedEntriesQuery();
   const subscriptionsQuery = useSubscriptionsQuery();
+  const settingsQuery = useSettingsQuery();
 
   if (clipboardMonitorIsEnabled === undefined || refreshToken === undefined) {
     return null;
@@ -109,7 +111,8 @@ export const App = () => {
       cloudEntriesQuery.isLoading ||
       cloudFavoritedEntriesQuery.isLoading ||
       cloudTaggedEntriesQuery.isLoading ||
-      subscriptionsQuery.isLoading
+      subscriptionsQuery.isLoading ||
+      settingsQuery.isLoading
     ) {
       return null;
     }

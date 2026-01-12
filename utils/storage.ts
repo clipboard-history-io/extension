@@ -23,8 +23,9 @@ import { getSettings } from "~storage/settings";
 import { Entry } from "~types/entry";
 import { StorageLocation } from "~types/storageLocation";
 
+import { resolveCloudSettings } from "./cloudSettings";
 import db from "./db/core";
-import { applyLocalItemLimit, handleEntryIds } from "./entries";
+import { applyLocalItemLimit, getEntryTimestamp, handleEntryIds } from "./entries";
 
 // Do not change this without a migration.
 const ENTRIES_STORAGE_KEY = "entryIdSetentries";
@@ -109,6 +110,35 @@ export const createEntry = async (content: string, storageLocation: StorageLocat
             content: content,
           }).link({ $user: lookup("email", user.email) }),
         );
+
+        // Apply cloud item limit.
+        const [cloudSettingsQuery, settings] = await Promise.all([
+          db.queryOnce({
+            settings: {},
+          }),
+          getSettings(),
+        ]);
+
+        const cloudSettings = resolveCloudSettings(cloudSettingsQuery.data.settings[0]);
+
+        if (cloudSettings.cloudItemLimit !== null) {
+          const allEntriesQuery = await db.queryOnce({
+            entries: {},
+          });
+
+          const entriesToDelete = allEntriesQuery.data.entries
+            .filter((entry) => !entry.isFavorited)
+            .sort((a, b) => getEntryTimestamp(b, settings) - getEntryTimestamp(a, settings))
+            .slice(cloudSettings.cloudItemLimit);
+
+          if (entriesToDelete.length > 0) {
+            for (let i = 0; i < entriesToDelete.length; i += 100) {
+              db.transact(
+                entriesToDelete.slice(i, i + 100).map((entry) => db.tx.entries[entry.id]!.delete()),
+              );
+            }
+          }
+        }
 
         return;
       }
