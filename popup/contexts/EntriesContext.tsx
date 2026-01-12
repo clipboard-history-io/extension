@@ -5,7 +5,7 @@ import { useCloudEntriesQuery } from "~popup/hooks/useCloudEntriesQuery";
 import { entriesAtom, settingsAtom, transitioningEntryContentHashAtom } from "~popup/states/atoms";
 import type { Entry } from "~types/entry";
 import db from "~utils/db/react";
-import { getEntryTimestamp, sortEntriesByOption } from "~utils/entries";
+import { getEntryTimestamp } from "~utils/entries";
 
 const EntriesContext = createContext<Entry[]>([]);
 
@@ -61,9 +61,7 @@ export const EntriesProvider = ({ children }: PropsWithChildren) => {
     j--;
   }
 
-  const finalEntries = sortEntriesByOption(out.slice(), settings.sortItemsBy);
-
-  return <EntriesContext.Provider value={finalEntries}>{children}</EntriesContext.Provider>;
+  return <EntriesContext.Provider value={out}>{children}</EntriesContext.Provider>;
 };
 
 export const useEntries = () => {
