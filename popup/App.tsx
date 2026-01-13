@@ -37,6 +37,11 @@ import { match } from "ts-pattern";
 
 import { updateChangelogViewedAt } from "~storage/changelogViewedAt";
 import { toggleClipboardMonitorIsEnabled } from "~storage/clipboardMonitorIsEnabled";
+import {
+  deleteFloatingWindowId,
+  getFloatingWindowId,
+  setFloatingWindowId,
+} from "~storage/floatingWindowId";
 import { Tab } from "~types/tab";
 import db from "~utils/db/react";
 import { defaultBorderColor, lightOrDark } from "~utils/sx";
@@ -210,12 +215,29 @@ export const App = () => {
                 variant="light"
                 color="indigo.5"
                 onClick={async () => {
-                  await chrome.windows.create({
+                  const floatingWindowId = await getFloatingWindowId();
+
+                  if (floatingWindowId !== null) {
+                    try {
+                      await chrome.windows.update(floatingWindowId, { focused: true });
+                      window.close();
+                      return;
+                    } catch {
+                      // Window no longer exists, clear it.
+                      await deleteFloatingWindowId();
+                    }
+                  }
+
+                  const newWindow = await chrome.windows.create({
                     url: chrome.runtime.getURL("popup.html?ref=popup"),
                     type: "popup",
                     height: 600,
                     width: 700,
                   });
+
+                  if (newWindow.id !== undefined) {
+                    await setFloatingWindowId(newWindow.id);
+                  }
 
                   window.close();
                 }}
