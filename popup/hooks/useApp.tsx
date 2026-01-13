@@ -18,7 +18,7 @@ import { getEntryIdToTags, watchEntryIdToTags } from "~storage/entryIdToTags";
 import { getFavoriteEntryIds, watchFavoriteEntryIds } from "~storage/favoriteEntryIds";
 import { getRefreshToken, watchRefreshToken } from "~storage/refreshToken";
 import { getSettings, watchSettings } from "~storage/settings";
-import { getEntries, watchEntries } from "~utils/storage";
+import { getEntries, runEntryStorageMigration, watchEntries } from "~utils/storage";
 
 import {
   changelogViewedAtAtom,
@@ -70,7 +70,9 @@ export const useApp = () => {
   const setRefreshToken = useSetAtom(refreshTokenAtom);
   const setSettings = useSetAtom(settingsAtom);
   useEffect(() => {
-    getEntries().then(setEntries);
+    const migrationPromise = runEntryStorageMigration();
+
+    migrationPromise.then(() => getEntries().then(setEntries));
     watchEntries((entries) => {
       setEntries(entries);
       updateContextMenus();

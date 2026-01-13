@@ -87,9 +87,9 @@ export const handleUpdateContextMenusRequest = debounce(async () => {
     }
   }
 
-  const reversedEntries = localEntries
-    .concat(cloudEntries)
-    .sort((a, b) => getEntryTimestamp(b, settings) - getEntryTimestamp(a, settings));
+  const reversedEntries: Entry[] = [...localEntries, ...cloudEntries].sort(
+    (a, b) => getEntryTimestamp(b, settings) - getEntryTimestamp(a, settings),
+  );
   const favoriteEntryIdsSet = new Set([...localFavoriteEntryIds, ...cloudFavoriteEntryIds]);
   const favoriteEntries = reversedEntries.filter((entry) => favoriteEntryIdsSet.has(entry.id));
   const entryIdToTags = { ...localEntryIdToTags, ...cloudEntryIdToTags };
