@@ -11,20 +11,27 @@ const _schema = i.schema({
     entries: i.entity({
       emailContentHash: i.string().unique().indexed(),
       createdAt: i.number().indexed(),
-      copiedAt: i.number().optional(),
+      copiedAt: i.number().indexed().optional(),
       content: i.string(),
       isFavorited: i.boolean().optional(),
       tags: i.string().optional(),
     }),
+    settings: i.entity({
+      cloudItemLimit: i.number().indexed().optional(),
+    }),
   },
   links: {
     subscriptionUser: {
-      forward: { on: "subscriptions", has: "one", label: "$user" },
+      forward: { on: "subscriptions", has: "one", label: "$user", onDelete: "cascade" },
       reverse: { on: "$users", has: "one", label: "subscription" },
     },
     entriesUser: {
-      forward: { on: "entries", has: "one", label: "$user" },
+      forward: { on: "entries", has: "one", label: "$user", onDelete: "cascade" },
       reverse: { on: "$users", has: "many", label: "entries" },
+    },
+    settingsUser: {
+      forward: { on: "settings", has: "one", label: "$user", onDelete: "cascade" },
+      reverse: { on: "$users", has: "one", label: "settings" },
     },
   },
 });

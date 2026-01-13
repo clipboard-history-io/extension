@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { id } from "@instantdb/react";
 import {
   Anchor,
   Badge,
@@ -27,12 +28,14 @@ import {
   IconAdjustmentsHorizontal,
   IconAlertTriangle,
   IconAppWindow,
+  IconCloud,
   IconDatabase,
   IconDeviceFloppy,
   IconExternalLink,
   IconFileExport,
   IconFileImport,
   IconUpload,
+  IconWifiOff,
 } from "@tabler/icons-react";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
@@ -50,47 +53,57 @@ import type {
   UpdateTotalItemsBadgeResponseBody,
 } from "~background/messages/updateTotalItemsBadge";
 import { ShortcutBadge } from "~popup/components/ShortcutBadge";
+import { useSettingsQuery } from "~popup/hooks/useSettingsQuery";
+import { useSubscriptionsQuery } from "~popup/hooks/useSubscriptionsQuery";
 import { commandsAtom, settingsAtom } from "~popup/states/atoms";
 import { setSettings } from "~storage/settings";
 import { DisplayMode } from "~types/displayMode";
 import { ItemSortOption } from "~types/itemSortOption";
 import { StorageLocation } from "~types/storageLocation";
 import { Tab } from "~types/tab";
+import { resolveCloudSettings } from "~utils/cloudSettings";
 import db from "~utils/db/react";
 import { getClipboardHistoryIOExport, importFile } from "~utils/importExport";
 import { capitalize } from "~utils/string";
 import { defaultBorderColor, lightOrDark } from "~utils/sx";
 
-const schema = z.object({
+const storageSchema = z.object({
   localItemLimit: z.number().min(1).nullable(),
   localItemCharacterLimit: z.number().min(1).nullable(),
 });
-type FormValues = z.infer<typeof schema>;
+type StorageFormValues = z.infer<typeof storageSchema>;
+
+const cloudSchema = z.object({
+  cloudItemLimit: z.number().min(1).nullable(),
+});
+type CloudFormValues = z.infer<typeof cloudSchema>;
 
 export const SettingsModalContent = () => {
   const theme = useMantineTheme();
   const auth = db.useAuth();
+  const connectionStatus = db.useConnectionStatus();
   const settings = useAtomValue(settingsAtom);
   const commands = useAtomValue(commandsAtom);
   const systemColorScheme = useColorScheme();
+  const subscriptionsQuery = useSubscriptionsQuery();
+  const settingsQuery = useSettingsQuery();
+  const cloudSettings = settingsQuery.data?.settings[0];
 
   const [file, setFile] = useState<File | null>(null);
 
-  const {
-    control,
-    watch,
-    setValue,
-    handleSubmit,
-    reset,
-    trigger,
-    formState: { errors, isDirty },
-  } = useForm<FormValues>({
+  const storageForm = useForm<StorageFormValues>({
     defaultValues: {
       localItemLimit: settings.localItemLimit,
       localItemCharacterLimit: settings.localItemCharacterLimit,
     },
     mode: "all",
-    resolver: zodResolver(schema),
+    resolver: zodResolver(storageSchema),
+  });
+
+  const cloudForm = useForm<CloudFormValues>({
+    defaultValues: resolveCloudSettings(cloudSettings),
+    mode: "all",
+    resolver: zodResolver(cloudSchema),
   });
 
   return (
@@ -113,7 +126,7 @@ export const SettingsModalContent = () => {
               <Indicator
                 color={lightOrDark(theme, "orange", "yellow")}
                 size={8}
-                disabled={!isDirty}
+                disabled={!storageForm.formState.isDirty}
                 offset={1}
               >
                 <Box mt={rem(1)}>
@@ -126,6 +139,23 @@ export const SettingsModalContent = () => {
           </Tabs.Tab>
           <Tabs.Tab value="import-export" icon={<IconDeviceFloppy size="0.8rem" />}>
             Import / Export
+          </Tabs.Tab>
+          <Tabs.Tab
+            value="cloud"
+            icon={
+              <Indicator
+                color={lightOrDark(theme, "orange", "yellow")}
+                size={8}
+                disabled={!cloudForm.formState.isDirty}
+                offset={1}
+              >
+                <Box mt={rem(1)}>
+                  <IconCloud size="0.8rem" />
+                </Box>
+              </Indicator>
+            }
+          >
+            Cloud
           </Tabs.Tab>
         </Tabs.List>
 
@@ -391,15 +421,17 @@ export const SettingsModalContent = () => {
 
         <Tabs.Panel value="storage">
           <form
-            onSubmit={handleSubmit(async ({ localItemLimit, localItemCharacterLimit }) => {
-              await setSettings({ ...settings, localItemLimit, localItemCharacterLimit });
-              notifications.show({
-                color: "green",
-                title: "Success",
-                message: "Changes were successfully saved.",
-              });
-              reset({ localItemLimit, localItemCharacterLimit });
-            })}
+            onSubmit={storageForm.handleSubmit(
+              async ({ localItemLimit, localItemCharacterLimit }) => {
+                await setSettings({ ...settings, localItemLimit, localItemCharacterLimit });
+                notifications.show({
+                  color: "green",
+                  title: "Success",
+                  message: "Changes were successfully saved.",
+                });
+                storageForm.reset({ localItemLimit, localItemCharacterLimit });
+              },
+            )}
           >
             <Stack p="md">
               <Stack spacing="xs">
@@ -407,33 +439,32 @@ export const SettingsModalContent = () => {
                   <Stack spacing={0}>
                     <Title order={6}>Item Limit</Title>
                     <Text fz="xs">
-                      Set the maximum number of non-favorited items that the clipboard history will
-                      store.
+                      Set the maximum number of non-favorited items that will be stored locally.
                     </Text>
                   </Stack>
                   <Switch
-                    checked={watch("localItemLimit") !== null}
+                    checked={storageForm.watch("localItemLimit") !== null}
                     onChange={(e) => {
-                      setValue(
+                      storageForm.setValue(
                         "localItemLimit",
                         e.target.checked ? settings.localItemLimit || 150 : null,
                         {
                           shouldDirty: true,
                         },
                       );
-                      trigger();
+                      storageForm.trigger();
                     }}
                   />
                 </Group>
                 <Controller
                   name="localItemLimit"
-                  control={control}
+                  control={storageForm.control}
                   render={({ field }) => (
                     <NumberInput
                       {...field}
                       value={field.value === null ? "" : field.value}
                       onChange={(value) => field.onChange(value === "" ? 0 : value)}
-                      error={errors.localItemLimit?.message}
+                      error={storageForm.formState.errors.localItemLimit?.message}
                       disabled={field.value === null}
                       size="xs"
                     />
@@ -451,28 +482,28 @@ export const SettingsModalContent = () => {
                     </Text>
                   </Stack>
                   <Switch
-                    checked={watch("localItemCharacterLimit") !== null}
+                    checked={storageForm.watch("localItemCharacterLimit") !== null}
                     onChange={(e) => {
-                      setValue(
+                      storageForm.setValue(
                         "localItemCharacterLimit",
                         e.target.checked ? settings.localItemCharacterLimit || 25000 : null,
                         {
                           shouldDirty: true,
                         },
                       );
-                      trigger();
+                      storageForm.trigger();
                     }}
                   />
                 </Group>
                 <Controller
                   name="localItemCharacterLimit"
-                  control={control}
+                  control={storageForm.control}
                   render={({ field }) => (
                     <NumberInput
                       {...field}
                       value={field.value === null ? "" : field.value}
                       onChange={(value) => field.onChange(value === "" ? 0 : value)}
-                      error={errors.localItemCharacterLimit?.message}
+                      error={storageForm.formState.errors.localItemCharacterLimit?.message}
                       disabled={field.value === null}
                       size="xs"
                     />
@@ -486,7 +517,7 @@ export const SettingsModalContent = () => {
                   display="flex"
                   align="center"
                 >
-                  {isDirty && (
+                  {storageForm.formState.isDirty && (
                     <>
                       <IconAlertTriangle size="1.125rem" />
                       <Text ml={4}>You have unsaved changes.</Text>
@@ -494,10 +525,15 @@ export const SettingsModalContent = () => {
                   )}
                 </Text>
                 <Group align="center" spacing="xs">
-                  <Button size="xs" variant="subtle" disabled={!isDirty} onClick={() => reset()}>
+                  <Button
+                    size="xs"
+                    variant="subtle"
+                    disabled={!storageForm.formState.isDirty}
+                    onClick={() => storageForm.reset()}
+                  >
                     Reset
                   </Button>
-                  <Button size="xs" disabled={!isDirty} type="submit">
+                  <Button size="xs" disabled={!storageForm.formState.isDirty} type="submit">
                     Save
                   </Button>
                 </Group>
@@ -596,6 +632,119 @@ export const SettingsModalContent = () => {
               </Button>
             </Group>
           </Stack>
+        </Tabs.Panel>
+
+        <Tabs.Panel value="cloud">
+          {auth.user && connectionStatus === "closed" ? (
+            <Stack align="center" spacing="xs" p="xl">
+              <IconWifiOff size="1.125rem" />
+              <Title order={4}>You're Offline</Title>
+              <Text size="sm" align="center">
+                Connect to the internet to access cloud settings.
+              </Text>
+            </Stack>
+          ) : !subscriptionsQuery.data?.subscriptions.length ? (
+            <Stack align="center" spacing="xs" p="xl">
+              <IconCloud size="1.125rem" />
+              <Title order={4}>Get Started with Pro</Title>
+              <Text size="sm" align="center">
+                Subscribe to Clipboard History IO Pro to access cloud settings.
+              </Text>
+              <Button
+                size="xs"
+                component="a"
+                href={chrome.runtime.getURL("/tabs/sign-in.html")}
+                target="_blank"
+              >
+                Get Started
+              </Button>
+            </Stack>
+          ) : (
+            <form
+              onSubmit={cloudForm.handleSubmit(async ({ cloudItemLimit }) => {
+                await db.transact(
+                  db.tx.settings[cloudSettings?.id || id()]!.update({
+                    cloudItemLimit,
+                  }).link({ $user: auth.user?.id }),
+                );
+                notifications.show({
+                  color: "green",
+                  title: "Success",
+                  message: "Changes were successfully saved.",
+                });
+                cloudForm.reset({ cloudItemLimit });
+              })}
+            >
+              <Stack p="md">
+                <Stack spacing="xs">
+                  <Group align="flex-start" position="apart" noWrap>
+                    <Stack spacing={0}>
+                      <Title order={6}>Cloud Item Limit</Title>
+                      <Text fz="xs">
+                        Set the maximum number of non-favorited items that will be stored in the
+                        cloud.
+                      </Text>
+                    </Stack>
+                    <Switch
+                      checked={cloudForm.watch("cloudItemLimit") !== null}
+                      onChange={(e) => {
+                        cloudForm.setValue(
+                          "cloudItemLimit",
+                          e.target.checked ? cloudSettings?.cloudItemLimit || 1000 : null,
+                          {
+                            shouldDirty: true,
+                          },
+                        );
+                        cloudForm.trigger();
+                      }}
+                    />
+                  </Group>
+                  <Controller
+                    name="cloudItemLimit"
+                    control={cloudForm.control}
+                    render={({ field }) => (
+                      <NumberInput
+                        {...field}
+                        value={field.value === null ? "" : field.value}
+                        onChange={(value) => field.onChange(value === "" ? 0 : value)}
+                        error={cloudForm.formState.errors.cloudItemLimit?.message}
+                        disabled={field.value === null}
+                        size="xs"
+                      />
+                    )}
+                  />
+                </Stack>
+                <Group align="center" position="apart">
+                  <Text
+                    size="xs"
+                    color={lightOrDark(theme, "orange", "yellow")}
+                    display="flex"
+                    align="center"
+                  >
+                    {cloudForm.formState.isDirty && (
+                      <>
+                        <IconAlertTriangle size="1.125rem" />
+                        <Text ml={4}>You have unsaved changes.</Text>
+                      </>
+                    )}
+                  </Text>
+                  <Group align="center" spacing="xs">
+                    <Button
+                      size="xs"
+                      variant="subtle"
+                      disabled={!cloudForm.formState.isDirty}
+                      onClick={() => cloudForm.reset()}
+                    >
+                      Reset
+                    </Button>
+                    <Button size="xs" disabled={!cloudForm.formState.isDirty} type="submit">
+                      Save
+                    </Button>
+                  </Group>
+                </Group>
+              </Stack>
+            </form>
+          )}
         </Tabs.Panel>
       </Tabs>
     </Paper>
