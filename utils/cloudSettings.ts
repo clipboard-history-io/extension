@@ -6,7 +6,7 @@ export const resolveCloudSettings = (cloudSettings?: InstaQLEntity<AppSchema, "s
   return {
     cloudItemLimit:
       !cloudSettings ||
-      (cloudSettings.cloudItemLimit !== undefined && cloudSettings.cloudItemLimit < 1)
+      (typeof cloudSettings.cloudItemLimit === "number" && cloudSettings.cloudItemLimit < 1)
         ? 1000
         : cloudSettings.cloudItemLimit || null,
   };

@@ -1,5 +1,6 @@
 import { createHash } from "crypto";
 import { lookup } from "@instantdb/core";
+import { match } from "ts-pattern";
 import { Err, Ok, Result } from "ts-results";
 import { z } from "zod";
 
@@ -25,7 +26,7 @@ import { StorageLocation } from "~types/storageLocation";
 
 import { resolveCloudSettings } from "./cloudSettings";
 import db from "./db/core";
-import { applyLocalItemLimit, getEntryTimestamp, handleEntryIds } from "./entries";
+import { applyLocalItemLimit, handleEntryIds } from "./entries";
 
 // Do not change this without a migration.
 const ENTRIES_STORAGE_KEY = "entryIdSetentries";
@@ -122,21 +123,36 @@ export const createEntry = async (content: string, storageLocation: StorageLocat
         const cloudSettings = resolveCloudSettings(cloudSettingsQuery.data.settings[0]);
 
         if (cloudSettings.cloudItemLimit !== null) {
-          const allEntriesQuery = await db.queryOnce({
-            entries: {},
+          const entriesToDeleteQuery = await db.queryOnce({
+            entries: {
+              $: {
+                where: {
+                  or: [
+                    {
+                      isFavorited: false,
+                    },
+                    {
+                      isFavorited: {
+                        $isNull: true,
+                      },
+                    },
+                  ],
+                },
+                offset: cloudSettings.cloudItemLimit,
+                order: match(settings.sortItemsBy)
+                  .with("DateCreated", () => ({ createdAt: "desc" }) as const)
+                  .with("DateLastCopied", () => ({ copiedAt: "desc" }) as const)
+                  .exhaustive(),
+              },
+            },
           });
 
-          const entriesToDelete = allEntriesQuery.data.entries
-            .filter((entry) => !entry.isFavorited)
-            .sort((a, b) => getEntryTimestamp(b, settings) - getEntryTimestamp(a, settings))
-            .slice(cloudSettings.cloudItemLimit);
-
-          if (entriesToDelete.length > 0) {
-            for (let i = 0; i < entriesToDelete.length; i += 100) {
-              db.transact(
-                entriesToDelete.slice(i, i + 100).map((entry) => db.tx.entries[entry.id]!.delete()),
-              );
-            }
+          for (let i = 0; i < entriesToDeleteQuery.data.entries.length; i += 100) {
+            db.transact(
+              entriesToDeleteQuery.data.entries
+                .slice(i, i + 100)
+                .map((entry) => db.tx.entries[entry.id]!.delete()),
+            );
           }
         }
 
