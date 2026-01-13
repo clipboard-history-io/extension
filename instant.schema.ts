@@ -11,13 +11,13 @@ const _schema = i.schema({
     entries: i.entity({
       emailContentHash: i.string().unique().indexed(),
       createdAt: i.number().indexed(),
-      copiedAt: i.number().optional(),
+      copiedAt: i.number().indexed().optional(),
       content: i.string(),
       isFavorited: i.boolean().optional(),
       tags: i.string().optional(),
     }),
     settings: i.entity({
-      cloudItemLimit: i.number().optional(),
+      cloudItemLimit: i.number().indexed().optional(),
     }),
   },
   links: {
