@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from 'zod';
 
 import { DisplayMode } from "./displayMode";
 import { ItemSortOption } from "./itemSortOption";

@@ -40,7 +40,7 @@ import {
 import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import * as z from 'zod';
 
 import { sendToBackground } from "@plasmohq/messaging";
 

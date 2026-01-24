@@ -16,7 +16,7 @@ import { IconAlertTriangle } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import * as z from 'zod';
 
 import { handleMutation } from "~popup/utils/mutation";
 import type { Entry } from "~types/entry";
