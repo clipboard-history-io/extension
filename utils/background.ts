@@ -74,21 +74,30 @@ export const watchCloudEntries = async (
 
       const refreshToken = await getRefreshToken();
       if (refreshToken !== null) {
-        watching = true;
+        const user = await db.getAuth();
+        if (user) {
+          watching = true;
 
-        db.subscribeQuery(
-          {
-            entries: {},
-          },
-          async (cloudEntriesQuery) => {
-            // TODO: Potentially just call the callback with an empty array?
-            if (!cloudEntriesQuery.data) {
-              return;
-            }
+          db.subscribeQuery(
+            {
+              entries: {
+                $: {
+                  where: {
+                    "$user.id": user.id,
+                  },
+                },
+              },
+            },
+            async (cloudEntriesQuery) => {
+              // TODO: Potentially just call the callback with an empty array?
+              if (!cloudEntriesQuery.data) {
+                return;
+              }
 
-            await cb(cloudEntriesQuery.data.entries);
-          },
-        );
+              await cb(cloudEntriesQuery.data.entries);
+            },
+          );
+        }
       }
     } catch (e) {
       console.log(e);

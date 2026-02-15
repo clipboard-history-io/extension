@@ -24,11 +24,11 @@ dependencies:
     specifier: ^3.9.0
     version: 3.9.0(react-hook-form@7.53.0)
   "@instantdb/core":
-    specifier: ^0.17.31
-    version: 0.17.31
+    specifier: ^0.21.13
+    version: 0.21.13
   "@instantdb/react":
-    specifier: ^0.17.31
-    version: 0.17.31(react@18.2.0)
+    specifier: ^0.21.13
+    version: 0.21.13(react@18.2.0)
   "@mantine/core":
     specifier: 6.0.21
     version: 6.0.21(@emotion/react@11.13.3)(@mantine/hooks@6.0.21)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
@@ -1077,26 +1077,35 @@ packages:
       - supports-color
     dev: true
 
-  /@instantdb/core@0.17.31:
+  /@instantdb/core@0.21.13:
     resolution:
       {
-        integrity: sha512-Y7XS5dJn/Y3qB5YAtNE2mNXozSmIaAZ7XWWyhKLKjGvQBRwsle4MCoe3KXVJvn+EqmdT15zr5LIowIj6dlx2MA==,
+        integrity: sha512-TtiXU4iV8ASTz+usviHupN85ZNGvMMVG4y4ADvzrwwx0Rif1aoRaKMnhffgOKXJK+bfQH6RKN/p5jODEwhVV/A==,
       }
     dependencies:
-      mutative: 1.1.0
-      uuid: 9.0.1
+      "@instantdb/version": 0.21.13
+      mutative: 1.2.0
+      uuid: 11.1.0
     dev: false
 
-  /@instantdb/react@0.17.31(react@18.2.0):
+  /@instantdb/react@0.21.13(react@18.2.0):
     resolution:
       {
-        integrity: sha512-GNBiwGbJ9ETf3wTsuSjCOaHpEwhMg3rWhrOyzXDXlkWc1TBku2BtRH9gMiLvbCJBqBF0xRouwSnTJ/X74ja79g==,
+        integrity: sha512-T76fgDm8EunvEBDAeOpxitlvWqnRKnpQFKvbMxwodSAd7sh3lc4tskqzmL46UToLUq4aAHdfEHWVnFITYeT7Jg==,
       }
     peerDependencies:
       react: ">=16"
     dependencies:
-      "@instantdb/core": 0.17.31
+      "@instantdb/core": 0.21.13
+      "@instantdb/version": 0.21.13
       react: 18.2.0
+    dev: false
+
+  /@instantdb/version@0.21.13:
+    resolution:
+      {
+        integrity: sha512-7sJzQpfipsZdlR0m8xGgjQx9toHooJ132JvkiH4bPFRKXsi5W8ACfvRPJVy8MnWq9qInR0C5JB3cHtjDruApuA==,
+      }
     dev: false
 
   /@isaacs/cliui@8.0.2:
@@ -7818,10 +7827,10 @@ packages:
       msgpackr-extract: 3.0.3
     dev: false
 
-  /mutative@1.1.0:
+  /mutative@1.2.0:
     resolution:
       {
-        integrity: sha512-2PJADREjOusk3iJkD3rXV2YjAxTuaLxdfqtqTEt6vcY07LtEBR1seHuBHXWEIuscqRDGvbauYPs+A4Rj/KTczQ==,
+        integrity: sha512-1muFw45Lwjso6TSBGiXfbjKS01fVSD/qaqBfTo/gXgp79e8KM4Sa1XP/S4iN2/DvSdIZgjFJI+JIhC7eKf3GTg==,
       }
     engines: { node: ">=14.0" }
     dev: false
@@ -9853,18 +9862,18 @@ packages:
     engines: { node: ">= 4" }
     dev: false
 
-  /uuid@8.3.2:
+  /uuid@11.1.0:
     resolution:
       {
-        integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==,
+        integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==,
       }
     hasBin: true
     dev: false
 
-  /uuid@9.0.1:
+  /uuid@8.3.2:
     resolution:
       {
-        integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==,
+        integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==,
       }
     hasBin: true
     dev: false
