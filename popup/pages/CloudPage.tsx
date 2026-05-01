@@ -156,6 +156,7 @@ export const CloudPage = () => {
       }
       entries={entries.filter(
         (entry) =>
+          !entry.isDeleted &&
           entry.id.length === 36 &&
           (search.length === 0 ||
             entry.content.toLowerCase().includes(search.toLowerCase()) ||

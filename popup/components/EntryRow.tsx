@@ -23,6 +23,8 @@ import { EntryCloudAction } from "./cloud/EntryCloudAction";
 import { CommonActionIcon } from "./CommonActionIcon";
 import { EntryDeleteAction } from "./EntryDeleteAction";
 import { EntryFavoriteAction } from "./EntryFavoriteAction";
+import { EntryPermanentDeleteAction } from "./EntryPermanentDeleteAction";
+import { EntryRestoreAction } from "./EntryRestoreAction";
 import { EditEntryModalContent } from "./modals/EditEntryModalContent";
 import { ShortcutsModalContent } from "./modals/ShortcutsModalContent";
 import { ShortcutBadge } from "./ShortcutBadge";
@@ -32,9 +34,10 @@ import { TagSelect } from "./TagSelect";
 interface Props {
   entry: Entry;
   selectedEntryIds: Set<string>;
+  isTrashMode?: boolean;
 }
 
-export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
+export const EntryRow = ({ entry, selectedEntryIds, isTrashMode }: Props) => {
   const theme = useMantineTheme();
   const now = useNow();
   const settings = useAtomValue(settingsAtom);
@@ -68,6 +71,15 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
         },
       })}
       onClick={async () => {
+        if (isTrashMode) {
+          if (selectedEntryIds.has(entry.id)) {
+            selectedEntryIds.delete(entry.id);
+          } else {
+            selectedEntryIds.add(entry.id);
+          }
+          return;
+        }
+
         // Optimistically update local state with arbitrary updatedAt.
         setClipboardSnapshot({ content: entry.content, updatedAt: 0 });
 
@@ -144,8 +156,15 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
           {entry.content.length}
         </Text>
         <Group align="center" spacing={0} noWrap ml={rem(4)}>
-          <TagSelect entryId={entry.id} />
-          <CommonActionIcon
+          {isTrashMode ? (
+            <>
+              <EntryRestoreAction entryId={entry.id} />
+              <EntryPermanentDeleteAction entryId={entry.id} />
+            </>
+          ) : (
+            <>
+              <TagSelect entryId={entry.id} />
+              <CommonActionIcon
             onClick={() =>
               modals.open({
                 padding: 0,
@@ -172,6 +191,8 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
           <EntryCloudAction entry={entry} />
           <EntryFavoriteAction entryId={entry.id} />
           <EntryDeleteAction entryId={entry.id} />
+            </>
+          )}
         </Group>
       </Group>
       <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />

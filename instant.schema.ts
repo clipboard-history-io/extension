@@ -15,6 +15,7 @@ const _schema = i.schema({
       content: i.string(),
       isFavorited: i.boolean().optional(),
       tags: i.string().optional(),
+      isDeleted: i.boolean().optional(),
     }),
     settings: i.entity({
       cloudItemLimit: i.number().indexed().optional(),

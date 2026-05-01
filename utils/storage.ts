@@ -191,15 +191,73 @@ export const deleteEntries = async (entryIds: string[]) => {
       favoriteEntryIds.forEach((entryId) => s.delete(entryId));
 
       await Promise.all([
+        _setEntries(
+          entries.map((entry) => {
+            if (s.has(entry.id)) {
+              return { ...entry, isDeleted: true };
+            }
+            return entry;
+          }),
+        ),
+      ]);
+    },
+    handleCloudEntryIds: async (cloudEntryIds) => {
+      // TODO: Protect favorited entries from being deleted since the backend no longer enforces
+      // it.
+      await db.transact(
+        cloudEntryIds.map((cloudEntryId) =>
+          db.tx.entries[cloudEntryId]!.update({ isDeleted: true }),
+        ),
+      );
+    },
+  });
+};
+
+export const permanentlyDeleteEntries = async (entryIds: string[]) => {
+  await handleEntryIds({
+    entryIds,
+    handleLocalEntryIds: async (localEntryIds) => {
+      const s = new Set(localEntryIds);
+
+      const entries = await getEntries();
+
+      await Promise.all([
         _setEntries(entries.filter(({ id }) => !s.has(id))),
         deleteEntryIdsFromEntryIdToTags(localEntryIds),
         deleteEntryCommands(localEntryIds),
       ]);
     },
     handleCloudEntryIds: async (cloudEntryIds) => {
-      // TODO: Protect favorited entries from being deleted since the backend no longer enforces
-      // it.
       await db.transact(cloudEntryIds.map((cloudEntryId) => db.tx.entries[cloudEntryId]!.delete()));
+    },
+  });
+};
+
+export const restoreEntries = async (entryIds: string[]) => {
+  await handleEntryIds({
+    entryIds,
+    handleLocalEntryIds: async (localEntryIds) => {
+      const s = new Set(localEntryIds);
+
+      const entries = await getEntries();
+
+      await Promise.all([
+        _setEntries(
+          entries.map((entry) => {
+            if (s.has(entry.id)) {
+              return { ...entry, isDeleted: false };
+            }
+            return entry;
+          }),
+        ),
+      ]);
+    },
+    handleCloudEntryIds: async (cloudEntryIds) => {
+      await db.transact(
+        cloudEntryIds.map((cloudEntryId) =>
+          db.tx.entries[cloudEntryId]!.update({ isDeleted: false }),
+        ),
+      );
     },
   });
 };
