@@ -29,6 +29,7 @@ import {
   IconSearch,
   IconSettings,
   IconStar,
+  IconTrash,
 } from "@tabler/icons-react";
 import iconSrc from "data-base64:~assets/icon.png";
 import { useAtom, useAtomValue } from "jotai";
@@ -61,6 +62,7 @@ import { useSubscriptionsQuery } from "./hooks/useSubscriptionsQuery";
 import { AllPage } from "./pages/AllPage";
 import { CloudPage } from "./pages/CloudPage";
 import { FavoritesPage } from "./pages/FavoritesPage";
+import { TrashPage } from "./pages/TrashPage";
 import {
   changelogViewedAtAtom,
   clipboardMonitorIsEnabledAtom,
@@ -327,6 +329,7 @@ export const App = () => {
               .with(Tab.Enum.All, () => "indigo.5")
               .with(Tab.Enum.Favorites, () => "yellow.5")
               .with(Tab.Enum.Cloud, () => "cyan.5")
+              .with(Tab.Enum.Trash, () => "red.5")
               .exhaustive()}
             data={[
               {
@@ -356,6 +359,15 @@ export const App = () => {
                 ),
                 value: Tab.Enum.Cloud,
               },
+              {
+                label: (
+                  <Group align="center" spacing={4} noWrap>
+                    <IconTrash size="1rem" />
+                    <Text>Trash</Text>
+                  </Group>
+                ),
+                value: Tab.Enum.Trash,
+              },
             ]}
           />
         </Group>
@@ -363,6 +375,7 @@ export const App = () => {
           .with(Tab.Enum.All, () => <AllPage />)
           .with(Tab.Enum.Favorites, () => <FavoritesPage />)
           .with(Tab.Enum.Cloud, () => <CloudPage />)
+          .with(Tab.Enum.Trash, () => <TrashPage />)
           .exhaustive()}
       </Stack>
     </Card>

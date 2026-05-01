@@ -38,6 +38,7 @@ export const FavoritesPage = () => {
       }
       entries={reversedEntries.filter(
         (entry) =>
+          !entry.isDeleted &&
           favoriteEntryIdsSet.has(entry.id) &&
           (search.length === 0 ||
             entry.content.toLowerCase().includes(search.toLowerCase()) ||

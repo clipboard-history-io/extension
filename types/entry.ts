@@ -5,5 +5,6 @@ export const Entry = z.object({
   createdAt: z.number(),
   copiedAt: z.number().nullable().optional(),
   content: z.string(),
+  isDeleted: z.boolean().optional(),
 });
 export type Entry = z.infer<typeof Entry>;

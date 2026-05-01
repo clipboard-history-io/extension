@@ -25,9 +25,10 @@ export const AllPage = () => {
       }
       entries={reversedEntries.filter(
         (entry) =>
-          search.length === 0 ||
-          entry.content.toLowerCase().includes(search.toLowerCase()) ||
-          entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase())),
+          !entry.isDeleted &&
+          (search.length === 0 ||
+            entry.content.toLowerCase().includes(search.toLowerCase()) ||
+            entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase()))),
       )}
     />
   );
