@@ -5,13 +5,6 @@
 
 export const IMAGE_CONTENT_PREFIX = "data:image/png;base64,";
 
-// Images larger than this are ignored by the clipboard monitor.
-export const MAX_IMAGE_BLOB_BYTES = 5 * 1024 * 1024;
-
-// All entries are stored under a single storage key, so total image content must be bounded to
-// keep reading and writing that key cheap. See applyLocalImageBudget.
-export const LOCAL_IMAGE_CONTENT_CHAR_BUDGET = 20_000_000;
-
 export const isImageContent = (content: string) => content.startsWith(IMAGE_CONTENT_PREFIX);
 
 export const blobToImageContent = (blob: Blob) =>

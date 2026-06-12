@@ -22,14 +22,19 @@ import { handleUpdateTotalItemsBadgeRequest } from "./messages/updateTotalItemsB
 
 // Firefox MV2 creates a persistent background page that we can use to watch the clipboard.
 if (process.env.PLASMO_TARGET === "firefox-mv2") {
-  watchClipboard(window, document, getClipboardMonitorIsEnabled, (content) =>
-    handleCreateEntryRequest({
-      content,
-      // Race condition with popup. Adding this delay in the recorded timestamp allows the
-      // clipboard monitor to fail to create an entry when racing with the popup. It will succeed
-      // on the next interval as long as the popup doesn't write to clipboardSnapshot again.
-      timestamp: Date.now() - 2000,
-    }),
+  watchClipboard(
+    window,
+    document,
+    getClipboardMonitorIsEnabled,
+    async () => (await getSettings()).localImageSizeLimit,
+    (content) =>
+      handleCreateEntryRequest({
+        content,
+        // Race condition with popup. Adding this delay in the recorded timestamp allows the
+        // clipboard monitor to fail to create an entry when racing with the popup. It will succeed
+        // on the next interval as long as the popup doesn't write to clipboardSnapshot again.
+        timestamp: Date.now() - 2000,
+      }),
   );
 
   watchCloudEntries(window, getRefreshToken, async () => {

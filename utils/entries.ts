@@ -4,7 +4,7 @@ import type { Entry } from "~types/entry";
 import { ItemSortOption } from "~types/itemSortOption";
 import type { Settings } from "~types/settings";
 
-import { isImageContent, LOCAL_IMAGE_CONTENT_CHAR_BUDGET } from "./imageContent";
+import { isImageContent } from "./imageContent";
 
 export const handleEntryIds = async ({
   entryIds,
@@ -75,14 +75,21 @@ export const applyLocalItemLimit = (
   return [newEntries, skippedEntryIds];
 };
 
-// Evicts the oldest non-favorited image entries once total image content exceeds the budget. All
-// entries are stored under a single storage key, so without this a handful of large screenshots
-// would make every entries read and write prohibitively expensive.
+// Evicts the oldest non-favorited image entries once total image content exceeds the storage
+// limit. All entries are stored under a single storage key, so without this a handful of large
+// screenshots would make every entries read and write prohibitively expensive. Data URL length
+// approximates stored bytes, so the limit is compared against content length directly.
 export const applyLocalImageBudget = (
   entries: Entry[],
   settings: Settings,
   favoriteEntryIds: string[],
 ): [Entry[], string[]] => {
+  const { localImageStorageLimit } = settings;
+
+  if (localImageStorageLimit === null) {
+    return [entries, []];
+  }
+
   const favoriteEntryIdSet = new Set(favoriteEntryIds);
 
   const [newEntries, skippedEntryIds] = entries
@@ -94,7 +101,7 @@ export const applyLocalImageBudget = (
           return acc;
         }
 
-        if (acc[2] + curr.content.length <= LOCAL_IMAGE_CONTENT_CHAR_BUDGET) {
+        if (acc[2] + curr.content.length <= localImageStorageLimit) {
           acc[0].push(curr);
           acc[2] += curr.content.length;
           return acc;

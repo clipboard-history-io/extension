@@ -3,12 +3,13 @@ import type { InstaQLEntity } from "@instantdb/core";
 import type { AppSchema } from "~instant.schema";
 
 import db from "./db/core";
-import { blobToImageContent, MAX_IMAGE_BLOB_BYTES } from "./imageContent";
+import { blobToImageContent } from "./imageContent";
 
 export const watchClipboard = (
   w: Window,
   d: Document,
   getClipboardMonitorIsEnabled: () => Promise<boolean>,
+  getLocalImageSizeLimit: () => Promise<number | null>,
   cb: (content: string) => Promise<void>,
 ) => {
   let pushing = false;
@@ -37,8 +38,10 @@ export const watchClipboard = (
       try {
         pushing = true;
 
+        const localImageSizeLimit = imageFile ? await getLocalImageSizeLimit() : null;
+
         const curr =
-          imageFile && imageFile.size <= MAX_IMAGE_BLOB_BYTES
+          imageFile && (localImageSizeLimit === null || imageFile.size <= localImageSizeLimit)
             ? await blobToImageContent(imageFile)
             : text;
 

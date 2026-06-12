@@ -59,6 +59,7 @@ import { commandsAtom, settingsAtom } from "~popup/states/atoms";
 import { setSettings } from "~storage/settings";
 import { DisplayMode } from "~types/displayMode";
 import { ItemSortOption } from "~types/itemSortOption";
+import { defaultSettings } from "~types/settings";
 import { StorageLocation } from "~types/storageLocation";
 import { Tab } from "~types/tab";
 import { resolveCloudSettings } from "~utils/cloudSettings";
@@ -70,8 +71,13 @@ import { defaultBorderColor, lightOrDark } from "~utils/sx";
 const storageSchema = z.object({
   localItemLimit: z.number().min(1).nullable(),
   localItemCharacterLimit: z.number().min(1).nullable(),
+  localImageSizeLimit: z.number().min(1).nullable(),
+  localImageStorageLimit: z.number().min(1).nullable(),
 });
 type StorageFormValues = z.infer<typeof storageSchema>;
+
+// Image limits are stored in bytes but displayed in MB.
+const MB = 1024 * 1024;
 
 const cloudSchema = z.object({
   cloudItemLimit: z.number().min(1).nullable(),
@@ -95,6 +101,8 @@ export const SettingsModalContent = () => {
     defaultValues: {
       localItemLimit: settings.localItemLimit,
       localItemCharacterLimit: settings.localItemCharacterLimit,
+      localImageSizeLimit: settings.localImageSizeLimit,
+      localImageStorageLimit: settings.localImageStorageLimit,
     },
     mode: "all",
     resolver: zodResolver(storageSchema),
@@ -421,17 +429,15 @@ export const SettingsModalContent = () => {
 
         <Tabs.Panel value="storage">
           <form
-            onSubmit={storageForm.handleSubmit(
-              async ({ localItemLimit, localItemCharacterLimit }) => {
-                await setSettings({ ...settings, localItemLimit, localItemCharacterLimit });
-                notifications.show({
-                  color: "green",
-                  title: "Success",
-                  message: "Changes were successfully saved.",
-                });
-                storageForm.reset({ localItemLimit, localItemCharacterLimit });
-              },
-            )}
+            onSubmit={storageForm.handleSubmit(async (storageFormValues) => {
+              await setSettings({ ...settings, ...storageFormValues });
+              notifications.show({
+                color: "green",
+                title: "Success",
+                message: "Changes were successfully saved.",
+              });
+              storageForm.reset(storageFormValues);
+            })}
           >
             <Stack p="md">
               <Stack spacing="xs">
@@ -504,6 +510,89 @@ export const SettingsModalContent = () => {
                       value={field.value === null ? "" : field.value}
                       onChange={(value) => field.onChange(value === "" ? 0 : value)}
                       error={storageForm.formState.errors.localItemCharacterLimit?.message}
+                      disabled={field.value === null}
+                      size="xs"
+                    />
+                  )}
+                />
+              </Stack>
+              <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
+              <Stack spacing="xs">
+                <Group align="flex-start" position="apart" noWrap>
+                  <Stack spacing={0}>
+                    <Title order={6}>Image Size Limit (MB)</Title>
+                    <Text fz="xs">
+                      Set the maximum size an image may have before it's ignored by the clipboard
+                      monitor and not added to the clipboard history.
+                    </Text>
+                  </Stack>
+                  <Switch
+                    checked={storageForm.watch("localImageSizeLimit") !== null}
+                    onChange={(e) => {
+                      storageForm.setValue(
+                        "localImageSizeLimit",
+                        e.target.checked
+                          ? settings.localImageSizeLimit || defaultSettings.localImageSizeLimit
+                          : null,
+                        {
+                          shouldDirty: true,
+                        },
+                      );
+                      storageForm.trigger();
+                    }}
+                  />
+                </Group>
+                <Controller
+                  name="localImageSizeLimit"
+                  control={storageForm.control}
+                  render={({ field }) => (
+                    <NumberInput
+                      {...field}
+                      value={field.value === null ? "" : field.value / MB}
+                      onChange={(value) => field.onChange(value === "" ? 0 : value * MB)}
+                      error={storageForm.formState.errors.localImageSizeLimit?.message}
+                      disabled={field.value === null}
+                      size="xs"
+                    />
+                  )}
+                />
+              </Stack>
+              <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
+              <Stack spacing="xs">
+                <Group align="flex-start" position="apart" noWrap>
+                  <Stack spacing={0}>
+                    <Title order={6}>Image Storage Limit (MB)</Title>
+                    <Text fz="xs">
+                      Set the maximum total storage used by non-favorited images. The oldest images
+                      are deleted once the limit is exceeded.
+                    </Text>
+                  </Stack>
+                  <Switch
+                    checked={storageForm.watch("localImageStorageLimit") !== null}
+                    onChange={(e) => {
+                      storageForm.setValue(
+                        "localImageStorageLimit",
+                        e.target.checked
+                          ? settings.localImageStorageLimit ||
+                              defaultSettings.localImageStorageLimit
+                          : null,
+                        {
+                          shouldDirty: true,
+                        },
+                      );
+                      storageForm.trigger();
+                    }}
+                  />
+                </Group>
+                <Controller
+                  name="localImageStorageLimit"
+                  control={storageForm.control}
+                  render={({ field }) => (
+                    <NumberInput
+                      {...field}
+                      value={field.value === null ? "" : field.value / MB}
+                      onChange={(value) => field.onChange(value === "" ? 0 : value * MB)}
+                      error={storageForm.formState.errors.localImageStorageLimit?.message}
                       disabled={field.value === null}
                       size="xs"
                     />

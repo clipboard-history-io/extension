@@ -33,7 +33,7 @@ dist/
 keys.json
 
 # typescript
-.tsbuildinfo
+*.tsbuildinfo
 
 # temporary package.json
 .package.json

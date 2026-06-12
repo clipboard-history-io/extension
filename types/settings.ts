@@ -18,6 +18,9 @@ export const defaultSettings = {
   themeV2: "system",
   localItemLimit: null,
   localItemCharacterLimit: null,
+  // Both in bytes.
+  localImageSizeLimit: 5 * 1024 * 1024,
+  localImageStorageLimit: 20 * 1024 * 1024,
   displayMode: DisplayMode.Enum.Popup,
 };
 
@@ -34,6 +37,8 @@ export const Settings = z
     themeV2: z.string().default(defaultSettings.themeV2),
     localItemLimit: z.number().nullable().default(defaultSettings.localItemLimit),
     localItemCharacterLimit: z.number().nullable().default(defaultSettings.localItemCharacterLimit),
+    localImageSizeLimit: z.number().nullable().default(defaultSettings.localImageSizeLimit),
+    localImageStorageLimit: z.number().nullable().default(defaultSettings.localImageStorageLimit),
     displayMode: DisplayMode.default(defaultSettings.displayMode),
   })
   .default(defaultSettings);

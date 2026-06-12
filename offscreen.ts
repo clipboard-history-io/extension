@@ -13,6 +13,10 @@ import type {
   GetClipboardMonitorIsEnabledResponseBody,
 } from "~background/messages/getClipboardMonitorIsEnabled";
 import type {
+  GetLocalImageSizeLimitRequestBody,
+  GetLocalImageSizeLimitResponseBody,
+} from "~background/messages/getLocalImageSizeLimit";
+import type {
   GetRefreshTokenRequestBody,
   GetRefreshTokenResponseBody,
 } from "~background/messages/getRefreshToken";
@@ -35,6 +39,10 @@ watchClipboard(
       GetClipboardMonitorIsEnabledResponseBody
     >({
       name: "getClipboardMonitorIsEnabled",
+    }),
+  () =>
+    sendToBackground<GetLocalImageSizeLimitRequestBody, GetLocalImageSizeLimitResponseBody>({
+      name: "getLocalImageSizeLimit",
     }),
   async (content) => {
     await sendToBackground<CreateEntryRequestBody, CreateEntryResponseBody>({
