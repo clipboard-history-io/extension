@@ -47,6 +47,9 @@ const EntryRowRenderer = ({
         entry={entry}
         selectedEntryIds={data.selectedEntryIds}
         isKeyboardSelected={index === data.selectedEntryIndex}
+        // The footer renders the list's closing border, so the last row drawing its own
+        // divider next to it would stack into a double border.
+        withDivider={index < data.entries.length - 1}
       />
     </Box>
   );
@@ -186,15 +189,7 @@ export const EntryList = ({ entries, noEntriesOverlay }: Props) => {
       </Box>
       {(entries.length > 0 || search.length > 0) && (
         <>
-          {/* Overlap the list by 1px so this border collapses into the bottom row's divider
-              instead of stacking with it when the list is scrolled to the bottom. */}
-          <Divider
-            sx={(theme) => ({
-              borderColor: defaultBorderColor(theme),
-              marginTop: -1,
-              position: "relative",
-            })}
-          />
+          <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
           <Group align="center" spacing="md" noWrap px="sm" py={rem(4)}>
             {entries.length > 0 && (
               <>
