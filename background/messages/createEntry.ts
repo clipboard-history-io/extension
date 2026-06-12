@@ -2,6 +2,7 @@ import type { PlasmoMessaging } from "@plasmohq/messaging";
 
 import { getClipboardSnapshot, updateClipboardSnapshot } from "~storage/clipboardSnapshot";
 import { getSettings } from "~storage/settings";
+import { isImageContent } from "~utils/imageContent";
 import { createEntry } from "~utils/storage";
 
 import { handleUpdateContextMenusRequest } from "./updateContextMenus";
@@ -24,7 +25,10 @@ export const handleCreateEntryRequest = async (body: CreateEntryRequestBody) => 
         // If we allow blank items then an entry is always created regardless of what the content
         // is. If we don't, then only create an entry if the content isn't blank.
         (settings.allowBlankItems || body.content.length > 0) &&
-          (settings.localItemCharacterLimit === null ||
+          // The character limit only applies to text. Image entries are bounded by
+          // MAX_IMAGE_BLOB_BYTES at capture time and LOCAL_IMAGE_CONTENT_CHAR_BUDGET in storage.
+          (isImageContent(body.content) ||
+            settings.localItemCharacterLimit === null ||
             body.content.length <= settings.localItemCharacterLimit) &&
           createEntry(body.content, settings.storageLocation),
       ]);

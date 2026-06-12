@@ -12,6 +12,7 @@ import type { EntryIdToTags } from "~types/entryIdToTags";
 import db from "~utils/db/core";
 import { getEntryTimestamp } from "~utils/entries";
 import { entryIdToTagsToAllTags } from "~utils/entryIdToTags";
+import { isImageContent } from "~utils/imageContent";
 import { simplePathJoin } from "~utils/simplePath";
 import { getEntries } from "~utils/storage";
 
@@ -89,6 +90,9 @@ export const handleUpdateContextMenusRequest = debounce(async () => {
 
   const reversedEntries = localEntries
     .concat(cloudEntries)
+    // Image entries are excluded since context menu items paste with insertText and the data URL
+    // would make a useless menu title.
+    .filter((entry) => !isImageContent(entry.content))
     .sort((a, b) => getEntryTimestamp(b, settings) - getEntryTimestamp(a, settings));
   const favoriteEntryIdsSet = new Set([...localFavoriteEntryIds, ...cloudFavoriteEntryIds]);
   const favoriteEntries = reversedEntries.filter((entry) => favoriteEntryIdsSet.has(entry.id));

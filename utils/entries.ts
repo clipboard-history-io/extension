@@ -4,6 +4,8 @@ import type { Entry } from "~types/entry";
 import { ItemSortOption } from "~types/itemSortOption";
 import type { Settings } from "~types/settings";
 
+import { isImageContent, LOCAL_IMAGE_CONTENT_CHAR_BUDGET } from "./imageContent";
+
 export const handleEntryIds = async ({
   entryIds,
   handleLocalEntryIds,
@@ -61,6 +63,40 @@ export const applyLocalItemLimit = (
         if (acc[2] < localItemLimit) {
           acc[0].push(curr);
           acc[2] += 1;
+          return acc;
+        }
+
+        acc[1].push(curr.id);
+        return acc;
+      },
+      [[], [], 0],
+    );
+
+  return [newEntries, skippedEntryIds];
+};
+
+// Evicts the oldest non-favorited image entries once total image content exceeds the budget. All
+// entries are stored under a single storage key, so without this a handful of large screenshots
+// would make every entries read and write prohibitively expensive.
+export const applyLocalImageBudget = (
+  entries: Entry[],
+  settings: Settings,
+  favoriteEntryIds: string[],
+): [Entry[], string[]] => {
+  const favoriteEntryIdSet = new Set(favoriteEntryIds);
+
+  const [newEntries, skippedEntryIds] = entries
+    .sort((a, b) => getEntryTimestamp(a, settings) - getEntryTimestamp(b, settings))
+    .reduceRight<[Entry[], string[], number]>(
+      (acc, curr) => {
+        if (!isImageContent(curr.content) || favoriteEntryIdSet.has(curr.id)) {
+          acc[0].push(curr);
+          return acc;
+        }
+
+        if (acc[2] + curr.content.length <= LOCAL_IMAGE_CONTENT_CHAR_BUDGET) {
+          acc[0].push(curr);
+          acc[2] += curr.content.length;
           return acc;
         }
 

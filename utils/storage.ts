@@ -25,7 +25,13 @@ import { StorageLocation } from "~types/storageLocation";
 
 import { resolveCloudSettings } from "./cloudSettings";
 import db from "./db/core";
-import { applyLocalItemLimit, getEntryTimestamp, handleEntryIds } from "./entries";
+import {
+  applyLocalImageBudget,
+  applyLocalItemLimit,
+  getEntryTimestamp,
+  handleEntryIds,
+} from "./entries";
+import { isImageContent } from "./imageContent";
 
 // Do not change this without a migration.
 const ENTRIES_STORAGE_KEY = "entryIdSetentries";
@@ -77,6 +83,8 @@ export const createEntry = async (content: string, storageLocation: StorageLocat
 
   if (
     storageLocation === StorageLocation.Enum.Cloud &&
+    // Image entries are local-only for now.
+    !isImageContent(content) &&
     refreshToken !== null &&
     user !== null &&
     db._reactor.status !== "closed"
@@ -171,7 +179,17 @@ export const createEntry = async (content: string, storageLocation: StorageLocat
     entry.copiedAt = Date.now();
   }
 
-  const [newEntries, skippedEntryIds] = applyLocalItemLimit(entries, settings, favoriteEntryIds);
+  const [limitedEntries, skippedLimitEntryIds] = applyLocalItemLimit(
+    entries,
+    settings,
+    favoriteEntryIds,
+  );
+  const [newEntries, skippedBudgetEntryIds] = applyLocalImageBudget(
+    limitedEntries,
+    settings,
+    favoriteEntryIds,
+  );
+  const skippedEntryIds = skippedLimitEntryIds.concat(skippedBudgetEntryIds);
 
   await Promise.all([
     _setEntries(newEntries),

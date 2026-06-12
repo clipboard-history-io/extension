@@ -9,6 +9,7 @@ import { useEntries } from "~popup/contexts/EntriesContext";
 import { useEntryIdToTags } from "~popup/contexts/EntryIdToTagsContext";
 import { useFavoriteEntryIds } from "~popup/contexts/FavoriteEntryIdsContext";
 import { searchAtom } from "~popup/states/atoms";
+import { isImageContent } from "~utils/imageContent";
 
 export const FavoritesPage = () => {
   const reversedEntries = useEntries();
@@ -40,7 +41,9 @@ export const FavoritesPage = () => {
         (entry) =>
           favoriteEntryIdsSet.has(entry.id) &&
           (search.length === 0 ||
-            entry.content.toLowerCase().includes(search.toLowerCase()) ||
+            // Image content is base64 and would produce false matches.
+            (!isImageContent(entry.content) &&
+              entry.content.toLowerCase().includes(search.toLowerCase())) ||
             entryIdToTags[entry.id]?.some((tag) => tag.includes(search.toLowerCase()))),
       )}
     />

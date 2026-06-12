@@ -1,4 +1,14 @@
-import { Badge, Checkbox, Divider, Group, rem, Stack, Text, useMantineTheme } from "@mantine/core";
+import {
+  Badge,
+  Box,
+  Checkbox,
+  Divider,
+  Group,
+  rem,
+  Stack,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconEdit, IconKeyboard } from "@tabler/icons-react";
 import { useAtom, useAtomValue } from "jotai";
@@ -16,6 +26,12 @@ import type { Entry } from "~types/entry";
 import { StorageLocation } from "~types/storageLocation";
 import { badgeDateFormatter } from "~utils/date";
 import { getEntryTimestamp } from "~utils/entries";
+import {
+  formatImageContentSize,
+  imageContentToBlob,
+  isImageContent,
+  readImageContentFromClipboard,
+} from "~utils/imageContent";
 import { createEntry } from "~utils/storage";
 import { defaultBorderColor, lightOrDark } from "~utils/sx";
 
@@ -48,6 +64,8 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
   )?.commandName;
   const shortcut = commands.find((command) => command.name === commandName)?.shortcut;
 
+  const isImageEntry = isImageContent(entry.content);
+
   return (
     <Stack
       key={entry.id}
@@ -72,7 +90,27 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
         setClipboardSnapshot({ content: entry.content, updatedAt: 0 });
 
         await updateClipboardSnapshot(entry.content);
-        navigator.clipboard.writeText(entry.content);
+
+        if (isImageEntry) {
+          try {
+            await navigator.clipboard.write([
+              new ClipboardItem({ "image/png": imageContentToBlob(entry.content) }),
+            ]);
+
+            // The clipboard monitor will observe the browser's re-encoding of this image, which
+            // may not be byte-identical to the entry content. Sync the snapshot to what the
+            // monitor will actually read so it doesn't create a duplicate entry.
+            const canonicalContent = await readImageContentFromClipboard();
+            if (canonicalContent !== null && canonicalContent !== entry.content) {
+              await updateClipboardSnapshot(canonicalContent);
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        } else {
+          navigator.clipboard.writeText(entry.content);
+        }
+
         await createEntry(
           entry.content,
           entry.id.length === 36 ? StorageLocation.Enum.Cloud : StorageLocation.Enum.Local,
@@ -111,20 +149,34 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
             ? "Copied"
             : badgeDateFormatter(now, new Date(getEntryTimestamp(entry, settings)))}
         </Badge>
-        <Text
-          fz="xs"
-          sx={{
-            flex: "1 2 0",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis",
-            overflow: "hidden",
-            userSelect: "none",
-            minWidth: 0,
-          }}
-        >
-          {/* Don't fully render large content. */}
-          {entry.content.slice(0, 1000)}
-        </Text>
+        {isImageEntry ? (
+          <Box
+            sx={{
+              flex: "1 2 0",
+              minWidth: 0,
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <img src={entry.content} alt="" style={{ maxHeight: 24, maxWidth: "100%" }} />
+          </Box>
+        ) : (
+          <Text
+            fz="xs"
+            sx={{
+              flex: "1 2 0",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              userSelect: "none",
+              minWidth: 0,
+            }}
+          >
+            {/* Don't fully render large content. */}
+            {entry.content.slice(0, 1000)}
+          </Text>
+        )}
         <Group
           align="center"
           spacing={rem(4)}
@@ -141,22 +193,25 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
           {shortcut !== undefined && <ShortcutBadge shortcut={shortcut || "Not set"} />}
         </Group>
         <Text ff="monospace" color="dimmed" fz={10} ml="xs" sx={{ userSelect: "none" }}>
-          {entry.content.length}
+          {isImageEntry ? formatImageContentSize(entry.content) : entry.content.length}
         </Text>
         <Group align="center" spacing={0} noWrap ml={rem(4)}>
           <TagSelect entryId={entry.id} />
-          <CommonActionIcon
-            onClick={() =>
-              modals.open({
-                padding: 0,
-                size: "xl",
-                withCloseButton: false,
-                children: <ShortcutsModalContent entry={entry} />,
-              })
-            }
-          >
-            <IconKeyboard size="1rem" />
-          </CommonActionIcon>
+          {/* Shortcuts paste with insertText, which only supports text entries. */}
+          {!isImageEntry && (
+            <CommonActionIcon
+              onClick={() =>
+                modals.open({
+                  padding: 0,
+                  size: "xl",
+                  withCloseButton: false,
+                  children: <ShortcutsModalContent entry={entry} />,
+                })
+              }
+            >
+              <IconKeyboard size="1rem" />
+            </CommonActionIcon>
+          )}
           <CommonActionIcon
             onClick={() =>
               modals.open({

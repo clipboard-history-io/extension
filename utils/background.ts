@@ -3,6 +3,7 @@ import type { InstaQLEntity } from "@instantdb/core";
 import type { AppSchema } from "~instant.schema";
 
 import db from "./db/core";
+import { blobToImageContent, MAX_IMAGE_BLOB_BYTES } from "./imageContent";
 
 export const watchClipboard = (
   w: Window,
@@ -22,10 +23,24 @@ export const watchClipboard = (
         return;
       }
 
-      const curr = e.clipboardData.getData("text/plain");
+      const text = e.clipboardData.getData("text/plain");
+      // Only fall back to an image when there's no text so that mixed payloads (e.g. spreadsheet
+      // cells, which carry both text and an image render) keep their text behavior. clipboardData
+      // must be accessed synchronously, before any await.
+      const imageFile =
+        text.length === 0
+          ? Array.from(e.clipboardData.items)
+              .find((item) => item.type === "image/png")
+              ?.getAsFile()
+          : null;
 
       try {
         pushing = true;
+
+        const curr =
+          imageFile && imageFile.size <= MAX_IMAGE_BLOB_BYTES
+            ? await blobToImageContent(imageFile)
+            : text;
 
         await cb(curr);
       } catch (e) {

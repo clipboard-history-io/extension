@@ -22,6 +22,7 @@ import { handleMutation } from "~popup/utils/mutation";
 import type { Entry } from "~types/entry";
 import db from "~utils/db/react";
 import { getEntryCopiedAt } from "~utils/entries";
+import { formatImageContentSize, isImageContent } from "~utils/imageContent";
 import { updateEntryContent } from "~utils/storage";
 import { lightOrDark } from "~utils/sx";
 
@@ -39,6 +40,8 @@ interface Props {
 
 export const EditEntryModalContent = ({ entry }: Props) => {
   const theme = useMantineTheme();
+
+  const isImageEntry = isImageContent(entry.content);
 
   const {
     control,
@@ -66,15 +69,17 @@ export const EditEntryModalContent = ({ entry }: Props) => {
   return (
     <Paper p="md">
       <Group align="center" position="apart" mb="xs">
-        <Title order={5}>Edit Item</Title>
+        <Title order={5}>{isImageEntry ? "View Item" : "Edit Item"}</Title>
         <CloseButton onClick={() => modals.closeAll()} />
       </Group>
       <Grid gutter={0}>
         <Grid.Col span={4}>
           <Text size="xs" color="dimmed">
-            Character Count
+            {isImageEntry ? "Size" : "Character Count"}
           </Text>
-          <Text size="xs">{entry.content.length}</Text>
+          <Text size="xs">
+            {isImageEntry ? formatImageContentSize(entry.content) : entry.content.length}
+          </Text>
         </Grid.Col>
         <Grid.Col span={4}>
           <Text size="xs" color="dimmed">
@@ -89,68 +94,82 @@ export const EditEntryModalContent = ({ entry }: Props) => {
           <Text size="xs">{format(getEntryCopiedAt(entry), "Pp")}</Text>
         </Grid.Col>
         <Grid.Col span={12}>
-          <form
-            onSubmit={handleSubmit(async ({ content }) => {
-              const { ok } = await handleMutation(() => updateEntryContent(entry.id, content))();
-
-              if (ok) {
-                modals.closeAll();
-              } else {
-                setError("content", { type: "manual", message: "Content must be unique" });
-              }
-            })}
-          >
-            <Stack spacing="xs">
-              <Controller
-                name="content"
-                control={control}
-                render={({ field }) => (
-                  <Textarea
-                    {...field}
-                    label={
-                      <Text size="xs" color="dimmed" fw="normal">
-                        Content
-                      </Text>
-                    }
-                    autosize
-                    maxRows={16}
-                    size="xs"
-                    error={errors.content?.message}
-                  />
-                )}
+          {isImageEntry ? (
+            <Stack spacing="xs" mt="xs">
+              <img
+                src={entry.content}
+                alt=""
+                style={{ display: "block", margin: "0 auto", maxWidth: "100%", maxHeight: 400 }}
               />
-              <Group align="center" position="apart">
-                <Text
-                  size="xs"
-                  color={lightOrDark(theme, "orange", "yellow")}
-                  display="flex"
-                  align="center"
-                >
-                  {isDirty && (
-                    <>
-                      <IconAlertTriangle size="1.125rem" />
-                      <Text ml={4}>You have unsaved changes.</Text>
-                    </>
-                  )}
-                </Text>
-                <Group align="center" spacing="xs">
-                  <EntryFavoriteAction entryId={entry.id} />
-                  <EntryDeleteAction entryId={entry.id} />
-                  <Button size="xs" variant="subtle" disabled={!isDirty} onClick={() => reset()}>
-                    Reset
-                  </Button>
-                  <Button
-                    size="xs"
-                    disabled={!isDirty || !isValid}
-                    type="submit"
-                    loading={isSubmitting}
-                  >
-                    Save
-                  </Button>
-                </Group>
+              <Group align="center" position="right" spacing="xs">
+                <EntryFavoriteAction entryId={entry.id} />
+                <EntryDeleteAction entryId={entry.id} />
               </Group>
             </Stack>
-          </form>
+          ) : (
+            <form
+              onSubmit={handleSubmit(async ({ content }) => {
+                const { ok } = await handleMutation(() => updateEntryContent(entry.id, content))();
+
+                if (ok) {
+                  modals.closeAll();
+                } else {
+                  setError("content", { type: "manual", message: "Content must be unique" });
+                }
+              })}
+            >
+              <Stack spacing="xs">
+                <Controller
+                  name="content"
+                  control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      {...field}
+                      label={
+                        <Text size="xs" color="dimmed" fw="normal">
+                          Content
+                        </Text>
+                      }
+                      autosize
+                      maxRows={16}
+                      size="xs"
+                      error={errors.content?.message}
+                    />
+                  )}
+                />
+                <Group align="center" position="apart">
+                  <Text
+                    size="xs"
+                    color={lightOrDark(theme, "orange", "yellow")}
+                    display="flex"
+                    align="center"
+                  >
+                    {isDirty && (
+                      <>
+                        <IconAlertTriangle size="1.125rem" />
+                        <Text ml={4}>You have unsaved changes.</Text>
+                      </>
+                    )}
+                  </Text>
+                  <Group align="center" spacing="xs">
+                    <EntryFavoriteAction entryId={entry.id} />
+                    <EntryDeleteAction entryId={entry.id} />
+                    <Button size="xs" variant="subtle" disabled={!isDirty} onClick={() => reset()}>
+                      Reset
+                    </Button>
+                    <Button
+                      size="xs"
+                      disabled={!isDirty || !isValid}
+                      type="submit"
+                      loading={isSubmitting}
+                    >
+                      Save
+                    </Button>
+                  </Group>
+                </Group>
+              </Stack>
+            </form>
+          )}
         </Grid.Col>
       </Grid>
     </Paper>

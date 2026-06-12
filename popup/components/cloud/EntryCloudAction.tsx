@@ -11,6 +11,7 @@ import { transitioningEntryContentHashAtom } from "~popup/states/atoms";
 import { handleMutation } from "~popup/utils/mutation";
 import type { Entry } from "~types/entry";
 import db from "~utils/db/react";
+import { isImageContent } from "~utils/imageContent";
 import { toggleEntryStorageLocation } from "~utils/storage";
 
 import { CommonActionIcon } from "../CommonActionIcon";
@@ -33,7 +34,12 @@ export const EntryCloudAction = ({ entry }: Props) => {
   );
   const isCloudEntry = entry.id.length === 36;
 
-  if (!subscriptionsQuery.data?.subscriptions.length || connectionStatus === "closed") {
+  // Image entries are local-only for now.
+  if (
+    isImageContent(entry.content) ||
+    !subscriptionsQuery.data?.subscriptions.length ||
+    connectionStatus === "closed"
+  ) {
     return null;
   }
 

@@ -10,6 +10,7 @@ import { useSet } from "~popup/hooks/useSet";
 import { handleMutation } from "~popup/utils/mutation";
 import { addFavoriteEntryIds, deleteFavoriteEntryIds } from "~storage/favoriteEntryIds";
 import type { Entry } from "~types/entry";
+import { isImageContent } from "~utils/imageContent";
 import { deleteEntries } from "~utils/storage";
 import { defaultBorderColor } from "~utils/sx";
 
@@ -48,6 +49,11 @@ export const EntryList = ({ entries, noEntriesOverlay }: Props) => {
 
   const selectedEntryIds = useSet<string>();
   const entryIdsStringified = useMemo(() => JSON.stringify(entries.map(({ id }) => id)), [entries]);
+
+  // Merging joins contents with a text delimiter, which only makes sense for text entries.
+  const hasSelectedImageEntry = entries.some(
+    (entry) => selectedEntryIds.has(entry.id) && isImageContent(entry.content),
+  );
 
   useEffect(() => {
     selectedEntryIds.clear();
@@ -126,9 +132,12 @@ export const EntryList = ({ entries, noEntriesOverlay }: Props) => {
             </Tooltip>
             {/* https://github.com/clauderic/dnd-kit/issues/1043 */}
             {process.env.PLASMO_TARGET !== "firefox-mv2" && (
-              <Tooltip label={<Text fz="xs">Merge</Text>} disabled={selectedEntryIds.size < 2}>
+              <Tooltip
+                label={<Text fz="xs">Merge</Text>}
+                disabled={selectedEntryIds.size < 2 || hasSelectedImageEntry}
+              >
                 <CommonActionIcon
-                  disabled={selectedEntryIds.size < 2}
+                  disabled={selectedEntryIds.size < 2 || hasSelectedImageEntry}
                   onClick={() =>
                     modals.open({
                       padding: 0,
