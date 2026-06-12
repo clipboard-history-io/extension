@@ -186,7 +186,15 @@ export const EntryList = ({ entries, noEntriesOverlay }: Props) => {
       </Box>
       {(entries.length > 0 || search.length > 0) && (
         <>
-          <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
+          {/* Overlap the list by 1px so this border collapses into the bottom row's divider
+              instead of stacking with it when the list is scrolled to the bottom. */}
+          <Divider
+            sx={(theme) => ({
+              borderColor: defaultBorderColor(theme),
+              marginTop: -1,
+              position: "relative",
+            })}
+          />
           <Group align="center" spacing="md" noWrap px="sm" py={rem(4)}>
             {entries.length > 0 && (
               <>
