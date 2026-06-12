@@ -31,10 +31,9 @@ interface Props {
   entry: Entry;
   selectedEntryIds: Set<string>;
   isKeyboardSelected: boolean;
-  withDivider: boolean;
 }
 
-export const EntryRow = ({ entry, selectedEntryIds, isKeyboardSelected, withDivider }: Props) => {
+export const EntryRow = ({ entry, selectedEntryIds, isKeyboardSelected }: Props) => {
   const theme = useMantineTheme();
   const now = useNow();
   const settings = useAtomValue(settingsAtom);
@@ -170,7 +169,7 @@ export const EntryRow = ({ entry, selectedEntryIds, isKeyboardSelected, withDivi
           <EntryDeleteAction entryId={entry.id} />
         </Group>
       </Group>
-      {withDivider && <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />}
+      <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
     </Stack>
   );
 };
