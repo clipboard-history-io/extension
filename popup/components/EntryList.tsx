@@ -189,7 +189,7 @@ export const EntryList = ({ entries, noEntriesOverlay }: Props) => {
           <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
           {/* The extra padding offsets the list viewport so its overflow cut lands mid-row
               instead of on a row divider, which would stack against the divider above. */}
-          <Group align="center" spacing="md" noWrap px="sm" py={rem(8)}>
+          <Group align="center" spacing="md" noWrap px="sm" py={rem(6)}>
             {entries.length > 0 && (
               <>
                 <KeyboardHint keys={["↑", "↓"]} label="Navigate" />
