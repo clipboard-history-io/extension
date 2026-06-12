@@ -19,7 +19,10 @@ export const handleCreateEntryRequest = async (body: CreateEntryRequestBody) => 
   const [clipboardSnapshot, settings] = await Promise.all([getClipboardSnapshot(), getSettings()]);
 
   if (clipboardSnapshot === undefined || body.timestamp > clipboardSnapshot.updatedAt) {
-    if (body.content !== clipboardSnapshot?.content) {
+    if (
+      body.content !== clipboardSnapshot?.content &&
+      body.content !== clipboardSnapshot?.canonicalContent
+    ) {
       await Promise.all([
         updateClipboardSnapshot(body.content),
         // If we allow blank items then an entry is always created regardless of what the content

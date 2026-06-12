@@ -21,5 +21,5 @@ export const getClipboardSnapshot = async () => storage.get<ClipboardSnapshot>("
 export const setClipboardSnapshot = async (clipboardSnapshot: ClipboardSnapshot) =>
   await storage.set("clipboardSnapshot", clipboardSnapshot);
 
-export const updateClipboardSnapshot = async (content: string) =>
-  await setClipboardSnapshot({ content, updatedAt: Date.now() });
+export const updateClipboardSnapshot = async (content: string, canonicalContent?: string) =>
+  await setClipboardSnapshot({ content, canonicalContent, updatedAt: Date.now() });

@@ -98,11 +98,12 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
             ]);
 
             // The clipboard monitor will observe the browser's re-encoding of this image, which
-            // may not be byte-identical to the entry content. Sync the snapshot to what the
-            // monitor will actually read so it doesn't create a duplicate entry.
+            // may not be byte-identical to the entry content. Record it on the snapshot so the
+            // monitor doesn't create a duplicate entry, while content keeps driving the copied
+            // indicator.
             const canonicalContent = await readImageContentFromClipboard();
             if (canonicalContent !== null && canonicalContent !== entry.content) {
-              await updateClipboardSnapshot(canonicalContent);
+              await updateClipboardSnapshot(entry.content, canonicalContent);
             }
           } catch (e) {
             console.log(e);
