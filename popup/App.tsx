@@ -56,6 +56,7 @@ import { useApp } from "./hooks/useApp";
 import { useCloudEntriesQuery } from "./hooks/useCloudEntriesQuery";
 import { useCloudFavoritedEntriesQuery } from "./hooks/useCloudFavoritedEntriesQuery";
 import { useCloudTaggedEntriesQuery } from "./hooks/useCloudTaggedEntriesQuery";
+import { SEARCH_INPUT_ID } from "./hooks/useEntryListNavigation";
 import { useSettingsQuery } from "./hooks/useSettingsQuery";
 import { useSubscriptionsQuery } from "./hooks/useSubscriptionsQuery";
 import { AllPage } from "./pages/AllPage";
@@ -291,6 +292,7 @@ export const App = () => {
         <Group align="center" position="apart">
           <TextInput
             ref={inputRef}
+            id={SEARCH_INPUT_ID}
             placeholder="Search items or tags"
             icon={<IconSearch size="1rem" />}
             size="xs"
