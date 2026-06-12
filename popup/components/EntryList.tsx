@@ -1,12 +1,15 @@
-import { Box, Checkbox, Divider, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
+import { Box, Checkbox, Divider, Group, rem, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconFold, IconStar, IconTrash } from "@tabler/icons-react";
+import { useAtomValue } from "jotai";
 import { useEffect, useMemo, type CSSProperties, type ReactNode } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 
 import { useFavoriteEntryIds } from "~popup/contexts/FavoriteEntryIdsContext";
+import { useEntryListNavigation } from "~popup/hooks/useEntryListNavigation";
 import { useSet } from "~popup/hooks/useSet";
+import { searchAtom } from "~popup/states/atoms";
 import { handleMutation } from "~popup/utils/mutation";
 import { addFavoriteEntryIds, deleteFavoriteEntryIds } from "~storage/favoriteEntryIds";
 import type { Entry } from "~types/entry";
@@ -15,6 +18,7 @@ import { defaultBorderColor } from "~utils/sx";
 
 import { CommonActionIcon } from "./CommonActionIcon";
 import { EntryRow } from "./EntryRow";
+import { KeyboardHint } from "./KeyboardHint";
 import { MergeModalContent } from "./modals/MergeModalContent";
 
 interface Props {
@@ -30,6 +34,7 @@ const EntryRowRenderer = ({
   data: {
     entries: Entry[];
     selectedEntryIds: Set<string>;
+    selectedEntryIndex: number;
   };
   index: number;
   style: CSSProperties;
@@ -38,13 +43,19 @@ const EntryRowRenderer = ({
 
   return (
     <Box style={style}>
-      <EntryRow entry={entry} selectedEntryIds={data.selectedEntryIds} />
+      <EntryRow
+        entry={entry}
+        selectedEntryIds={data.selectedEntryIds}
+        isKeyboardSelected={index === data.selectedEntryIndex}
+      />
     </Box>
   );
 };
 
 export const EntryList = ({ entries, noEntriesOverlay }: Props) => {
   const favoriteEntryIdsSet = useFavoriteEntryIds();
+  const search = useAtomValue(searchAtom);
+  const { listRef, selectedEntryIndex } = useEntryListNavigation(entries);
 
   const selectedEntryIds = useSet<string>();
   const entryIdsStringified = useMemo(() => JSON.stringify(entries.map(({ id }) => id)), [entries]);
@@ -160,9 +171,10 @@ export const EntryList = ({ entries, noEntriesOverlay }: Props) => {
           <AutoSizer>
             {({ height, width }) => (
               <FixedSizeList
+                ref={listRef}
                 height={height}
                 width={width}
-                itemData={{ entries, selectedEntryIds }}
+                itemData={{ entries, selectedEntryIds, selectedEntryIndex }}
                 itemCount={entries.length}
                 itemSize={33}
               >
@@ -172,6 +184,22 @@ export const EntryList = ({ entries, noEntriesOverlay }: Props) => {
           </AutoSizer>
         )}
       </Box>
+      {(entries.length > 0 || search.length > 0) && (
+        <>
+          <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
+          {/* The extra padding offsets the list viewport so its overflow cut lands mid-row
+              instead of on a row divider, which would stack against the divider above. */}
+          <Group align="center" spacing="md" noWrap px="sm" py={rem(8)}>
+            {entries.length > 0 && (
+              <>
+                <KeyboardHint keys={["↑", "↓"]} label="Navigate" />
+                <KeyboardHint keys={["↵"]} label="Copy" />
+              </>
+            )}
+            {search.length > 0 && <KeyboardHint keys={["Esc"]} label="Clear search" />}
+          </Group>
+        </>
+      )}
     </Stack>
   );
 };

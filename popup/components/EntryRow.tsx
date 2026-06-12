@@ -1,9 +1,10 @@
 import { Badge, Checkbox, Divider, Group, rem, Stack, Text, useMantineTheme } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconEdit, IconKeyboard } from "@tabler/icons-react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 
 import { useEntryIdToTags } from "~popup/contexts/EntryIdToTagsContext";
+import { useCopyEntry } from "~popup/hooks/useCopyEntry";
 import { useNow } from "~popup/hooks/useNow";
 import {
   clipboardSnapshotAtom,
@@ -11,12 +12,9 @@ import {
   entryCommandsAtom,
   settingsAtom,
 } from "~popup/states/atoms";
-import { updateClipboardSnapshot } from "~storage/clipboardSnapshot";
 import type { Entry } from "~types/entry";
-import { StorageLocation } from "~types/storageLocation";
 import { badgeDateFormatter } from "~utils/date";
 import { getEntryTimestamp } from "~utils/entries";
-import { createEntry } from "~utils/storage";
 import { defaultBorderColor, lightOrDark } from "~utils/sx";
 
 import { EntryCloudAction } from "./cloud/EntryCloudAction";
@@ -32,16 +30,18 @@ import { TagSelect } from "./TagSelect";
 interface Props {
   entry: Entry;
   selectedEntryIds: Set<string>;
+  isKeyboardSelected: boolean;
 }
 
-export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
+export const EntryRow = ({ entry, selectedEntryIds, isKeyboardSelected }: Props) => {
   const theme = useMantineTheme();
   const now = useNow();
   const settings = useAtomValue(settingsAtom);
   const entryIdToTags = useEntryIdToTags();
   const entryCommands = useAtomValue(entryCommandsAtom);
   const commands = useAtomValue(commandsAtom);
-  const [clipboardSnapshot, setClipboardSnapshot] = useAtom(clipboardSnapshotAtom);
+  const clipboardSnapshot = useAtomValue(clipboardSnapshotAtom);
+  const copyEntry = useCopyEntry();
 
   const commandName = entryCommands.find(
     (entryCommand) => entryCommand.entryId === entry.id,
@@ -55,6 +55,11 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
       sx={(theme) => ({
         backgroundColor: selectedEntryIds.has(entry.id)
           ? lightOrDark(theme, theme.colors.indigo[0], theme.fn.darken(theme.colors.indigo[9], 0.5))
+          : isKeyboardSelected
+            ? lightOrDark(theme, theme.colors.gray[0], theme.colors.dark[5])
+            : undefined,
+        boxShadow: isKeyboardSelected
+          ? `inset ${rem(3)} 0 0 0 ${lightOrDark(theme, theme.colors.indigo[5], theme.colors.indigo[4])}`
           : undefined,
         cursor: "pointer",
         ":hover": {
@@ -67,17 +72,7 @@ export const EntryRow = ({ entry, selectedEntryIds }: Props) => {
             : lightOrDark(theme, theme.colors.gray[0], theme.colors.dark[5]),
         },
       })}
-      onClick={async () => {
-        // Optimistically update local state with arbitrary updatedAt.
-        setClipboardSnapshot({ content: entry.content, updatedAt: 0 });
-
-        await updateClipboardSnapshot(entry.content);
-        navigator.clipboard.writeText(entry.content);
-        await createEntry(
-          entry.content,
-          entry.id.length === 36 ? StorageLocation.Enum.Cloud : StorageLocation.Enum.Local,
-        );
-      }}
+      onClick={() => copyEntry(entry)}
     >
       <Group align="center" spacing={0} noWrap px="sm" h={32}>
         <Checkbox
