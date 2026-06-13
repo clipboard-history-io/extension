@@ -36,8 +36,14 @@ export const readImageContentFromClipboard = async () => {
   return await blobToImageContent(await clipboardItem.getType("image/png"));
 };
 
+// The decoded byte size of an image entry, estimated from its base64 data URL length (base64
+// encodes 3 bytes per 4 characters). Used for both the storage budget and the displayed size so
+// they agree.
+export const imageContentByteSize = (content: string) =>
+  ((content.length - IMAGE_CONTENT_PREFIX.length) * 3) / 4;
+
 export const formatImageContentSize = (content: string) => {
-  const bytes = ((content.length - IMAGE_CONTENT_PREFIX.length) * 3) / 4;
+  const bytes = imageContentByteSize(content);
 
   return bytes < 1024 * 1024
     ? `${Math.round(bytes / 1024)} KB`

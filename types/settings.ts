@@ -18,8 +18,8 @@ export const defaultSettings = {
   themeV2: "system",
   localItemLimit: null,
   localItemCharacterLimit: null,
-  // Both in bytes.
-  localImageSizeLimit: 5 * 1024 * 1024,
+  // Total decoded bytes of non-favorited images. Also caps individual image size: an image larger
+  // than the whole budget can never be stored, so it's ignored at capture time.
   localImageStorageLimit: 20 * 1024 * 1024,
   displayMode: DisplayMode.Enum.Popup,
 };
@@ -37,7 +37,6 @@ export const Settings = z
     themeV2: z.string().default(defaultSettings.themeV2),
     localItemLimit: z.number().nullable().default(defaultSettings.localItemLimit),
     localItemCharacterLimit: z.number().nullable().default(defaultSettings.localItemCharacterLimit),
-    localImageSizeLimit: z.number().nullable().default(defaultSettings.localImageSizeLimit),
     localImageStorageLimit: z.number().nullable().default(defaultSettings.localImageStorageLimit),
     displayMode: DisplayMode.default(defaultSettings.displayMode),
   })

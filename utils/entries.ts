@@ -4,7 +4,7 @@ import type { Entry } from "~types/entry";
 import { ItemSortOption } from "~types/itemSortOption";
 import type { Settings } from "~types/settings";
 
-import { isImageContent } from "./imageContent";
+import { imageContentByteSize, isImageContent } from "./imageContent";
 
 export const handleEntryIds = async ({
   entryIds,
@@ -80,7 +80,8 @@ export const applyLocalItemLimit = (
 // every entries read and write prohibitively expensive. Data URL length approximates stored bytes,
 // so the limit is compared against content length directly. Mirrors applyLocalItemLimit's
 // strict-recency eviction: once an image overflows the remaining budget, it and every older image
-// are evicted, even if a smaller older image would have fit.
+// are evicted, even if a smaller older image would have fit. Sizes are decoded bytes, matching the
+// capture-time limit and the displayed size.
 export const applyLocalImageBudget = (
   entries: Entry[],
   settings: Settings,
@@ -105,17 +106,19 @@ export const applyLocalImageBudget = (
           return acc;
         }
 
+        const byteSize = imageContentByteSize(curr.content);
+
         // An image larger than the entire budget can never be kept. Evict it on its own without
         // marking the budget full, so it doesn't drag down older images that would fit with it
-        // gone. Only reachable when the per-image size limit exceeds the storage limit.
-        if (curr.content.length > localImageStorageLimit) {
+        // gone. Capture ignores such images, so this is only reachable via import.
+        if (byteSize > localImageStorageLimit) {
           acc[1].push(curr.id);
           return acc;
         }
 
-        if (!acc[3] && acc[2] + curr.content.length <= localImageStorageLimit) {
+        if (!acc[3] && acc[2] + byteSize <= localImageStorageLimit) {
           acc[0].push(curr);
-          acc[2] += curr.content.length;
+          acc[2] += byteSize;
           return acc;
         }
 

@@ -9,7 +9,7 @@ export const watchClipboard = (
   w: Window,
   d: Document,
   getClipboardMonitorIsEnabled: () => Promise<boolean>,
-  getLocalImageSizeLimit: () => Promise<number | null>,
+  getLocalImageStorageLimit: () => Promise<number | null>,
   cb: (content: string) => Promise<void>,
 ) => {
   let pushing = false;
@@ -38,10 +38,13 @@ export const watchClipboard = (
       try {
         pushing = true;
 
-        const localImageSizeLimit = imageFile ? await getLocalImageSizeLimit() : null;
+        // An image larger than the whole storage budget can never be stored, so skip the expensive
+        // base64 encode and capture the text fallback instead. imageFile.size is decoded bytes,
+        // matching the budget's unit.
+        const localImageStorageLimit = imageFile ? await getLocalImageStorageLimit() : null;
 
         const curr =
-          imageFile && (localImageSizeLimit === null || imageFile.size <= localImageSizeLimit)
+          imageFile && (localImageStorageLimit === null || imageFile.size <= localImageStorageLimit)
             ? await blobToImageContent(imageFile)
             : text;
 

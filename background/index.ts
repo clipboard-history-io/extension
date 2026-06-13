@@ -26,7 +26,7 @@ if (process.env.PLASMO_TARGET === "firefox-mv2") {
     window,
     document,
     getClipboardMonitorIsEnabled,
-    async () => (await getSettings()).localImageSizeLimit,
+    async () => (await getSettings()).localImageStorageLimit,
     (content) =>
       handleCreateEntryRequest({
         content,

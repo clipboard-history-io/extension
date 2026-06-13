@@ -71,7 +71,6 @@ import { defaultBorderColor, lightOrDark } from "~utils/sx";
 const storageSchema = z.object({
   localItemLimit: z.number().min(1).nullable(),
   localItemCharacterLimit: z.number().min(1).nullable(),
-  localImageSizeLimit: z.number().min(1).nullable(),
   localImageStorageLimit: z.number().min(1).nullable(),
 });
 type StorageFormValues = z.infer<typeof storageSchema>;
@@ -101,7 +100,6 @@ export const SettingsModalContent = () => {
     defaultValues: {
       localItemLimit: settings.localItemLimit,
       localItemCharacterLimit: settings.localItemCharacterLimit,
-      localImageSizeLimit: settings.localImageSizeLimit,
       localImageStorageLimit: settings.localImageStorageLimit,
     },
     mode: "all",
@@ -520,51 +518,11 @@ export const SettingsModalContent = () => {
               <Stack spacing="xs">
                 <Group align="flex-start" position="apart" noWrap>
                   <Stack spacing={0}>
-                    <Title order={6}>Image Size Limit (MB)</Title>
-                    <Text fz="xs">
-                      Set the maximum size an image may have before it's ignored by the clipboard
-                      monitor and not added to the clipboard history.
-                    </Text>
-                  </Stack>
-                  <Switch
-                    checked={storageForm.watch("localImageSizeLimit") !== null}
-                    onChange={(e) => {
-                      storageForm.setValue(
-                        "localImageSizeLimit",
-                        e.target.checked
-                          ? settings.localImageSizeLimit || defaultSettings.localImageSizeLimit
-                          : null,
-                        {
-                          shouldDirty: true,
-                        },
-                      );
-                      storageForm.trigger();
-                    }}
-                  />
-                </Group>
-                <Controller
-                  name="localImageSizeLimit"
-                  control={storageForm.control}
-                  render={({ field }) => (
-                    <NumberInput
-                      {...field}
-                      value={field.value === null ? "" : field.value / MB}
-                      onChange={(value) => field.onChange(value === "" ? 0 : value * MB)}
-                      error={storageForm.formState.errors.localImageSizeLimit?.message}
-                      disabled={field.value === null}
-                      size="xs"
-                    />
-                  )}
-                />
-              </Stack>
-              <Divider sx={(theme) => ({ borderColor: defaultBorderColor(theme) })} />
-              <Stack spacing="xs">
-                <Group align="flex-start" position="apart" noWrap>
-                  <Stack spacing={0}>
                     <Title order={6}>Image Storage Limit (MB)</Title>
                     <Text fz="xs">
                       Set the maximum total storage used by non-favorited images. The oldest images
-                      are deleted once the limit is exceeded.
+                      are deleted once the limit is exceeded, and an image larger than the limit
+                      isn't saved.
                     </Text>
                   </Stack>
                   <Switch

@@ -28,8 +28,8 @@ export const handleCreateEntryRequest = async (body: CreateEntryRequestBody) => 
         // If we allow blank items then an entry is always created regardless of what the content
         // is. If we don't, then only create an entry if the content isn't blank.
         (settings.allowBlankItems || body.content.length > 0) &&
-          // The character limit only applies to text. Image entries are bounded by the image size
-          // limit at capture time and the image storage limit in storage.
+          // The character limit only applies to text. Image entries are bounded by the image
+          // storage limit, enforced at capture time and during eviction.
           (isImageContent(body.content) ||
             settings.localItemCharacterLimit === null ||
             body.content.length <= settings.localItemCharacterLimit) &&
