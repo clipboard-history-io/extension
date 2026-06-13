@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Pakeitimų žurnalas" },
-  "commonSupportDevelopment": { "message": "Paramos kūrimas" },
+  "commonChangelog": { "message": "Pakeitimų sąrašas" },
+  "commonSupportDevelopment": { "message": "Parama plėtrai" },
   "commonHelpAndFeedback": { "message": "Pagalba ir atsiliepimai" },
   "commonFloatingMode": { "message": "Plaukiojantis režimas" },
+  "commonStorageUsage": { "message": "Atminties naudojimas" },
   "commonSettings": { "message": "Nustatymai" },
-  "commonProfile": { "message": "Profilis" }
+  "commonProfile": { "message": "Profilis" },
+  "commonManageSubscription": { "message": "Prenumeratos valdymas" },
+  "commonSignOut": { "message": "Atsijungti" },
+  "commonOpenWebApp": { "message": "Atidaryti internetinę programą" },
+  "commonAll": { "message": "Visi" },
+  "commonFavorites": { "message": "Mėgstamiausi" },
+  "commonCloud": { "message": "Debesis" }
 }

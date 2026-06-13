@@ -3,6 +3,13 @@
   "commonSupportDevelopment": { "message": "Desarrollo de soporte" },
   "commonHelpAndFeedback": { "message": "Ayuda y comentarios" },
   "commonFloatingMode": { "message": "Modo flotante" },
+  "commonStorageUsage": { "message": "Uso del almacenamiento" },
   "commonSettings": { "message": "Configuración" },
-  "commonProfile": { "message": "Perfil" }
+  "commonProfile": { "message": "Perfil" },
+  "commonManageSubscription": { "message": "Gestionar suscripción" },
+  "commonSignOut": { "message": "Cerrar sesión" },
+  "commonOpenWebApp": { "message": "Abrir aplicación web" },
+  "commonAll": { "message": "Todo" },
+  "commonFavorites": { "message": "Favoritos" },
+  "commonCloud": { "message": "Nube" }
 }

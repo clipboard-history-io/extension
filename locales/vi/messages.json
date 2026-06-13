@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "Nhật ký thay đổi" },
+  "commonSupportDevelopment": { "message": "Hỗ trợ phát triển" },
+  "commonHelpAndFeedback": { "message": "Trợ giúp & Phản hồi" },
+  "commonFloatingMode": { "message": "Chế độ nổi" },
+  "commonStorageUsage": { "message": "Sử dụng bộ nhớ" },
+  "commonSettings": { "message": "Cài đặt" },
+  "commonProfile": { "message": "Hồ sơ" },
+  "commonManageSubscription": { "message": "Quản lý đăng ký" },
+  "commonSignOut": { "message": "Đăng xuất" },
+  "commonOpenWebApp": { "message": "Mở Ứng dụng Web" },
+  "commonAll": { "message": "Tất cả" },
+  "commonFavorites": { "message": "Yêu thích" },
+  "commonCloud": { "message": "Đám mây" }
+}

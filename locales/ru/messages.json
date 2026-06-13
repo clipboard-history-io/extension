@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Changelog" },
+  "commonChangelog": { "message": "Журнал изменений" },
   "commonSupportDevelopment": { "message": "Поддержка разработки" },
-  "commonHelpAndFeedback": { "message": "Помощь и отзывы" },
+  "commonHelpAndFeedback": { "message": "Справка и отзывы" },
   "commonFloatingMode": { "message": "Плавающий режим" },
+  "commonStorageUsage": { "message": "Использование памяти" },
   "commonSettings": { "message": "Настройки" },
-  "commonProfile": { "message": "Профиль" }
+  "commonProfile": { "message": "Профиль" },
+  "commonManageSubscription": { "message": "Управление подпиской" },
+  "commonSignOut": { "message": "Выйти" },
+  "commonOpenWebApp": { "message": "Открыть веб-приложение" },
+  "commonAll": { "message": "Все" },
+  "commonFavorites": { "message": "Избранное" },
+  "commonCloud": { "message": "Облако" }
 }

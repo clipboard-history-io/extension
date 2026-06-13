@@ -1,8 +1,15 @@
 {
   "commonChangelog": { "message": "変更履歴" },
-  "commonSupportDevelopment": { "message": "サポート開発" },
-  "commonHelpAndFeedback": { "message": "ヘルプ＆フィードバック" },
+  "commonSupportDevelopment": { "message": "開発支援" },
+  "commonHelpAndFeedback": { "message": "ヘルプとフィードバック" },
   "commonFloatingMode": { "message": "フローティングモード" },
+  "commonStorageUsage": { "message": "ストレージ使用量" },
   "commonSettings": { "message": "設定" },
-  "commonProfile": { "message": "プロフィール" }
+  "commonProfile": { "message": "プロフィール" },
+  "commonManageSubscription": { "message": "サブスクリプションの管理" },
+  "commonSignOut": { "message": "サインアウト" },
+  "commonOpenWebApp": { "message": "Webアプリを開く" },
+  "commonAll": { "message": "すべて" },
+  "commonFavorites": { "message": "お気に入り" },
+  "commonCloud": { "message": "クラウド" }
 }

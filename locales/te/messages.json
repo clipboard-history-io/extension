@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "మార్పుల జాబితా" },
+  "commonSupportDevelopment": { "message": "అభివృద్ధికి మద్దతు" },
+  "commonHelpAndFeedback": { "message": "సహాయం & అభిప్రాయం" },
+  "commonFloatingMode": { "message": "ఫ్లోటింగ్ మోడ్" },
+  "commonStorageUsage": { "message": "నిల్వ వినియోగం" },
+  "commonSettings": { "message": "సెట్టింగ్‌లు" },
+  "commonProfile": { "message": "ప్రొఫైల్" },
+  "commonManageSubscription": { "message": "చందాను నిర్వహించండి" },
+  "commonSignOut": { "message": "సైన్ అవుట్" },
+  "commonOpenWebApp": { "message": "వెబ్ యాప్‌ను తెరవండి" },
+  "commonAll": { "message": "అన్నీ" },
+  "commonFavorites": { "message": "ఇష్టమైనవి" },
+  "commonCloud": { "message": "క్లౌడ్" }
+}

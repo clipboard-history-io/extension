@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "बदल इतिहास" },
+  "commonSupportDevelopment": { "message": "विकास समर्थन" },
+  "commonHelpAndFeedback": { "message": "मदत आणि अभिप्राय" },
+  "commonFloatingMode": { "message": "फ्लोटिंग मोड" },
+  "commonStorageUsage": { "message": "साठवण वापर" },
+  "commonSettings": { "message": "सेटिंग्ज" },
+  "commonProfile": { "message": "प्रोफाइल" },
+  "commonManageSubscription": { "message": "सदस्यता व्यवस्थापित करा" },
+  "commonSignOut": { "message": "लॉगआउट करा" },
+  "commonOpenWebApp": { "message": "वेब अॅप उघडा" },
+  "commonAll": { "message": "सर्व" },
+  "commonFavorites": { "message": "पसंदीदा" },
+  "commonCloud": { "message": "क्लाउड" }
+}

@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Değişiklik Günlüğü" },
-  "commonSupportDevelopment": { "message": "Destek Geliştirme" },
+  "commonChangelog": { "message": "Değişiklik günlüğü" },
+  "commonSupportDevelopment": { "message": "Geliştirme Desteği" },
   "commonHelpAndFeedback": { "message": "Yardım ve Geri Bildirim" },
-  "commonFloatingMode": { "message": "Kayan Mod" },
+  "commonFloatingMode": { "message": "Yüzen Mod" },
+  "commonStorageUsage": { "message": "Depolama Alanı Kullanımı" },
   "commonSettings": { "message": "Ayarlar" },
-  "commonProfile": { "message": "Profil" }
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Aboneliği Yönet" },
+  "commonSignOut": { "message": "Oturumu Kapat" },
+  "commonOpenWebApp": { "message": "Web Uygulamasını Aç" },
+  "commonAll": { "message": "Tümü" },
+  "commonFavorites": { "message": "Favoriler" },
+  "commonCloud": { "message": "Bulut" }
 }

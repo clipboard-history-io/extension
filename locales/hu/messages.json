@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Changelog" },
-  "commonSupportDevelopment": { "message": "Támogatás fejlesztése" },
+  "commonChangelog": { "message": "Változásnapló" },
+  "commonSupportDevelopment": { "message": "Fejlesztés támogatása" },
   "commonHelpAndFeedback": { "message": "Súgó és visszajelzés" },
   "commonFloatingMode": { "message": "Lebegő mód" },
+  "commonStorageUsage": { "message": "Tárolóhely-használat" },
   "commonSettings": { "message": "Beállítások" },
-  "commonProfile": { "message": "Profil" }
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Előfizetés kezelése" },
+  "commonSignOut": { "message": "Kijelentkezés" },
+  "commonOpenWebApp": { "message": "Webalkalmazás megnyitása" },
+  "commonAll": { "message": "Minden" },
+  "commonFavorites": { "message": "Kedvencek" },
+  "commonCloud": { "message": "Felhő" }
 }

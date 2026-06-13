@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "บันทึกการเปลี่ยนแปลง" },
+  "commonSupportDevelopment": { "message": "สนับสนุนการพัฒนา" },
+  "commonHelpAndFeedback": { "message": "ความช่วยเหลือและข้อเสนอแนะ" },
+  "commonFloatingMode": { "message": "โหมดลอย" },
+  "commonStorageUsage": { "message": "การใช้งานพื้นที่จัดเก็บ" },
+  "commonSettings": { "message": "การตั้งค่า" },
+  "commonProfile": { "message": "โปรไฟล์" },
+  "commonManageSubscription": { "message": "จัดการการสมัครสมาชิก" },
+  "commonSignOut": { "message": "ลงชื่อออก" },
+  "commonOpenWebApp": { "message": "แอปเว็บแบบเปิด" },
+  "commonAll": { "message": "ทั้งหมด" },
+  "commonFavorites": { "message": "รายการโปรด" },
+  "commonCloud": { "message": "คลาวด์" }
+}

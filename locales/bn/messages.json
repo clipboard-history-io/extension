@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "পরিবর্তনলগ" },
+  "commonSupportDevelopment": { "message": "উন্নয়ন সমর্থন করুন" },
+  "commonHelpAndFeedback": { "message": "সহায়তা ও প্রতিক্রিয়া" },
+  "commonFloatingMode": { "message": "ফ্লোটিং মোড" },
+  "commonStorageUsage": { "message": "স্টোরেজ ব্যবহার" },
+  "commonSettings": { "message": "সেটিংস" },
+  "commonProfile": { "message": "প্রোফাইল" },
+  "commonManageSubscription": { "message": "সাবস্ক্রিপশন পরিচালনা করুন" },
+  "commonSignOut": { "message": "সাইন আউট" },
+  "commonOpenWebApp": { "message": "ওয়েব অ্যাপ খুলুন" },
+  "commonAll": { "message": "সমস্ত" },
+  "commonFavorites": { "message": "প্রিয়" },
+  "commonCloud": { "message": "ক্লাউড" }
+}

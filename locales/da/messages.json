@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Changelog" },
-  "commonSupportDevelopment": { "message": "Støtte til udvikling" },
+  "commonChangelog": { "message": "Ændringslog" },
+  "commonSupportDevelopment": { "message": "Støt udviklingen" },
   "commonHelpAndFeedback": { "message": "Hjælp og feedback" },
   "commonFloatingMode": { "message": "Flydende tilstand" },
+  "commonStorageUsage": { "message": "Lagerpladsforbrug" },
   "commonSettings": { "message": "Indstillinger" },
-  "commonProfile": { "message": "Profil" }
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Administrer abonnement" },
+  "commonSignOut": { "message": "Log ud" },
+  "commonOpenWebApp": { "message": "Åbn webapp" },
+  "commonAll": { "message": "Alle" },
+  "commonFavorites": { "message": "Favoritter" },
+  "commonCloud": { "message": "Cloud" }
 }

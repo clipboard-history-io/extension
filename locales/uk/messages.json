@@ -1,8 +1,15 @@
 {
   "commonChangelog": { "message": "Журнал змін" },
-  "commonSupportDevelopment": { "message": "Підтримати розробку" },
+  "commonSupportDevelopment": { "message": "Підтримка розробки" },
   "commonHelpAndFeedback": { "message": "Допомога та відгуки" },
   "commonFloatingMode": { "message": "Плаваючий режим" },
+  "commonStorageUsage": { "message": "Використання пам'яті" },
   "commonSettings": { "message": "Налаштування" },
-  "commonProfile": { "message": "Профіль" }
+  "commonProfile": { "message": "Профіль" },
+  "commonManageSubscription": { "message": "Керувати передплатою" },
+  "commonSignOut": { "message": "Вийти" },
+  "commonOpenWebApp": { "message": "Відкрити веб-додаток" },
+  "commonAll": { "message": "Усі" },
+  "commonFavorites": { "message": "Вибране" },
+  "commonCloud": { "message": "Хмара" }
 }

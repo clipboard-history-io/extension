@@ -1,8 +1,15 @@
 {
   "commonChangelog": { "message": "Seznam změn" },
-  "commonSupportDevelopment": { "message": "Vývoj podpory" },
+  "commonSupportDevelopment": { "message": "Podpora vývoje" },
   "commonHelpAndFeedback": { "message": "Nápověda a zpětná vazba" },
   "commonFloatingMode": { "message": "Plovoucí režim" },
+  "commonStorageUsage": { "message": "Využití úložiště" },
   "commonSettings": { "message": "Nastavení" },
-  "commonProfile": { "message": "Profil" }
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Spravovat předplatné" },
+  "commonSignOut": { "message": "Odhlásit se" },
+  "commonOpenWebApp": { "message": "Otevřít webovou aplikaci" },
+  "commonAll": { "message": "Vše" },
+  "commonFavorites": { "message": "Oblíbené" },
+  "commonCloud": { "message": "Cloud" }
 }

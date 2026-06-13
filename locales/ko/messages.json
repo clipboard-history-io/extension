@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "변경 로그" },
+  "commonChangelog": { "message": "변경 내역" },
   "commonSupportDevelopment": { "message": "개발 지원" },
   "commonHelpAndFeedback": { "message": "도움말 및 피드백" },
   "commonFloatingMode": { "message": "플로팅 모드" },
+  "commonStorageUsage": { "message": "저장 공간 사용량" },
   "commonSettings": { "message": "설정" },
-  "commonProfile": { "message": "프로필" }
+  "commonProfile": { "message": "프로필" },
+  "commonManageSubscription": { "message": "구독 관리" },
+  "commonSignOut": { "message": "로그아웃" },
+  "commonOpenWebApp": { "message": "웹 앱 열기" },
+  "commonAll": { "message": "전체" },
+  "commonFavorites": { "message": "즐겨찾기" },
+  "commonCloud": { "message": "클라우드" }
 }

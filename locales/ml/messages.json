@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "മാറ്റങ്ങളുടെ പട്ടിക" },
+  "commonSupportDevelopment": { "message": "വികസനത്തെ പിന്തുണയ്ക്കുക" },
+  "commonHelpAndFeedback": { "message": "സഹായവും ഫീഡ്‌ബാക്കും" },
+  "commonFloatingMode": { "message": "ഫ്ലോട്ടിംഗ് മോഡ്" },
+  "commonStorageUsage": { "message": "സംഭരണ ഉപയോഗം" },
+  "commonSettings": { "message": "ക്രമീകരണങ്ങൾ" },
+  "commonProfile": { "message": "പ്രൊഫൈൽ" },
+  "commonManageSubscription": { "message": "സബ്സ്ക്രിപ്ഷൻ നിയന്ത്രിക്കുക" },
+  "commonSignOut": { "message": "സൈൻ ഔട്ട്" },
+  "commonOpenWebApp": { "message": "വെബ് ആപ്പ് തുറക്കുക" },
+  "commonAll": { "message": "എല്ലാം" },
+  "commonFavorites": { "message": "ഇഷ്ടപ്പെട്ടവ" },
+  "commonCloud": { "message": "ക്ലൗഡ്" }
+}

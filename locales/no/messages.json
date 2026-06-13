@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "Endringslogg" },
+  "commonSupportDevelopment": { "message": "Støtt utviklingen" },
+  "commonHelpAndFeedback": { "message": "Hjelp og tilbakemelding" },
+  "commonFloatingMode": { "message": "Flytende modus" },
+  "commonStorageUsage": { "message": "Lagringsbruk" },
+  "commonSettings": { "message": "Innstillinger" },
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Administrer abonnement" },
+  "commonSignOut": { "message": "Logg ut" },
+  "commonOpenWebApp": { "message": "Åpne nettapp" },
+  "commonAll": { "message": "Alle" },
+  "commonFavorites": { "message": "Favoritter" },
+  "commonCloud": { "message": "Sky" }
+}

@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "تاریخچه تغییرات" },
+  "commonSupportDevelopment": { "message": "حمایت از توسعه" },
+  "commonHelpAndFeedback": { "message": "کمک و بازخورد" },
+  "commonFloatingMode": { "message": "حالت شناور" },
+  "commonStorageUsage": { "message": "مقدار مصرف حافظه ذخیره‌سازی" },
+  "commonSettings": { "message": "تنظیمات" },
+  "commonProfile": { "message": "پروفایل" },
+  "commonManageSubscription": { "message": "مدیریت اشتراک" },
+  "commonSignOut": { "message": "خروج" },
+  "commonOpenWebApp": { "message": "راه‌اندازی برنامهٔ وب" },
+  "commonAll": { "message": "همه" },
+  "commonFavorites": { "message": "علاقه‌مندی‌ها" },
+  "commonCloud": { "message": "ابری" }
+}

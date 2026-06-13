@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "Diari de canvis" },
+  "commonSupportDevelopment": { "message": "Dona suport al desenvolupament" },
+  "commonHelpAndFeedback": { "message": "Ajuda i comentaris" },
+  "commonFloatingMode": { "message": "Mode flotant" },
+  "commonStorageUsage": { "message": "Ús de l'emmagatzematge" },
+  "commonSettings": { "message": "Configuració" },
+  "commonProfile": { "message": "Perfil" },
+  "commonManageSubscription": { "message": "Gestiona la subscripció" },
+  "commonSignOut": { "message": "Tanca la sessió" },
+  "commonOpenWebApp": { "message": "Obre l'aplicació web" },
+  "commonAll": { "message": "Tots" },
+  "commonFavorites": { "message": "Favorits" },
+  "commonCloud": { "message": "Núvol" }
+}

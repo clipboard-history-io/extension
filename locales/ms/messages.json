@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "Logs perubahan" },
+  "commonSupportDevelopment": { "message": "Dukong Pembangunan" },
+  "commonHelpAndFeedback": { "message": "Bantuan & Maklum Balas" },
+  "commonFloatingMode": { "message": "Mod Terapung" },
+  "commonStorageUsage": { "message": "Penggunaan Penyimpanan" },
+  "commonSettings": { "message": "Tetapan" },
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Kelola Langganan" },
+  "commonSignOut": { "message": "Log Keluar" },
+  "commonOpenWebApp": { "message": "Buka Aplikasi Web" },
+  "commonAll": { "message": "Semua" },
+  "commonFavorites": { "message": "Kegemaran" },
+  "commonCloud": { "message": "Awan" }
+}

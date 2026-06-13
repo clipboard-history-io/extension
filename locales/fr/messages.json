@@ -1,8 +1,15 @@
 {
   "commonChangelog": { "message": "Journal des modifications" },
-  "commonSupportDevelopment": { "message": "Développement du support" },
+  "commonSupportDevelopment": { "message": "Soutien au développement" },
   "commonHelpAndFeedback": { "message": "Aide et commentaires" },
   "commonFloatingMode": { "message": "Mode flottant" },
+  "commonStorageUsage": { "message": "Utilisation de l'espace de stockage" },
   "commonSettings": { "message": "Paramètres" },
-  "commonProfile": { "message": "Profil" }
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Gérer l'abonnement" },
+  "commonSignOut": { "message": "Se déconnecter" },
+  "commonOpenWebApp": { "message": "Ouvrir l'application Web" },
+  "commonAll": { "message": "Tout" },
+  "commonFavorites": { "message": "Favoris" },
+  "commonCloud": { "message": "Cloud" }
 }

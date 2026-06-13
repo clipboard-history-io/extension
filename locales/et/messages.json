@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Changelog" },
-  "commonSupportDevelopment": { "message": "Toetuse arendus" },
+  "commonChangelog": { "message": "Muudatuste ajalugu" },
+  "commonSupportDevelopment": { "message": "Toetage arendustööd" },
   "commonHelpAndFeedback": { "message": "Abi ja tagasiside" },
   "commonFloatingMode": { "message": "Ujuv režiim" },
+  "commonStorageUsage": { "message": "Salvestusruumi kasutamine" },
   "commonSettings": { "message": "Seaded" },
-  "commonProfile": { "message": "Profiil" }
+  "commonProfile": { "message": "Profiil" },
+  "commonManageSubscription": { "message": "Haldus" },
+  "commonSignOut": { "message": "Välja logida" },
+  "commonOpenWebApp": { "message": "Ava veebirakendus" },
+  "commonAll": { "message": "Kõik" },
+  "commonFavorites": { "message": "Lemmikud" },
+  "commonCloud": { "message": "Pilv" }
 }

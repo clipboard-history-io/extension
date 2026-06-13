@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "Orodha ya mabadiliko" },
+  "commonSupportDevelopment": { "message": "Saidia Maendeleo" },
+  "commonHelpAndFeedback": { "message": "Msaada na Maoni" },
+  "commonFloatingMode": { "message": "Hali ya Kuelea" },
+  "commonStorageUsage": { "message": "Matumizi ya Hifadhi" },
+  "commonSettings": { "message": "Mipangilio" },
+  "commonProfile": { "message": "Profaili" },
+  "commonManageSubscription": { "message": "Dhibiti Usajili" },
+  "commonSignOut": { "message": "Toka" },
+  "commonOpenWebApp": { "message": "Fungua Programu ya Wavuti" },
+  "commonAll": { "message": "Zote" },
+  "commonFavorites": { "message": "Vipendwa" },
+  "commonCloud": { "message": "Wingu" }
+}
