@@ -359,6 +359,7 @@ export const SettingsModalContent = () => {
                 data={[
                   { value: Tab.Enum.All, label: Tab.Enum.All },
                   { value: Tab.Enum.Favorites, label: Tab.Enum.Favorites },
+                  { value: Tab.Enum.Images, label: Tab.Enum.Images },
                   { value: Tab.Enum.Cloud, label: Tab.Enum.Cloud },
                 ]}
                 size="xs"

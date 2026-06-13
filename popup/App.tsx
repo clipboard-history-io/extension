@@ -25,6 +25,7 @@ import {
   IconHeart,
   IconHelp,
   IconNews,
+  IconPhoto,
   IconPictureInPicture,
   IconSearch,
   IconSettings,
@@ -61,6 +62,7 @@ import { useSubscriptionsQuery } from "./hooks/useSubscriptionsQuery";
 import { AllPage } from "./pages/AllPage";
 import { CloudPage } from "./pages/CloudPage";
 import { FavoritesPage } from "./pages/FavoritesPage";
+import { ImagesPage } from "./pages/ImagesPage";
 import {
   changelogViewedAtAtom,
   clipboardMonitorIsEnabledAtom,
@@ -326,6 +328,7 @@ export const App = () => {
             color={match(tab)
               .with(Tab.Enum.All, () => "indigo.5")
               .with(Tab.Enum.Favorites, () => "yellow.5")
+              .with(Tab.Enum.Images, () => "grape.5")
               .with(Tab.Enum.Cloud, () => "cyan.5")
               .exhaustive()}
             data={[
@@ -350,6 +353,15 @@ export const App = () => {
               {
                 label: (
                   <Group align="center" spacing={4} noWrap>
+                    <IconPhoto size="1rem" />
+                    <Text>Images</Text>
+                  </Group>
+                ),
+                value: Tab.Enum.Images,
+              },
+              {
+                label: (
+                  <Group align="center" spacing={4} noWrap>
                     <IconCloud size="1rem" />
                     <Text>Cloud</Text>
                   </Group>
@@ -362,6 +374,7 @@ export const App = () => {
         {match(tab)
           .with(Tab.Enum.All, () => <AllPage />)
           .with(Tab.Enum.Favorites, () => <FavoritesPage />)
+          .with(Tab.Enum.Images, () => <ImagesPage />)
           .with(Tab.Enum.Cloud, () => <CloudPage />)
           .exhaustive()}
       </Stack>
