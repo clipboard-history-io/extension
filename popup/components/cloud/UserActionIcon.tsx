@@ -41,10 +41,10 @@ export const UserActionIcon = () => {
           href={`${env.BASE_URL}/checkout/${auth.user.id}`}
           target="_blank"
         >
-          <Text fz="xs">Manage Subscription</Text>
+          <Text fz="xs">{chrome.i18n.getMessage("commonManageSubscription")}</Text>
         </Menu.Item>
         <Menu.Item icon={<IconLogout size="0.8rem" />} onClick={() => db.auth.signOut()}>
-          <Text fz="xs">Sign Out</Text>
+          <Text fz="xs">{chrome.i18n.getMessage("commonSignOut")}</Text>
         </Menu.Item>
 
         <Menu.Divider />
@@ -55,7 +55,7 @@ export const UserActionIcon = () => {
           href="https://app.clipboardhistory.io"
           target="_blank"
         >
-          <Text fz="xs">Open Web App</Text>
+          <Text fz="xs">{chrome.i18n.getMessage("commonOpenWebApp")}</Text>
         </Menu.Item>
         <Menu.Item
           icon={<IconDeviceMobile size="0.8rem" />}

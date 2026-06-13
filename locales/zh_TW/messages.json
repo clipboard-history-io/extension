@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "更新日志" },
-  "commonSupportDevelopment": { "message": "支持开发" },
-  "commonHelpAndFeedback": { "message": "帮助与反馈" },
-  "commonFloatingMode": { "message": "浮动模式" },
-  "commonSettings": { "message": "设置" },
-  "commonProfile": { "message": "简介" }
+  "commonChangelog": { "message": "變更紀錄" },
+  "commonSupportDevelopment": { "message": "支持開發" },
+  "commonHelpAndFeedback": { "message": "說明與回饋" },
+  "commonFloatingMode": { "message": "浮動模式" },
+  "commonStorageUsage": { "message": "儲存空間使用量" },
+  "commonSettings": { "message": "設定" },
+  "commonProfile": { "message": "個人檔案" },
+  "commonManageSubscription": { "message": "管理訂閱" },
+  "commonSignOut": { "message": "登出" },
+  "commonOpenWebApp": { "message": "開啟網頁應用程式" },
+  "commonAll": { "message": "全部" },
+  "commonFavorites": { "message": "收藏" },
+  "commonCloud": { "message": "雲端" }
 }

@@ -1,8 +1,15 @@
 {
   "commonChangelog": { "message": "Seznam sprememb" },
-  "commonSupportDevelopment": { "message": "Razvoj podpore" },
+  "commonSupportDevelopment": { "message": "Podpora razvoju" },
   "commonHelpAndFeedback": { "message": "Pomoč in povratne informacije" },
   "commonFloatingMode": { "message": "Plavajoči način" },
+  "commonStorageUsage": { "message": "Poraba prostora" },
   "commonSettings": { "message": "Nastavitve" },
-  "commonProfile": { "message": "Profil" }
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Upravljanje naročnine" },
+  "commonSignOut": { "message": "Odjavi se" },
+  "commonOpenWebApp": { "message": "Odpri spletno aplikacijo" },
+  "commonAll": { "message": "Vse" },
+  "commonFavorites": { "message": "Priljubljene" },
+  "commonCloud": { "message": "Oblak" }
 }

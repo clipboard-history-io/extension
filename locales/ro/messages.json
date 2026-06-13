@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Jurnal de schimbări" },
-  "commonSupportDevelopment": { "message": "Asistență pentru dezvoltare" },
+  "commonChangelog": { "message": "Jurnal de modificări" },
+  "commonSupportDevelopment": { "message": "Dezvoltare asistență" },
   "commonHelpAndFeedback": { "message": "Ajutor și feedback" },
-  "commonFloatingMode": { "message": "Modul plutitor" },
+  "commonFloatingMode": { "message": "Mod flotant" },
+  "commonStorageUsage": { "message": "Utilizarea spațiului de stocare" },
   "commonSettings": { "message": "Setări" },
-  "commonProfile": { "message": "Profil" }
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Gestionare abonament" },
+  "commonSignOut": { "message": "Deconectare" },
+  "commonOpenWebApp": { "message": "Deschide aplicația web" },
+  "commonAll": { "message": "Toate" },
+  "commonFavorites": { "message": "Favorite" },
+  "commonCloud": { "message": "Cloud" }
 }

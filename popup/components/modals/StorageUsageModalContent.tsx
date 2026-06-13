@@ -41,7 +41,7 @@ export const StorageUsageModalContent = () => {
   return (
     <Paper p="md">
       <Group align="center" position="apart" mb="xs">
-        <Title order={5}>Storage Usage</Title>
+        <Title order={5}>{chrome.i18n.getMessage("commonStorageUsage")}</Title>
         <CloseButton onClick={() => modals.closeAll()} />
       </Group>
 

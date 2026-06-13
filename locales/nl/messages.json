@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Changelog" },
+  "commonChangelog": { "message": "Wijzigingslogboek" },
   "commonSupportDevelopment": { "message": "Ondersteuning Ontwikkeling" },
-  "commonHelpAndFeedback": { "message": "Hulp en feedback" },
+  "commonHelpAndFeedback": { "message": "Help & Feedback" },
   "commonFloatingMode": { "message": "Zwevende modus" },
+  "commonStorageUsage": { "message": "Opslaggebruik" },
   "commonSettings": { "message": "Instellingen" },
-  "commonProfile": { "message": "Profiel" }
+  "commonProfile": { "message": "Profiel" },
+  "commonManageSubscription": { "message": "Abonnement beheren" },
+  "commonSignOut": { "message": "Uitloggen" },
+  "commonOpenWebApp": { "message": "Webapp openen" },
+  "commonAll": { "message": "Alles" },
+  "commonFavorites": { "message": "Favorieten" },
+  "commonCloud": { "message": "Cloud" }
 }

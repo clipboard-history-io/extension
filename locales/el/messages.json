@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Changelog" },
-  "commonSupportDevelopment": { "message": "Ανάπτυξη υποστήριξης" },
-  "commonHelpAndFeedback": { "message": "Βοήθεια και σχόλια" },
-  "commonFloatingMode": { "message": "Κυμαινόμενη λειτουργία" },
+  "commonChangelog": { "message": "Αρχείο αλλαγών" },
+  "commonSupportDevelopment": { "message": "Υποστήριξη ανάπτυξης" },
+  "commonHelpAndFeedback": { "message": "Βοήθεια & Σχόλια" },
+  "commonFloatingMode": { "message": "Λειτουργία πλωτού παραθύρου" },
+  "commonStorageUsage": { "message": "Χρήση χώρου αποθήκευσης" },
   "commonSettings": { "message": "Ρυθμίσεις" },
-  "commonProfile": { "message": "Προφίλ" }
+  "commonProfile": { "message": "Προφίλ" },
+  "commonManageSubscription": { "message": "Διαχείριση συνδρομής" },
+  "commonSignOut": { "message": "Αποσύνδεση" },
+  "commonOpenWebApp": { "message": "Άνοιγμα εφαρμογής ιστού" },
+  "commonAll": { "message": "Όλα" },
+  "commonFavorites": { "message": "Αγαπημένα" },
+  "commonCloud": { "message": "Cloud" }
 }

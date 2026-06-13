@@ -1,0 +1,17 @@
+{
+  "commonChangelog": { "message": "மாற்றப் பதிவு" },
+  "commonSupportDevelopment": { "message": "மேம்பாட்டிற்கு ஆதரவளியுங்கள்" },
+  "commonHelpAndFeedback": { "message": "உதவி மற்றும் கருத்து" },
+  "commonFloatingMode": { "message": "தெப்பும் முறை" },
+  "commonStorageUsage": { "message": "சேமிப்பகப் பயன்பாடு" },
+  "commonSettings": { "message": "அமைப்புகள்" },
+  "commonProfile": { "message": "சுயவிவரம்" },
+  "commonManageSubscription": { "message": "சந்தாவை நிர்வகிக்கவும்" },
+  "commonSignOut": { "message": "வெளியேறு" },
+  "commonOpenWebApp": {
+    "message": "புதிய உலாவிப் பக்கத்தில் செயலியின் இணையப் பதிப்பைத் திறக்கவும்"
+  },
+  "commonAll": { "message": "அனைத்தும்" },
+  "commonFavorites": { "message": "பிடித்தவை" },
+  "commonCloud": { "message": "கிளவுட்" }
+}

@@ -247,7 +247,7 @@ export const App = () => {
                 <IconPictureInPicture size="1.125rem" />
               </ActionIcon>
             </Tooltip>
-            <Tooltip label={<Text fz="xs">Storage Usage</Text>}>
+            <Tooltip label={<Text fz="xs">{chrome.i18n.getMessage("commonStorageUsage")}</Text>}>
               <ActionIcon
                 variant="light"
                 color="indigo.5"
@@ -335,7 +335,7 @@ export const App = () => {
                 label: (
                   <Group align="center" spacing={4} noWrap>
                     <IconClipboardList size="1rem" />
-                    <Text>All</Text>
+                    <Text>{chrome.i18n.getMessage("commonAll")}</Text>
                   </Group>
                 ),
                 value: Tab.Enum.All,
@@ -344,7 +344,7 @@ export const App = () => {
                 label: (
                   <Group align="center" spacing={4} noWrap>
                     <IconStar size="1rem" />
-                    <Text>Favorites</Text>
+                    <Text>{chrome.i18n.getMessage("commonFavorites")}</Text>
                   </Group>
                 ),
                 value: Tab.Enum.Favorites,
@@ -353,7 +353,7 @@ export const App = () => {
                 label: (
                   <Group align="center" spacing={4} noWrap>
                     <IconCloud size="1rem" />
-                    <Text>Cloud</Text>
+                    <Text>{chrome.i18n.getMessage("commonCloud")}</Text>
                   </Group>
                 ),
                 value: Tab.Enum.Cloud,

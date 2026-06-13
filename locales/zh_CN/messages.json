@@ -3,6 +3,13 @@
   "commonSupportDevelopment": { "message": "支持开发" },
   "commonHelpAndFeedback": { "message": "帮助与反馈" },
   "commonFloatingMode": { "message": "浮动模式" },
+  "commonStorageUsage": { "message": "存储使用情况" },
   "commonSettings": { "message": "设置" },
-  "commonProfile": { "message": "简介" }
+  "commonProfile": { "message": "个人资料" },
+  "commonManageSubscription": { "message": "管理订阅" },
+  "commonSignOut": { "message": "注销" },
+  "commonOpenWebApp": { "message": "打开 Web 应用" },
+  "commonAll": { "message": "全部" },
+  "commonFavorites": { "message": "收藏" },
+  "commonCloud": { "message": "云" }
 }

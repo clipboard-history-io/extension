@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Changelog" },
-  "commonSupportDevelopment": { "message": "Tukikehitys" },
+  "commonChangelog": { "message": "Muutosloki" },
+  "commonSupportDevelopment": { "message": "Kehitystuki" },
   "commonHelpAndFeedback": { "message": "Ohje ja palaute" },
   "commonFloatingMode": { "message": "Kelluva tila" },
+  "commonStorageUsage": { "message": "Tallennustilan käyttö" },
   "commonSettings": { "message": "Asetukset" },
-  "commonProfile": { "message": "Profiili" }
+  "commonProfile": { "message": "Profiili" },
+  "commonManageSubscription": { "message": "Hallitse tilausta" },
+  "commonSignOut": { "message": "Kirjaudu ulos" },
+  "commonOpenWebApp": { "message": "Avaa verkkosovellus" },
+  "commonAll": { "message": "Kaikki" },
+  "commonFavorites": { "message": "Suosikit" },
+  "commonCloud": { "message": "Pilvi" }
 }

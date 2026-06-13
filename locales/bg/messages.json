@@ -1,8 +1,15 @@
 {
   "commonChangelog": { "message": "Списък с промените" },
-  "commonSupportDevelopment": { "message": "Разработване на поддръжка" },
+  "commonSupportDevelopment": { "message": "Подкрепете разработката" },
   "commonHelpAndFeedback": { "message": "Помощ и обратна връзка" },
   "commonFloatingMode": { "message": "Плаващ режим" },
+  "commonStorageUsage": { "message": "Използване на памет" },
   "commonSettings": { "message": "Настройки" },
-  "commonProfile": { "message": "Профил" }
+  "commonProfile": { "message": "Профил" },
+  "commonManageSubscription": { "message": "Управление на абонамента" },
+  "commonSignOut": { "message": "Изход" },
+  "commonOpenWebApp": { "message": "Отвори уеб приложение" },
+  "commonAll": { "message": "Всички" },
+  "commonFavorites": { "message": "Любими" },
+  "commonCloud": { "message": "Облак" }
 }

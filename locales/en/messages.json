@@ -15,6 +15,10 @@
     "message": "Floating Mode",
     "description": "Title for tooltip for button that opens the Chrome extension in a separate window."
   },
+  "commonStorageUsage": {
+    "message": "Storage Usage",
+    "description": "Title for tooltip and heading for the view that shows how much storage the clipboard history is using."
+  },
   "commonSettings": {
     "message": "Settings",
     "description": "Title for tooltip for button that opens the Chrome extension's settings."
@@ -22,5 +26,29 @@
   "commonProfile": {
     "message": "Profile",
     "description": "Title for tooltip for button that opens a menu with various actions relating to the user's profile."
+  },
+  "commonManageSubscription": {
+    "message": "Manage Subscription",
+    "description": "Label for the menu item that opens the page where the user manages their paid subscription."
+  },
+  "commonSignOut": {
+    "message": "Sign Out",
+    "description": "Label for the menu item that signs the user out of their account."
+  },
+  "commonOpenWebApp": {
+    "message": "Open Web App",
+    "description": "Label for the menu item that opens the web version of the application in a new browser tab."
+  },
+  "commonAll": {
+    "message": "All",
+    "description": "Label for the tab that lists every clipboard history item."
+  },
+  "commonFavorites": {
+    "message": "Favorites",
+    "description": "Label for the tab that lists clipboard history items the user has marked as favorite."
+  },
+  "commonCloud": {
+    "message": "Cloud",
+    "description": "Label for the tab that lists clipboard history items synced to the cloud."
   }
 }

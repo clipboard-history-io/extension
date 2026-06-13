@@ -1,8 +1,15 @@
 {
   "commonChangelog": { "message": "Izmaiņu žurnāls" },
-  "commonSupportDevelopment": { "message": "Atbalsta izstrāde" },
+  "commonSupportDevelopment": { "message": "Atbalsts izstrādei" },
   "commonHelpAndFeedback": { "message": "Palīdzība un atsauksmes" },
   "commonFloatingMode": { "message": "Peldošais režīms" },
+  "commonStorageUsage": { "message": "Atmiņas izmantošana" },
   "commonSettings": { "message": "Iestatījumi" },
-  "commonProfile": { "message": "Profils" }
+  "commonProfile": { "message": "Profils" },
+  "commonManageSubscription": { "message": "Pārvaldīt abonementu" },
+  "commonSignOut": { "message": "Iziet" },
+  "commonOpenWebApp": { "message": "Atvērt tīmekļa lietotni" },
+  "commonAll": { "message": "Viss" },
+  "commonFavorites": { "message": "Izlase" },
+  "commonCloud": { "message": "Mākonis" }
 }

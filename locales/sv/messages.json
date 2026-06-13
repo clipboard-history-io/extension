@@ -1,8 +1,15 @@
 {
-  "commonChangelog": { "message": "Changelog" },
+  "commonChangelog": { "message": "Ändringslogg" },
   "commonSupportDevelopment": { "message": "Stöd för utveckling" },
   "commonHelpAndFeedback": { "message": "Hjälp och feedback" },
   "commonFloatingMode": { "message": "Flytande läge" },
+  "commonStorageUsage": { "message": "Lagringsanvändning" },
   "commonSettings": { "message": "Inställningar" },
-  "commonProfile": { "message": "Profil" }
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Hantera prenumeration" },
+  "commonSignOut": { "message": "Logga ut" },
+  "commonOpenWebApp": { "message": "Öppna webbappen" },
+  "commonAll": { "message": "Alla" },
+  "commonFavorites": { "message": "Favoriter" },
+  "commonCloud": { "message": "Molnet" }
 }

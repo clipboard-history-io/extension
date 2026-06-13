@@ -3,6 +3,13 @@
   "commonSupportDevelopment": { "message": "Support Development" },
   "commonHelpAndFeedback": { "message": "Help & Feedback" },
   "commonFloatingMode": { "message": "Floating Mode" },
+  "commonStorageUsage": { "message": "Storage Usage" },
   "commonSettings": { "message": "Settings" },
-  "commonProfile": { "message": "Profile" }
+  "commonProfile": { "message": "Profile" },
+  "commonManageSubscription": { "message": "Manage Subscription" },
+  "commonSignOut": { "message": "Sign Out" },
+  "commonOpenWebApp": { "message": "Open Web App" },
+  "commonAll": { "message": "All" },
+  "commonFavorites": { "message": "Favorites" },
+  "commonCloud": { "message": "Cloud" }
 }

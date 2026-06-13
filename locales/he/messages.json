@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "יומן השינויים" },
+  "commonSupportDevelopment": { "message": "תמיכה בפיתוח" },
+  "commonHelpAndFeedback": { "message": "עזרה ומשוב" },
+  "commonFloatingMode": { "message": "מצב צף" },
+  "commonStorageUsage": { "message": "שימוש באחסון" },
+  "commonSettings": { "message": "הגדרות" },
+  "commonProfile": { "message": "פרופיל" },
+  "commonManageSubscription": { "message": "נהל מנוי" },
+  "commonSignOut": { "message": "התנתק" },
+  "commonOpenWebApp": { "message": "פתח את אפליקציית האינטרנט" },
+  "commonAll": { "message": "הכל" },
+  "commonFavorites": { "message": "מועדפים" },
+  "commonCloud": { "message": "ענן" }
+}

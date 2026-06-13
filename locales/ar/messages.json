@@ -1,8 +1,15 @@
 {
   "commonChangelog": { "message": "سجل التغييرات" },
   "commonSupportDevelopment": { "message": "دعم التطوير" },
-  "commonHelpAndFeedback": { "message": "المساعدة والملاحظات" },
+  "commonHelpAndFeedback": { "message": "المساعدة والتعليقات" },
   "commonFloatingMode": { "message": "الوضع العائم" },
+  "commonStorageUsage": { "message": "استخدام التخزين" },
   "commonSettings": { "message": "الإعدادات" },
-  "commonProfile": { "message": "الملف الشخصي" }
+  "commonProfile": { "message": "الملف الشخصي" },
+  "commonManageSubscription": { "message": "إدارة الاشتراك" },
+  "commonSignOut": { "message": "تسجيل الخروج" },
+  "commonOpenWebApp": { "message": "فتح تطبيق الويب" },
+  "commonAll": { "message": "الكل" },
+  "commonFavorites": { "message": "المفضلة" },
+  "commonCloud": { "message": "السحابة" }
 }

@@ -1,0 +1,15 @@
+{
+  "commonChangelog": { "message": "Tala ng mga pagbabago" },
+  "commonSupportDevelopment": { "message": "Suportahan ang Pag-unlad" },
+  "commonHelpAndFeedback": { "message": "Tulong at Mungkahi" },
+  "commonFloatingMode": { "message": "Floating Mode" },
+  "commonStorageUsage": { "message": "Paggamit ng Imbakan" },
+  "commonSettings": { "message": "Mga setting" },
+  "commonProfile": { "message": "Profil" },
+  "commonManageSubscription": { "message": "Pamamahala ng Subscription" },
+  "commonSignOut": { "message": "Mag-sign out" },
+  "commonOpenWebApp": { "message": "Buksan ang Web App" },
+  "commonAll": { "message": "Lahat" },
+  "commonFavorites": { "message": "Mga Paborito" },
+  "commonCloud": { "message": "Ulap" }
+}
