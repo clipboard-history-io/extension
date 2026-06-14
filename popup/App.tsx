@@ -57,6 +57,7 @@ import { useCloudEntriesQuery } from "./hooks/useCloudEntriesQuery";
 import { useCloudFavoritedEntriesQuery } from "./hooks/useCloudFavoritedEntriesQuery";
 import { useCloudTaggedEntriesQuery } from "./hooks/useCloudTaggedEntriesQuery";
 import { SEARCH_INPUT_ID } from "./hooks/useEntryListNavigation";
+import { useModalCloseRequestGuard } from "./hooks/useModalCloseRequestGuard";
 import { useSettingsQuery } from "./hooks/useSettingsQuery";
 import { useSubscriptionsQuery } from "./hooks/useSubscriptionsQuery";
 import { AllPage } from "./pages/AllPage";
@@ -74,6 +75,7 @@ import {
 
 export const App = () => {
   useApp();
+  useModalCloseRequestGuard();
 
   const theme = useMantineTheme();
 
